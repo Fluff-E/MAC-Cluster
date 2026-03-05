@@ -1,0 +1,1 @@
+Warning (10268): Verilog HDL information at ctrl_state.v(15): always construct contains both blocking and non-blocking assignments File: C:/intelFPGA/17.1/embedded/Project_Main/Verilog_srcs/ctrl_state.v Line: 15
