@@ -34,7 +34,7 @@ wire [1:0]   fabric_active_cluster_sel;
 wire [31:0]  fabric_cycles_last;
 wire [511:0] fabric_result_flat;
 
-reg  [31:0] data_from_fpga_mux;
+wire [31:0] data_from_fpga_mux;
 
 assign data_from_fpga = data_from_fpga_wire;
 assign data_from_fpga_wire = data_from_fpga_mux;
@@ -59,14 +59,15 @@ always @(posedge pll_clk or negedge key[0]) begin
     end
 end
 
-always @(*) begin
-    case (fpga_instruction_sync[4:3])
-        2'b00: data_from_fpga_mux = fabric_cycles_last;
-        2'b01: data_from_fpga_mux = fabric_result_flat[31:0];
-        2'b10: data_from_fpga_mux = fabric_result_flat[63:32];
-        default: data_from_fpga_mux = {28'd0, fabric_busy, fabric_done, fabric_active_cluster_sel};
-    endcase
-end
+cluster_readback_mux u_cluster_readback_mux (
+    .readback_sel      (fpga_instruction_sync[4:3]),
+    .cycles_last       (fabric_cycles_last),
+    .result_flat       (fabric_result_flat),
+    .busy              (fabric_busy),
+    .done              (fabric_done),
+    .active_cluster_sel(fabric_active_cluster_sel),
+    .data_from_fpga    (data_from_fpga_mux)
+);
 
 ctrl control_unit (
     .pll_clk(pll_clk),
