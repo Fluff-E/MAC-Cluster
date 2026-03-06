@@ -16,6 +16,57 @@ module fpga_top(
 );
 
 wire [23:0] hex_value;
+wire [31:0] data_from_fpga_wire;
+
+// Fabric command/data path
+reg  [31:0] fpga_instruction_meta;
+reg  [31:0] fpga_instruction_sync;
+reg         start_prev;
+
+wire         fabric_start_pulse;
+wire [1:0]   fabric_cluster_sel;
+wire [767:0] fabric_a_rows_flat;
+wire [767:0] fabric_b_cols_flat;
+
+wire         fabric_done;
+wire         fabric_busy;
+wire [1:0]   fabric_active_cluster_sel;
+wire [31:0]  fabric_cycles_last;
+wire [511:0] fabric_result_flat;
+
+reg  [31:0] data_from_fpga_mux;
+
+assign data_from_fpga = data_from_fpga_wire;
+assign data_from_fpga_wire = data_from_fpga_mux;
+
+assign fabric_cluster_sel = fpga_instruction_sync[2:1];
+assign fabric_start_pulse = fpga_instruction_sync[0] & ~start_prev;
+
+// Temporary benchmark feed: replicate one 32-bit value into all A/B lanes.
+assign fabric_a_rows_flat = {24{data_to_fpga}};
+assign fabric_b_cols_flat = {24{data_to_fpga}};
+
+always @(posedge pll_clk or negedge key[0]) begin
+    if (!key[0]) begin
+        fpga_instruction_meta <= 32'd0;
+        fpga_instruction_sync <= 32'd0;
+        start_prev <= 1'b0;
+    end
+    else begin
+        fpga_instruction_meta <= fpga_instruction;
+        fpga_instruction_sync <= fpga_instruction_meta;
+        start_prev <= fpga_instruction_sync[0];
+    end
+end
+
+always @(*) begin
+    case (fpga_instruction_sync[4:3])
+        2'b00: data_from_fpga_mux = fabric_cycles_last;
+        2'b01: data_from_fpga_mux = fabric_result_flat[31:0];
+        2'b10: data_from_fpga_mux = fabric_result_flat[63:32];
+        default: data_from_fpga_mux = {28'd0, fabric_busy, fabric_done, fabric_active_cluster_sel};
+    endcase
+end
 
 ctrl control_unit (
     .pll_clk(pll_clk),
@@ -24,12 +75,24 @@ ctrl control_unit (
     .fpga_instruction(fpga_instruction),
     .fpga_status(fpga_status),
     .data_to_fpga(data_to_fpga),
-    .data_from_fpga(data_from_fpga),
+    .data_from_fpga(data_from_fpga_wire),
     .hex_value(hex_value),
     .led(led)
 );
 
-//-- aes module -----------
+cluster_fabric_structural u_cluster_fabric_structural (
+    .clk               (pll_clk),
+    .reset             (~key[0]),
+    .start             (fabric_start_pulse),
+    .cluster_sel       (fabric_cluster_sel),
+    .a_rows_flat_in    (fabric_a_rows_flat),
+    .b_cols_flat_in    (fabric_b_cols_flat),
+    .done              (fabric_done),
+    .busy              (fabric_busy),
+    .active_cluster_sel(fabric_active_cluster_sel),
+    .cycles_last       (fabric_cycles_last),
+    .result_flat_out   (fabric_result_flat)
+);
 
 Hex6to7seg hex6 (
     .hex_value(hex_value),
