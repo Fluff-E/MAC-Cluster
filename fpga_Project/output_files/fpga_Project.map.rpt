@@ -1,5 +1,5 @@
 Analysis & Synthesis report for fpga_Project
-Tue Mar  3 19:37:39 2026
+Thu Mar  5 21:35:20 2026
 Quartus Prime Version 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
 
 
@@ -18,10 +18,14 @@ Quartus Prime Version 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
  10. Removed Registers Triggering Further Register Optimizations
  11. General Register Statistics
  12. Multiplexer Restructuring Statistics (Restructuring Performed)
- 13. Parameter Settings for User Entity Instance: pll:inst2|pll_0002:pll_inst|altera_pll:altera_pll_i
- 14. Post-Synthesis Netlist Statistics for Top Partition
- 15. Elapsed Time Per Partition
- 16. Analysis & Synthesis Messages
+ 13. Parameter Settings for User Entity Instance: fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c
+ 14. Parameter Settings for User Entity Instance: fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c
+ 15. Parameter Settings for User Entity Instance: fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c
+ 16. Parameter Settings for User Entity Instance: fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c
+ 17. Parameter Settings for User Entity Instance: pll:inst2|pll_0002:pll_inst|altera_pll:altera_pll_i
+ 18. Post-Synthesis Netlist Statistics for Top Partition
+ 19. Elapsed Time Per Partition
+ 20. Analysis & Synthesis Messages
 
 
 
@@ -48,13 +52,13 @@ on the Quartus Prime software download page.
 +-----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                      ;
 +---------------------------------+-------------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Tue Mar  3 19:37:39 2026           ;
+; Analysis & Synthesis Status     ; Successful - Thu Mar  5 21:35:20 2026           ;
 ; Quartus Prime Version           ; 25.1std.0 Build 1129 10/21/2025 SC Lite Edition ;
 ; Revision Name                   ; fpga_Project                                    ;
 ; Top-level Entity Name           ; fpga_Project                                    ;
 ; Family                          ; Cyclone V                                       ;
 ; Logic utilization (in ALMs)     ; N/A                                             ;
-; Total registers                 ; 42                                              ;
+; Total registers                 ; 125                                             ;
 ; Total pins                      ; 67                                              ;
 ; Total virtual pins              ; 0                                               ;
 ; Total block memory bits         ; 0                                               ;
@@ -172,76 +176,88 @@ on the Quartus Prime software download page.
 +----------------------------+-------------+
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                                                                                                                         ;
-+----------------------------------------------+-----------------+------------------------------------+--------------------------------------------------------------------------------------------------------------------------------+---------+
-; File Name with User-Entered Path             ; Used in Netlist ; File Type                          ; File Name with Absolute Path                                                                                                   ; Library ;
-+----------------------------------------------+-----------------+------------------------------------+--------------------------------------------------------------------------------------------------------------------------------+---------+
-; ../Verilog_srcs/fpga_top.v                   ; yes             ; User Verilog HDL File              ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/Verilog_srcs/fpga_top.v                   ;         ;
-; ../Verilog_srcs/ctrl.v                       ; yes             ; User Verilog HDL File              ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/Verilog_srcs/ctrl.v                       ;         ;
-; ../Verilog_srcs/simple_counter.v             ; yes             ; User Verilog HDL File              ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/Verilog_srcs/simple_counter.v             ;         ;
-; ../Verilog_srcs/Hex6to7seg.v                 ; yes             ; User Verilog HDL File              ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/Verilog_srcs/Hex6to7seg.v                 ;         ;
-; ../Verilog_srcs/test_regs/test_instruction.v ; yes             ; User Verilog HDL File              ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/Verilog_srcs/test_regs/test_instruction.v ;         ;
-; ../Verilog_srcs/test_regs/test_status.v      ; yes             ; User Verilog HDL File              ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/Verilog_srcs/test_regs/test_status.v      ;         ;
-; ../Verilog_srcs/test_regs/test_data_to.v     ; yes             ; User Verilog HDL File              ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/Verilog_srcs/test_regs/test_data_to.v     ;         ;
-; ../Verilog_srcs/test_regs/test_data_from.v   ; yes             ; User Verilog HDL File              ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/Verilog_srcs/test_regs/test_data_from.v   ;         ;
-; fpga_Project.bdf                             ; yes             ; User Block Diagram/Schematic File  ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/fpga_Project/fpga_Project.bdf             ;         ;
-; pll.v                                        ; yes             ; User Wizard-Generated File         ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/fpga_Project/pll.v                        ; pll     ;
-; pll/pll_0002.v                               ; yes             ; User Verilog HDL File              ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/fpga_Project/pll/pll_0002.v               ; pll     ;
-; altera_pll.v                                 ; yes             ; Megafunction                       ; c:/altera_lite/25.1std/quartus/libraries/megafunctions/altera_pll.v                                                            ;         ;
-+----------------------------------------------+-----------------+------------------------------------+--------------------------------------------------------------------------------------------------------------------------------+---------+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                                                                                                  ;
++----------------------------------------------+-----------------+------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path             ; Used in Netlist ; File Type                          ; File Name with Absolute Path                                                                                                            ; Library ;
++----------------------------------------------+-----------------+------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------+---------+
+; ../Verilog_srcs/cluster_readback_mux.v       ; yes             ; User Verilog HDL File              ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/cluster_readback_mux.v       ;         ;
+; ../Verilog_srcs/cluster_response_mux.v       ; yes             ; User Verilog HDL File              ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/cluster_response_mux.v       ;         ;
+; ../Verilog_srcs/cluster_fabric_structural.v  ; yes             ; User Verilog HDL File              ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/cluster_fabric_structural.v  ;         ;
+; ../Verilog_srcs/cluster_dispatcher.v         ; yes             ; User Verilog HDL File              ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/cluster_dispatcher.v         ;         ;
+; ../Verilog_srcs/mac_3x3.v                    ; yes             ; User Verilog HDL File              ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/mac_3x3.v                    ;         ;
+; ../Verilog_srcs/cluster_par.v                ; yes             ; User Verilog HDL File              ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/cluster_par.v                ;         ;
+; ../Verilog_srcs/fpga_top.v                   ; yes             ; User Verilog HDL File              ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/fpga_top.v                   ;         ;
+; ../Verilog_srcs/ctrl.v                       ; yes             ; User Verilog HDL File              ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/ctrl.v                       ;         ;
+; ../Verilog_srcs/simple_counter.v             ; yes             ; User Verilog HDL File              ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/simple_counter.v             ;         ;
+; ../Verilog_srcs/Hex6to7seg.v                 ; yes             ; User Verilog HDL File              ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/Hex6to7seg.v                 ;         ;
+; ../Verilog_srcs/test_regs/test_instruction.v ; yes             ; User Verilog HDL File              ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/test_regs/test_instruction.v ;         ;
+; ../Verilog_srcs/test_regs/test_status.v      ; yes             ; User Verilog HDL File              ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/test_regs/test_status.v      ;         ;
+; ../Verilog_srcs/test_regs/test_data_to.v     ; yes             ; User Verilog HDL File              ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/test_regs/test_data_to.v     ;         ;
+; fpga_Project.bdf                             ; yes             ; User Block Diagram/Schematic File  ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/fpga_Project/fpga_Project.bdf             ;         ;
+; pll.v                                        ; yes             ; User Wizard-Generated File         ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/fpga_Project/pll.v                        ; pll     ;
+; pll/pll_0002.v                               ; yes             ; User Verilog HDL File              ; C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/fpga_Project/pll/pll_0002.v               ; pll     ;
+; altera_pll.v                                 ; yes             ; Megafunction                       ; c:/altera_lite/25.1std/quartus/libraries/megafunctions/altera_pll.v                                                                     ;         ;
++----------------------------------------------+-----------------+------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------+---------+
 
 
-+-----------------------------------------------------------+
-; Analysis & Synthesis Resource Usage Summary               ;
-+---------------------------------------------+-------------+
-; Resource                                    ; Usage       ;
-+---------------------------------------------+-------------+
-; Estimate of Logic utilization (ALMs needed) ; 41          ;
-;                                             ;             ;
-; Combinational ALUT usage for logic          ; 74          ;
-;     -- 7 input functions                    ; 0           ;
-;     -- 6 input functions                    ; 3           ;
-;     -- 5 input functions                    ; 12          ;
-;     -- 4 input functions                    ; 26          ;
-;     -- <=3 input functions                  ; 33          ;
-;                                             ;             ;
-; Dedicated logic registers                   ; 42          ;
-;                                             ;             ;
-; I/O pins                                    ; 67          ;
-;                                             ;             ;
-; Total DSP Blocks                            ; 0           ;
-;                                             ;             ;
-; Total PLLs                                  ; 1           ;
-;     -- PLLs                                 ; 1           ;
-;                                             ;             ;
-; Maximum fan-out node                        ; SW[1]~input ;
-; Maximum fan-out                             ; 25          ;
-; Total fan-out                               ; 457         ;
-; Average fan-out                             ; 1.82        ;
-+---------------------------------------------+-------------+
++-----------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary                                       ;
++---------------------------------------------+-------------------------------------+
+; Resource                                    ; Usage                               ;
++---------------------------------------------+-------------------------------------+
+; Estimate of Logic utilization (ALMs needed) ; 77                                  ;
+;                                             ;                                     ;
+; Combinational ALUT usage for logic          ; 124                                 ;
+;     -- 7 input functions                    ; 0                                   ;
+;     -- 6 input functions                    ; 5                                   ;
+;     -- 5 input functions                    ; 11                                  ;
+;     -- 4 input functions                    ; 57                                  ;
+;     -- <=3 input functions                  ; 51                                  ;
+;                                             ;                                     ;
+; Dedicated logic registers                   ; 125                                 ;
+;                                             ;                                     ;
+; I/O pins                                    ; 67                                  ;
+;                                             ;                                     ;
+; Total DSP Blocks                            ; 0                                   ;
+;                                             ;                                     ;
+; Total PLLs                                  ; 1                                   ;
+;     -- PLLs                                 ; 1                                   ;
+;                                             ;                                     ;
+; Maximum fan-out node                        ; simple_counter:inst|counter_out[20] ;
+; Maximum fan-out                             ; 105                                 ;
+; Total fan-out                               ; 945                                 ;
+; Average fan-out                             ; 2.46                                ;
++---------------------------------------------+-------------------------------------+
 
 
-+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                               ;
-+------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------+------------------+--------------+
-; Compilation Hierarchy Node         ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                               ; Entity Name      ; Library Name ;
-+------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------+------------------+--------------+
-; |fpga_Project                      ; 74 (0)              ; 42 (0)                    ; 0                 ; 0          ; 67   ; 0            ; |fpga_Project                                                     ; fpga_Project     ; work         ;
-;    |fpga_top:inst4|                ; 50 (0)              ; 21 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|fpga_top:inst4                                      ; fpga_top         ; work         ;
-;       |Hex6to7seg:hex6|            ; 34 (0)              ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|fpga_top:inst4|Hex6to7seg:hex6                      ; Hex6to7seg       ; work         ;
-;          |Hexto7seg:HEX_0|         ; 7 (7)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|fpga_top:inst4|Hex6to7seg:hex6|Hexto7seg:HEX_0      ; Hexto7seg        ; work         ;
-;          |Hexto7seg:HEX_1|         ; 8 (8)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|fpga_top:inst4|Hex6to7seg:hex6|Hexto7seg:HEX_1      ; Hexto7seg        ; work         ;
-;          |Hexto7seg:HEX_2|         ; 5 (5)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|fpga_top:inst4|Hex6to7seg:hex6|Hexto7seg:HEX_2      ; Hexto7seg        ; work         ;
-;          |Hexto7seg:HEX_4|         ; 7 (7)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|fpga_top:inst4|Hex6to7seg:hex6|Hexto7seg:HEX_4      ; Hexto7seg        ; work         ;
-;          |Hexto7seg:HEX_5|         ; 7 (7)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|fpga_top:inst4|Hex6to7seg:hex6|Hexto7seg:HEX_5      ; Hexto7seg        ; work         ;
-;       |ctrl:control_unit|          ; 16 (16)             ; 21 (21)                   ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|fpga_top:inst4|ctrl:control_unit                    ; ctrl             ; work         ;
-;    |pll:inst2|                     ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|pll:inst2                                           ; pll              ; pll          ;
-;       |pll_0002:pll_inst|          ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|pll:inst2|pll_0002:pll_inst                         ; pll_0002         ; pll          ;
-;          |altera_pll:altera_pll_i| ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|pll:inst2|pll_0002:pll_inst|altera_pll:altera_pll_i ; altera_pll       ; work         ;
-;    |simple_counter:inst|           ; 21 (21)             ; 21 (21)                   ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|simple_counter:inst                                 ; simple_counter   ; work         ;
-;    |test_instruction:inst6|        ; 3 (3)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|test_instruction:inst6                              ; test_instruction ; work         ;
-+------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------+------------------+--------------+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                                                                                                               ;
++---------------------------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-----------------------------------------------------------------------------------------------------------------------------------------------+---------------------------+--------------+
+; Compilation Hierarchy Node                                    ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                           ; Entity Name               ; Library Name ;
++---------------------------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-----------------------------------------------------------------------------------------------------------------------------------------------+---------------------------+--------------+
+; |fpga_Project                                                 ; 124 (0)             ; 125 (0)                   ; 0                 ; 0          ; 67   ; 0            ; |fpga_Project                                                                                                                                 ; fpga_Project              ; work         ;
+;    |fpga_top:inst4|                                           ; 100 (0)             ; 104 (5)                   ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|fpga_top:inst4                                                                                                                  ; fpga_top                  ; work         ;
+;       |Hex6to7seg:hex6|                                       ; 42 (0)              ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|fpga_top:inst4|Hex6to7seg:hex6                                                                                                  ; Hex6to7seg                ; work         ;
+;          |Hexto7seg:HEX_0|                                    ; 7 (7)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|fpga_top:inst4|Hex6to7seg:hex6|Hexto7seg:HEX_0                                                                                  ; Hexto7seg                 ; work         ;
+;          |Hexto7seg:HEX_1|                                    ; 7 (7)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|fpga_top:inst4|Hex6to7seg:hex6|Hexto7seg:HEX_1                                                                                  ; Hexto7seg                 ; work         ;
+;          |Hexto7seg:HEX_2|                                    ; 7 (7)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|fpga_top:inst4|Hex6to7seg:hex6|Hexto7seg:HEX_2                                                                                  ; Hexto7seg                 ; work         ;
+;          |Hexto7seg:HEX_3|                                    ; 7 (7)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|fpga_top:inst4|Hex6to7seg:hex6|Hexto7seg:HEX_3                                                                                  ; Hexto7seg                 ; work         ;
+;          |Hexto7seg:HEX_4|                                    ; 7 (7)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|fpga_top:inst4|Hex6to7seg:hex6|Hexto7seg:HEX_4                                                                                  ; Hexto7seg                 ; work         ;
+;          |Hexto7seg:HEX_5|                                    ; 7 (7)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|fpga_top:inst4|Hex6to7seg:hex6|Hexto7seg:HEX_5                                                                                  ; Hexto7seg                 ; work         ;
+;       |cluster_fabric_structural:u_cluster_fabric_structural| ; 32 (28)             ; 54 (50)                   ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural                                                            ; cluster_fabric_structural ; work         ;
+;          |mac_cluster:u_cluster_1c|                           ; 2 (0)               ; 2 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c                                   ; mac_cluster               ; work         ;
+;             |mac_3x3:gen_mac_core[0].u_mac_3x3|               ; 2 (2)               ; 2 (2)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3 ; mac_3x3                   ; work         ;
+;          |mac_cluster:u_cluster_2c|                           ; 2 (0)               ; 2 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c                                   ; mac_cluster               ; work         ;
+;             |mac_3x3:gen_mac_core[0].u_mac_3x3|               ; 2 (2)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3 ; mac_3x3                   ; work         ;
+;             |mac_3x3:gen_mac_core[1].u_mac_3x3|               ; 0 (0)               ; 2 (2)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[1].u_mac_3x3 ; mac_3x3                   ; work         ;
+;       |ctrl:control_unit|                                     ; 26 (26)             ; 45 (45)                   ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|fpga_top:inst4|ctrl:control_unit                                                                                                ; ctrl                      ; work         ;
+;    |pll:inst2|                                                ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|pll:inst2                                                                                                                       ; pll                       ; pll          ;
+;       |pll_0002:pll_inst|                                     ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|pll:inst2|pll_0002:pll_inst                                                                                                     ; pll_0002                  ; pll          ;
+;          |altera_pll:altera_pll_i|                            ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|pll:inst2|pll_0002:pll_inst|altera_pll:altera_pll_i                                                                             ; altera_pll                ; work         ;
+;    |simple_counter:inst|                                      ; 21 (21)             ; 21 (21)                   ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|simple_counter:inst                                                                                                             ; simple_counter            ; work         ;
+;    |test_instruction:inst6|                                   ; 3 (3)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |fpga_Project|test_instruction:inst6                                                                                                          ; test_instruction          ; work         ;
++---------------------------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-----------------------------------------------------------------------------------------------------------------------------------------------+---------------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
 
@@ -254,108 +270,418 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +--------+--------------+---------+--------------+--------------+-------------------------+-----------------+
 
 
-+----------------------------------------------------------------------------------------------------------------------------------------------+
-; Registers Removed During Synthesis                                                                                                           ;
-+---------------------------------------------------------------------+------------------------------------------------------------------------+
-; Register name                                                       ; Reason for Removal                                                     ;
-+---------------------------------------------------------------------+------------------------------------------------------------------------+
-; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[2..23]            ; Stuck at GND due to stuck port data_in                                 ;
-; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[2..15]       ; Stuck at GND due to stuck port data_in                                 ;
-; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[2..23]            ; Stuck at GND due to stuck port data_in                                 ;
-; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[2..15]       ; Stuck at GND due to stuck port data_in                                 ;
-; fpga_top:inst4|ctrl:control_unit|data_to_fpga_reg[3,7,15,19,23]     ; Merged with fpga_top:inst4|ctrl:control_unit|data_to_fpga_reg[11]      ;
-; fpga_top:inst4|ctrl:control_unit|data_from_fpga_reg[1..23]          ; Merged with fpga_top:inst4|ctrl:control_unit|data_from_fpga_reg[0]     ;
-; fpga_top:inst4|ctrl:control_unit|data_to_fpga_reg[8,12,17,21]       ; Merged with fpga_top:inst4|ctrl:control_unit|data_from_fpga_reg[0]     ;
-; fpga_top:inst4|ctrl:control_unit|data_to_fpga_reg[2,6,14,18,22]     ; Merged with fpga_top:inst4|ctrl:control_unit|data_to_fpga_reg[10]      ;
-; fpga_top:inst4|ctrl:control_unit|data_to_fpga_reg[1,4,5,9,13,16,20] ; Merged with fpga_top:inst4|ctrl:control_unit|data_to_fpga_reg[0]       ;
-; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[1,19,20,22]  ; Merged with fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[17] ;
-; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[18,21,23]    ; Merged with fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[16] ;
-; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[1,19,20,22]  ; Merged with fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[17] ;
-; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[18,21,23]    ; Merged with fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[16] ;
-; fpga_top:inst4|ctrl:control_unit|data_from_fpga_reg[0]              ; Stuck at GND due to stuck port data_in                                 ;
-; simple_counter:inst|counter_out[21..31]                             ; Lost fanout                                                            ;
-; Total Number of Removed Registers = 142                             ;                                                                        ;
-+---------------------------------------------------------------------+------------------------------------------------------------------------+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                                                                                                                                                                                                                                      ;
++------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
+; Register name                                                                                                                                        ; Reason for Removal                                                                                                                               ;
++------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
+; fpga_top:inst4|fpga_instruction_meta[2..4]                                                                                                           ; Stuck at GND due to stuck port data_in                                                                                                           ;
+; fpga_top:inst4|fpga_instruction_sync[2..4]                                                                                                           ; Stuck at GND due to stuck port data_in                                                                                                           ;
+; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[2..23]                                                                                             ; Stuck at GND due to stuck port data_in                                                                                                           ;
+; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[2..15]                                                                                        ; Stuck at GND due to stuck port data_in                                                                                                           ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|done                                                                            ; Lost fanout                                                                                                                                      ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[0..23,32..55]                                                   ; Lost fanout                                                                                                                                      ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[7].u_mac_3x3|busy                 ; Lost fanout                                                                                                                                      ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[7].u_mac_3x3|done                 ; Stuck at GND due to stuck port data_in                                                                                                           ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[6].u_mac_3x3|busy                 ; Lost fanout                                                                                                                                      ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[6].u_mac_3x3|done                 ; Stuck at GND due to stuck port data_in                                                                                                           ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[5].u_mac_3x3|busy                 ; Lost fanout                                                                                                                                      ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[5].u_mac_3x3|done                 ; Stuck at GND due to stuck port data_in                                                                                                           ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[4].u_mac_3x3|busy                 ; Lost fanout                                                                                                                                      ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[4].u_mac_3x3|done                 ; Stuck at GND due to stuck port data_in                                                                                                           ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[3].u_mac_3x3|busy                 ; Lost fanout                                                                                                                                      ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[3].u_mac_3x3|done                 ; Stuck at GND due to stuck port data_in                                                                                                           ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[2].u_mac_3x3|busy                 ; Lost fanout                                                                                                                                      ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[2].u_mac_3x3|done                 ; Stuck at GND due to stuck port data_in                                                                                                           ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[1].u_mac_3x3|busy                 ; Lost fanout                                                                                                                                      ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[1].u_mac_3x3|done                 ; Stuck at GND due to stuck port data_in                                                                                                           ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|done                 ; Stuck at GND due to stuck port data_in                                                                                                           ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|busy                 ; Stuck at GND due to stuck port data_in                                                                                                           ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[3].u_mac_3x3|busy                 ; Lost fanout                                                                                                                                      ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[3].u_mac_3x3|done                 ; Stuck at GND due to stuck port data_in                                                                                                           ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[2].u_mac_3x3|busy                 ; Lost fanout                                                                                                                                      ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[2].u_mac_3x3|done                 ; Stuck at GND due to stuck port data_in                                                                                                           ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[1].u_mac_3x3|busy                 ; Lost fanout                                                                                                                                      ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[1].u_mac_3x3|done                 ; Stuck at GND due to stuck port data_in                                                                                                           ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|done                 ; Stuck at GND due to stuck port data_in                                                                                                           ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|busy                 ; Stuck at GND due to stuck port data_in                                                                                                           ;
+; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[2..23]                                                                                             ; Stuck at GND due to stuck port data_in                                                                                                           ;
+; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[2..15]                                                                                        ; Stuck at GND due to stuck port data_in                                                                                                           ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[0..23,32..55] ; Lost fanout                                                                                                                                      ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[0..23,32..55] ; Lost fanout                                                                                                                                      ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[0..23,32..55] ; Lost fanout                                                                                                                                      ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[0..23,32..55] ; Lost fanout                                                                                                                                      ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|active_cluster_sel[1]                                                           ; Stuck at GND due to stuck port data_in                                                                                                           ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|busy                 ; Merged with fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[1].u_mac_3x3|busy ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|done                 ; Merged with fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[1].u_mac_3x3|done ;
+; fpga_top:inst4|ctrl:control_unit|data_to_fpga_reg[3,7,15,19,23]                                                                                      ; Merged with fpga_top:inst4|ctrl:control_unit|data_to_fpga_reg[11]                                                                                ;
+; fpga_top:inst4|ctrl:control_unit|data_to_fpga_reg[2,6,14,18,22]                                                                                      ; Merged with fpga_top:inst4|ctrl:control_unit|data_to_fpga_reg[10]                                                                                ;
+; fpga_top:inst4|ctrl:control_unit|data_to_fpga_reg[1,4,5,9,13,16,20]                                                                                  ; Merged with fpga_top:inst4|ctrl:control_unit|data_to_fpga_reg[0]                                                                                 ;
+; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[1,19,20,22]                                                                                   ; Merged with fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[17]                                                                           ;
+; fpga_top:inst4|ctrl:control_unit|data_to_fpga_reg[8,17,21]                                                                                           ; Merged with fpga_top:inst4|ctrl:control_unit|data_to_fpga_reg[12]                                                                                ;
+; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[18,21,23]                                                                                     ; Merged with fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[16]                                                                           ;
+; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[1,19,20,22]                                                                                   ; Merged with fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[17]                                                                           ;
+; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[18,21,23]                                                                                     ; Merged with fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[16]                                                                           ;
+; fpga_top:inst4|ctrl:control_unit|data_to_fpga_reg[12]                                                                                                ; Stuck at GND due to stuck port data_in                                                                                                           ;
+; simple_counter:inst|counter_out[21..31]                                                                                                              ; Lost fanout                                                                                                                                      ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|cycles_running[24..31]                                                          ; Lost fanout                                                                                                                                      ;
+; Total Number of Removed Registers = 400                                                                                                              ;                                                                                                                                                  ;
++------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
 
 
-+-----------------------------------------------------------------------------------------------------------------------------------------------------+
-; Removed Registers Triggering Further Register Optimizations                                                                                         ;
-+------------------------------------------------------------+---------------------------+------------------------------------------------------------+
-; Register name                                              ; Reason for Removal        ; Registers Removed due to This Register                     ;
-+------------------------------------------------------------+---------------------------+------------------------------------------------------------+
-; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[2]       ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[2]       ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[3]       ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[3]       ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[4]       ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[4]       ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[5]       ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[5]       ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[6]       ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[6]       ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[7]       ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[7]       ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[8]       ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[8]       ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[9]       ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[9]       ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[10]      ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[10]      ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[11]      ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[11]      ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[12]      ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[12]      ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[13]      ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[13]      ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[14]      ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[14]      ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[15]      ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[15]      ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[16]      ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[16]      ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[17]      ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[17]      ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[18]      ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[18]      ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[19]      ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[19]      ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[20]      ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[20]      ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[21]      ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[21]      ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[22]      ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[22]      ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[23]      ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[23]      ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[2]  ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[2]  ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[3]  ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[3]  ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[4]  ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[4]  ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[5]  ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[5]  ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[6]  ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[6]  ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[7]  ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[7]  ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[8]  ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[8]  ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[9]  ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[9]  ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[10] ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[10] ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[11] ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[11] ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[12] ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[12] ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[13] ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[13] ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[14] ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[14] ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[15] ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[15] ;
-;                                                            ; due to stuck port data_in ;                                                            ;
-+------------------------------------------------------------+---------------------------+------------------------------------------------------------+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Removed Registers Triggering Further Register Optimizations                                                                                                                                                                                                       ;
++-----------------------------------------------------------------------------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------------------------+
+; Register name                                                                           ; Reason for Removal        ; Registers Removed due to This Register                                                                                                      ;
++-----------------------------------------------------------------------------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------------------------+
+; fpga_top:inst4|fpga_instruction_meta[4]                                                 ; Stuck at GND              ; fpga_top:inst4|fpga_instruction_sync[4],                                                                                                    ;
+;                                                                                         ; due to stuck port data_in ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|done,                                                                  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[55],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[54],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[53],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[52],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[51],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[50],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[49],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[48],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[47],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[46],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[45],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[44],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[43],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[42],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[41],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[40],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[39],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[38],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[37],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[36],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[35],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[34],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[33],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[32],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[23],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[22],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[21],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[20],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[19],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[18],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[17],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[16],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[15],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[14],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[13],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[12],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[11],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[10],                                                   ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[9],                                                    ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[8],                                                    ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[7],                                                    ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[6],                                                    ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[5],                                                    ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[4],                                                    ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[3],                                                    ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[2],                                                    ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[1],                                                    ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|result_flat_out[0],                                                    ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[55], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[54], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[53], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[52], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[51], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[50], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[49], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[48], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[47], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[46], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[45], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[44], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[43], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[42], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[41], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[40], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[39], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[38], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[37], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[36], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[35], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[34], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[33], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[32], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[23], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[22], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[21], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[20], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[19], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[18], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[17], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[16], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[15], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[14], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[13], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[12], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[11], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[10], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[9],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[8],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[7],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[6],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[5],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[4],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[3],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[2],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[1],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[0],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[55], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[54], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[53], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[52], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[51], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[50], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[49], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[48], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[47], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[46], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[45], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[44], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[43], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[42], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[41], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[40], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[39], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[38], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[37], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[36], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[35], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[34], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[33], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[32], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[23], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[22], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[21], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[20], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[19], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[18], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[17], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[16], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[15], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[14], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[13], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[12], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[11], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[10], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[9],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[8],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[7],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[6],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[5],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[4],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[3],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[2],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[1],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[0],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[55], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[54], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[53], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[52], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[51], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[50], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[49], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[48], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[47], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[46], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[45], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[44], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[43], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[42], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[41], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[40], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[39], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[38], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[37], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[36], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[35], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[34], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[33], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[32], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[23], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[22], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[21], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[20], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[19], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[18], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[17], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[16], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[15], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[14], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[13], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[12], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[11], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[10], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[9],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[8],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[7],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[6],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[5],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[4],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[3],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[2],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[1],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[0],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[55], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[54], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[53], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[52], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[51], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[50], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[49], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[48], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[47], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[46], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[45], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[44], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[43], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[42], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[41], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[40], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[39], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[38], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[37], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[36], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[35], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[34], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[33], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[32], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[23], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[22], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[21], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[20], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[19], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[18], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[17], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[16], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[15], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[14], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[13], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[12], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[11], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[10], ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[9],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[8],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[7],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[6],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[5],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[4],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[3],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[2],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[1],  ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3|result[0]   ;
+; fpga_top:inst4|fpga_instruction_meta[2]                                                 ; Stuck at GND              ; fpga_top:inst4|fpga_instruction_sync[2],                                                                                                    ;
+;                                                                                         ; due to stuck port data_in ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[7].u_mac_3x3|busy,       ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[7].u_mac_3x3|done,       ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[6].u_mac_3x3|busy,       ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[6].u_mac_3x3|done,       ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[5].u_mac_3x3|busy,       ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[5].u_mac_3x3|done,       ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[4].u_mac_3x3|busy,       ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[4].u_mac_3x3|done,       ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[3].u_mac_3x3|busy,       ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[3].u_mac_3x3|done,       ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[2].u_mac_3x3|busy,       ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[2].u_mac_3x3|done,       ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[1].u_mac_3x3|busy,       ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[1].u_mac_3x3|done,       ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c|mac_3x3:gen_mac_core[0].u_mac_3x3|done,       ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[3].u_mac_3x3|busy,       ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[3].u_mac_3x3|done,       ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[2].u_mac_3x3|busy,       ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[2].u_mac_3x3|done,       ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[1].u_mac_3x3|busy,       ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[1].u_mac_3x3|done,       ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c|mac_3x3:gen_mac_core[0].u_mac_3x3|done,       ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|active_cluster_sel[1]                                                  ;
+; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|cycles_running[31] ; Lost Fanouts              ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|cycles_running[30],                                                    ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|cycles_running[29],                                                    ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|cycles_running[28],                                                    ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|cycles_running[27],                                                    ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|cycles_running[26],                                                    ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|cycles_running[25],                                                    ;
+;                                                                                         ;                           ; fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|cycles_running[24]                                                     ;
+; fpga_top:inst4|fpga_instruction_meta[3]                                                 ; Stuck at GND              ; fpga_top:inst4|fpga_instruction_sync[3]                                                                                                     ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[2]                                    ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[2]                                                                                        ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[3]                                    ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[3]                                                                                        ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[4]                                    ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[4]                                                                                        ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[5]                                    ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[5]                                                                                        ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[6]                                    ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[6]                                                                                        ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[7]                                    ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[7]                                                                                        ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[8]                                    ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[8]                                                                                        ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[9]                                    ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[9]                                                                                        ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[10]                                   ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[10]                                                                                       ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[11]                                   ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[11]                                                                                       ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[12]                                   ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[12]                                                                                       ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[13]                                   ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[13]                                                                                       ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[14]                                   ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[14]                                                                                       ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[15]                                   ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[15]                                                                                       ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[16]                                   ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[16]                                                                                       ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[17]                                   ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[17]                                                                                       ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[18]                                   ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[18]                                                                                       ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[20]                                   ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[20]                                                                                       ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[21]                                   ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[21]                                                                                       ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[22]                                   ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[22]                                                                                       ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[23]                                   ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[23]                                                                                       ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[2]                               ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[2]                                                                                   ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[3]                               ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[3]                                                                                   ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[4]                               ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[4]                                                                                   ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[5]                               ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[5]                                                                                   ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[6]                               ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[6]                                                                                   ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[7]                               ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[7]                                                                                   ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[8]                               ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[8]                                                                                   ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[9]                               ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[9]                                                                                   ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[10]                              ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[10]                                                                                  ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[11]                              ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[11]                                                                                  ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[12]                              ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[12]                                                                                  ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[13]                              ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[13]                                                                                  ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[14]                              ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[14]                                                                                  ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_instruction_meta[15]                              ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_instruction_sync[15]                                                                                  ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
+; fpga_top:inst4|ctrl:control_unit|fpga_status_meta[19]                                   ; Stuck at GND              ; fpga_top:inst4|ctrl:control_unit|fpga_status_sync[19]                                                                                       ;
+;                                                                                         ; due to stuck port data_in ;                                                                                                                                             ;
++-----------------------------------------------------------------------------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------------------------+
 
 
 +------------------------------------------------------+
@@ -363,26 +689,68 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 42    ;
-; Number of registers using Synchronous Clear  ; 0     ;
+; Total registers                              ; 125   ;
+; Number of registers using Synchronous Clear  ; 51    ;
 ; Number of registers using Synchronous Load   ; 0     ;
-; Number of registers using Asynchronous Clear ; 0     ;
+; Number of registers using Asynchronous Clear ; 59    ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 2     ;
+; Number of registers using Clock Enable       ; 50    ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
 
-+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                    ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------------------------------------------+
-; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                          ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------------------------------------------+
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |fpga_Project|fpga_top:inst4|ctrl:control_unit|data_to_fpga_reg[10] ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |fpga_Project|fpga_top:inst4|ctrl:control_unit|hex_value[17]        ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |fpga_Project|fpga_top:inst4|ctrl:control_unit|hex_value[2]         ;
-; 3:1                ; 5 bits    ; 10 LEs        ; 10 LEs               ; 0 LEs                  ; No         ; |fpga_Project|fpga_top:inst4|ctrl:control_unit|hex_value[16]        ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+---------------------------------------------------------------------+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                     ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                           ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------+
+; 3:1                ; 26 bits   ; 52 LEs        ; 0 LEs                ; 52 LEs                 ; Yes        ; |fpga_Project|fpga_top:inst4|ctrl:control_unit|data_from_fpga_reg[5] ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |fpga_Project|fpga_top:inst4|ctrl:control_unit|hex_value[12]         ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |fpga_Project|fpga_top:inst4|ctrl:control_unit|hex_value[21]         ;
+; 4:1                ; 12 bits   ; 24 LEs        ; 24 LEs               ; 0 LEs                  ; No         ; |fpga_Project|fpga_top:inst4|ctrl:control_unit|hex_value[15]         ;
+; 4:1                ; 6 bits    ; 12 LEs        ; 12 LEs               ; 0 LEs                  ; No         ; |fpga_Project|fpga_top:inst4|ctrl:control_unit|hex_value[20]         ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |fpga_Project|fpga_top:inst4|ctrl:control_unit|hex_value[0]          ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c ;
++----------------+-------+-------------------------------------------------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                                                              ;
++----------------+-------+-------------------------------------------------------------------------------------------------------------------+
+; NUM_CORES      ; 1     ; Signed Integer                                                                                                    ;
++----------------+-------+-------------------------------------------------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c ;
++----------------+-------+-------------------------------------------------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                                                              ;
++----------------+-------+-------------------------------------------------------------------------------------------------------------------+
+; NUM_CORES      ; 2     ; Signed Integer                                                                                                    ;
++----------------+-------+-------------------------------------------------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c ;
++----------------+-------+-------------------------------------------------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                                                              ;
++----------------+-------+-------------------------------------------------------------------------------------------------------------------+
+; NUM_CORES      ; 4     ; Signed Integer                                                                                                    ;
++----------------+-------+-------------------------------------------------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c ;
++----------------+-------+-------------------------------------------------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                                                              ;
++----------------+-------+-------------------------------------------------------------------------------------------------------------------+
+; NUM_CORES      ; 8     ; Signed Integer                                                                                                    ;
++----------------+-------+-------------------------------------------------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
 +--------------------------------------------------------------------------------------------------+
@@ -637,26 +1005,30 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------------+-----------------------------+
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
-; arriav_ff             ; 42                          ;
-;     ENA               ; 2                           ;
-;     plain             ; 40                          ;
-; arriav_lcell_comb     ; 82                          ;
-;     arith             ; 20                          ;
-;         1 data inputs ; 19                          ;
-;         2 data inputs ; 1                           ;
-;     normal            ; 62                          ;
+; arriav_ff             ; 125                         ;
+;     CLR               ; 11                          ;
+;     CLR SCLR          ; 24                          ;
+;     ENA CLR           ; 24                          ;
+;     ENA SCLR          ; 26                          ;
+;     SCLR              ; 1                           ;
+;     plain             ; 39                          ;
+; arriav_lcell_comb     ; 131                         ;
+;     arith             ; 44                          ;
+;         1 data inputs ; 42                          ;
+;         2 data inputs ; 2                           ;
+;     normal            ; 87                          ;
 ;         0 data inputs ; 1                           ;
-;         1 data inputs ; 8                           ;
-;         2 data inputs ; 6                           ;
-;         3 data inputs ; 6                           ;
-;         4 data inputs ; 26                          ;
-;         5 data inputs ; 12                          ;
-;         6 data inputs ; 3                           ;
+;         1 data inputs ; 7                           ;
+;         2 data inputs ; 3                           ;
+;         3 data inputs ; 3                           ;
+;         4 data inputs ; 57                          ;
+;         5 data inputs ; 11                          ;
+;         6 data inputs ; 5                           ;
 ; boundary_port         ; 67                          ;
 ; generic_pll           ; 1                           ;
 ;                       ;                             ;
-; Max LUT depth         ; 3.00                        ;
-; Average LUT depth     ; 1.90                        ;
+; Max LUT depth         ; 3.30                        ;
+; Average LUT depth     ; 2.03                        ;
 +-----------------------+-----------------------------+
 
 
@@ -675,45 +1047,66 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
-    Info: Processing started: Tue Mar  3 19:37:30 2026
+    Info: Processing started: Thu Mar  5 21:35:10 2026
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off fpga_Project -c fpga_Project
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 6 of the 6 processors detected
-Info (12021): Found 1 design units, including 1 entities, in source file /users/keric/onedrive/documents/u of g/winter 2026/embed 4560/project/project_main/verilog_srcs/fpga_top.v
-    Info (12023): Found entity 1: fpga_top File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/Verilog_srcs/fpga_top.v Line: 1
-Info (12021): Found 1 design units, including 1 entities, in source file /users/keric/onedrive/documents/u of g/winter 2026/embed 4560/project/project_main/verilog_srcs/ctrl.v
-    Info (12023): Found entity 1: ctrl File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/Verilog_srcs/ctrl.v Line: 1
-Info (12021): Found 1 design units, including 1 entities, in source file /users/keric/onedrive/documents/u of g/winter 2026/embed 4560/project/project_main/verilog_srcs/simple_counter.v
-    Info (12023): Found entity 1: simple_counter File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/Verilog_srcs/simple_counter.v Line: 1
-Info (12021): Found 2 design units, including 2 entities, in source file /users/keric/onedrive/documents/u of g/winter 2026/embed 4560/project/project_main/verilog_srcs/hex6to7seg.v
-    Info (12023): Found entity 1: Hexto7seg File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/Verilog_srcs/Hex6to7seg.v Line: 1
-    Info (12023): Found entity 2: Hex6to7seg File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/Verilog_srcs/Hex6to7seg.v Line: 29
-Info (12021): Found 1 design units, including 1 entities, in source file /users/keric/onedrive/documents/u of g/winter 2026/embed 4560/project/project_main/verilog_srcs/test_regs/test_instruction.v
-    Info (12023): Found entity 1: test_instruction File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/Verilog_srcs/test_regs/test_instruction.v Line: 1
-Info (12021): Found 1 design units, including 1 entities, in source file /users/keric/onedrive/documents/u of g/winter 2026/embed 4560/project/project_main/verilog_srcs/test_regs/test_status.v
-    Info (12023): Found entity 1: test_status File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/Verilog_srcs/test_regs/test_status.v Line: 1
-Info (12021): Found 1 design units, including 1 entities, in source file /users/keric/onedrive/documents/u of g/winter 2026/embed 4560/project/project_main/verilog_srcs/test_regs/test_data_to.v
-    Info (12023): Found entity 1: test_data_to File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/Verilog_srcs/test_regs/test_data_to.v Line: 1
-Info (12021): Found 1 design units, including 1 entities, in source file /users/keric/onedrive/documents/u of g/winter 2026/embed 4560/project/project_main/verilog_srcs/test_regs/test_data_from.v
-    Info (12023): Found entity 1: test_data_from File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/Verilog_srcs/test_regs/test_data_from.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /users/keric/onedrive/documents/u of g/winter 2026/comp arch 4540/project/code/project_main/verilog_srcs/cluster_readback_mux.v
+    Info (12023): Found entity 1: cluster_readback_mux File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/cluster_readback_mux.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /users/keric/onedrive/documents/u of g/winter 2026/comp arch 4540/project/code/project_main/verilog_srcs/cluster_response_mux.v
+    Info (12023): Found entity 1: cluster_response_mux File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/cluster_response_mux.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /users/keric/onedrive/documents/u of g/winter 2026/comp arch 4540/project/code/project_main/verilog_srcs/cluster_fabric_structural.v
+    Info (12023): Found entity 1: cluster_fabric_structural File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/cluster_fabric_structural.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /users/keric/onedrive/documents/u of g/winter 2026/comp arch 4540/project/code/project_main/verilog_srcs/cluster_dispatcher.v
+    Info (12023): Found entity 1: cluster_dispatcher File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/cluster_dispatcher.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /users/keric/onedrive/documents/u of g/winter 2026/comp arch 4540/project/code/project_main/verilog_srcs/cluster_fabric.v
+    Info (12023): Found entity 1: cluster_fabric File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/cluster_fabric.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /users/keric/onedrive/documents/u of g/winter 2026/comp arch 4540/project/code/project_main/verilog_srcs/mac_3x3.v
+    Info (12023): Found entity 1: mac_3x3 File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/mac_3x3.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /users/keric/onedrive/documents/u of g/winter 2026/comp arch 4540/project/code/project_main/verilog_srcs/cluster_par.v
+    Info (12023): Found entity 1: mac_cluster File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/cluster_par.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /users/keric/onedrive/documents/u of g/winter 2026/comp arch 4540/project/code/project_main/verilog_srcs/fpga_top.v
+    Info (12023): Found entity 1: fpga_top File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/fpga_top.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /users/keric/onedrive/documents/u of g/winter 2026/comp arch 4540/project/code/project_main/verilog_srcs/ctrl.v
+    Info (12023): Found entity 1: ctrl File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/ctrl.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /users/keric/onedrive/documents/u of g/winter 2026/comp arch 4540/project/code/project_main/verilog_srcs/simple_counter.v
+    Info (12023): Found entity 1: simple_counter File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/simple_counter.v Line: 1
+Info (12021): Found 2 design units, including 2 entities, in source file /users/keric/onedrive/documents/u of g/winter 2026/comp arch 4540/project/code/project_main/verilog_srcs/hex6to7seg.v
+    Info (12023): Found entity 1: Hexto7seg File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/Hex6to7seg.v Line: 1
+    Info (12023): Found entity 2: Hex6to7seg File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/Hex6to7seg.v Line: 29
+Info (12021): Found 1 design units, including 1 entities, in source file /users/keric/onedrive/documents/u of g/winter 2026/comp arch 4540/project/code/project_main/verilog_srcs/test_regs/test_instruction.v
+    Info (12023): Found entity 1: test_instruction File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/test_regs/test_instruction.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /users/keric/onedrive/documents/u of g/winter 2026/comp arch 4540/project/code/project_main/verilog_srcs/test_regs/test_status.v
+    Info (12023): Found entity 1: test_status File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/test_regs/test_status.v Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file /users/keric/onedrive/documents/u of g/winter 2026/comp arch 4540/project/code/project_main/verilog_srcs/test_regs/test_data_to.v
+    Info (12023): Found entity 1: test_data_to File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/test_regs/test_data_to.v Line: 1
 Info (12021): Found 1 design units, including 1 entities, in source file fpga_project.bdf
     Info (12023): Found entity 1: fpga_Project
 Info (12021): Found 1 design units, including 1 entities, in source file pll.v
-    Info (12023): Found entity 1: pll File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/fpga_Project/pll.v Line: 8
+    Info (12023): Found entity 1: pll File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/fpga_Project/pll.v Line: 8
 Info (12021): Found 1 design units, including 1 entities, in source file pll/pll_0002.v
-    Info (12023): Found entity 1: pll_0002 File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/fpga_Project/pll/pll_0002.v Line: 2
+    Info (12023): Found entity 1: pll_0002 File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/fpga_Project/pll/pll_0002.v Line: 2
 Info (12127): Elaborating entity "fpga_Project" for the top level hierarchy
 Info (12128): Elaborating entity "fpga_top" for hierarchy "fpga_top:inst4"
-Info (12128): Elaborating entity "ctrl" for hierarchy "fpga_top:inst4|ctrl:control_unit" File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/Verilog_srcs/fpga_top.v Line: 30
-Info (12128): Elaborating entity "Hex6to7seg" for hierarchy "fpga_top:inst4|Hex6to7seg:hex6" File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/Verilog_srcs/fpga_top.v Line: 42
-Info (12128): Elaborating entity "Hexto7seg" for hierarchy "fpga_top:inst4|Hex6to7seg:hex6|Hexto7seg:HEX_0" File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/Verilog_srcs/Hex6to7seg.v Line: 39
+Info (12128): Elaborating entity "cluster_readback_mux" for hierarchy "fpga_top:inst4|cluster_readback_mux:u_cluster_readback_mux" File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/fpga_top.v Line: 70
+Info (12128): Elaborating entity "ctrl" for hierarchy "fpga_top:inst4|ctrl:control_unit" File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/fpga_top.v Line: 82
+Info (12128): Elaborating entity "cluster_fabric_structural" for hierarchy "fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural" File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/fpga_top.v Line: 96
+Info (12128): Elaborating entity "cluster_dispatcher" for hierarchy "fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|cluster_dispatcher:u_cluster_dispatcher" File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/cluster_fabric_structural.v Line: 49
+Info (12128): Elaborating entity "cluster_response_mux" for hierarchy "fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|cluster_response_mux:u_cluster_response_mux" File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/cluster_fabric_structural.v Line: 63
+Info (12128): Elaborating entity "mac_cluster" for hierarchy "fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c" File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/cluster_fabric_structural.v Line: 75
+Info (12128): Elaborating entity "mac_3x3" for hierarchy "fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_1c|mac_3x3:gen_mac_core[0].u_mac_3x3" File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/cluster_par.v Line: 38
+Info (12128): Elaborating entity "mac_cluster" for hierarchy "fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_2c" File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/cluster_fabric_structural.v Line: 87
+Info (12128): Elaborating entity "mac_cluster" for hierarchy "fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_4c" File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/cluster_fabric_structural.v Line: 99
+Info (12128): Elaborating entity "mac_cluster" for hierarchy "fpga_top:inst4|cluster_fabric_structural:u_cluster_fabric_structural|mac_cluster:u_cluster_8c" File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/cluster_fabric_structural.v Line: 111
+Info (12128): Elaborating entity "Hex6to7seg" for hierarchy "fpga_top:inst4|Hex6to7seg:hex6" File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/fpga_top.v Line: 106
+Info (12128): Elaborating entity "Hexto7seg" for hierarchy "fpga_top:inst4|Hex6to7seg:hex6|Hexto7seg:HEX_0" File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/Verilog_srcs/Hex6to7seg.v Line: 39
 Info (12128): Elaborating entity "simple_counter" for hierarchy "simple_counter:inst"
 Info (12128): Elaborating entity "pll" for hierarchy "pll:inst2"
-Info (12128): Elaborating entity "pll_0002" for hierarchy "pll:inst2|pll_0002:pll_inst" File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/fpga_Project/pll.v Line: 19
-Info (12128): Elaborating entity "altera_pll" for hierarchy "pll:inst2|pll_0002:pll_inst|altera_pll:altera_pll_i" File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/fpga_Project/pll/pll_0002.v Line: 85
+Info (12128): Elaborating entity "pll_0002" for hierarchy "pll:inst2|pll_0002:pll_inst" File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/fpga_Project/pll.v Line: 19
+Info (12128): Elaborating entity "altera_pll" for hierarchy "pll:inst2|pll_0002:pll_inst|altera_pll:altera_pll_i" File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/fpga_Project/pll/pll_0002.v Line: 85
 Info (10008): Verilog HDL or VHDL information: EDA Netlist Writer cannot regroup multidimensional array "wire_to_nowhere_64" into its bus
-Info (12130): Elaborated megafunction instantiation "pll:inst2|pll_0002:pll_inst|altera_pll:altera_pll_i" File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/fpga_Project/pll/pll_0002.v Line: 85
-Info (12133): Instantiated megafunction "pll:inst2|pll_0002:pll_inst|altera_pll:altera_pll_i" with the following parameter: File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Embed 4560/Project/Project_Main/fpga_Project/pll/pll_0002.v Line: 85
+Info (12130): Elaborated megafunction instantiation "pll:inst2|pll_0002:pll_inst|altera_pll:altera_pll_i" File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/fpga_Project/pll/pll_0002.v Line: 85
+Info (12133): Instantiated megafunction "pll:inst2|pll_0002:pll_inst|altera_pll:altera_pll_i" with the following parameter: File: C:/Users/keric/OneDrive/Documents/U of G/Winter 2026/Comp Arch 4540/Project/CODE/Project_Main/fpga_Project/pll/pll_0002.v Line: 85
     Info (12134): Parameter "fractional_vco_multiplier" = "false"
     Info (12134): Parameter "reference_clock_frequency" = "50.0 MHz"
     Info (12134): Parameter "operation_mode" = "direct"
@@ -783,7 +1176,7 @@ Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "LEDR[5]" is stuck at GND
     Warning (13410): Pin "LEDR[4]" is stuck at GND
 Info (286030): Timing-Driven Synthesis is running
-Info (17049): 11 registers lost all their fanouts during netlist optimizations.
+Info (17049): 270 registers lost all their fanouts during netlist optimizations.
 Warning (20013): Ignored 592 assignments for entity "ghrd_top" -- entity does not exist in design
     Warning (20014): Assignment for entity set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to HPS_DDR3_ADDR[0] -entity ghrd_top was ignored
     Warning (20014): Assignment for entity set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to HPS_DDR3_ADDR[10] -entity ghrd_top was ignored
@@ -1384,15 +1777,15 @@ Warning (21074): Design contains 4 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "SW[4]"
     Warning (15610): No output dependent on input pin "SW[3]"
     Warning (15610): No output dependent on input pin "SW[2]"
-Info (21057): Implemented 157 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 264 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 15 input pins
     Info (21059): Implemented 52 output pins
-    Info (21061): Implemented 89 logic cells
+    Info (21061): Implemented 196 logic cells
     Info (21065): Implemented 1 PLLs
 Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 604 warnings
-    Info: Peak virtual memory: 4893 megabytes
-    Info: Processing ended: Tue Mar  3 19:37:39 2026
-    Info: Elapsed time: 00:00:09
-    Info: Total CPU time (on all processors): 00:00:18
+    Info: Peak virtual memory: 4913 megabytes
+    Info: Processing ended: Thu Mar  5 21:35:20 2026
+    Info: Elapsed time: 00:00:10
+    Info: Total CPU time (on all processors): 00:00:20
 
 

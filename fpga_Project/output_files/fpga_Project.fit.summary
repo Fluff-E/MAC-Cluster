@@ -1,12 +1,12 @@
-Fitter Status : Successful - Tue Mar  3 19:39:05 2026
+Fitter Status : Successful - Thu Mar  5 21:36:09 2026
 Quartus Prime Version : 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
 Revision Name : fpga_Project
 Top-level Entity Name : fpga_Project
 Family : Cyclone V
 Device : 5CSEMA5F31C6
 Timing Models : Final
-Logic utilization (in ALMs) : 39 / 32,070 ( < 1 % )
-Total registers : 43
+Logic utilization (in ALMs) : 65 / 32,070 ( < 1 % )
+Total registers : 127
 Total pins : 67 / 457 ( 15 % )
 Total virtual pins : 0
 Total block memory bits : 0 / 4,065,280 ( 0 % )

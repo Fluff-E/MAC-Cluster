@@ -870,6 +870,13 @@ set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name VERILOG_FILE ../Verilog_srcs/cluster_readback_mux.v
+set_global_assignment -name VERILOG_FILE ../Verilog_srcs/cluster_response_mux.v
+set_global_assignment -name VERILOG_FILE ../Verilog_srcs/cluster_fabric_structural.v
+set_global_assignment -name VERILOG_FILE ../Verilog_srcs/cluster_dispatcher.v
+set_global_assignment -name VERILOG_FILE ../Verilog_srcs/cluster_fabric.v
+set_global_assignment -name VERILOG_FILE ../Verilog_srcs/mac_3x3.v
+set_global_assignment -name VERILOG_FILE ../Verilog_srcs/cluster_par.v
 set_global_assignment -name VERILOG_FILE ../Verilog_srcs/fpga_top.v
 set_global_assignment -name VERILOG_FILE ../Verilog_srcs/ctrl.v
 set_global_assignment -name VERILOG_FILE ../Verilog_srcs/simple_counter.v
