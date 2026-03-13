@@ -77,8 +77,7 @@ module soc_system (
 	memory_mem_odt,
 	memory_mem_dm,
 	memory_oct_rzqin,
-	pio_fpga_inst_external_connection_export,
-	pio_fpga_status_external_connection_export,
+	pio_led_external_connection_export,
 	reset_reset_n);	
 
 	input		clk_clk;
@@ -158,7 +157,6 @@ module soc_system (
 	output		memory_mem_odt;
 	output	[3:0]	memory_mem_dm;
 	input		memory_oct_rzqin;
-	output	[31:0]	pio_fpga_inst_external_connection_export;
-	input	[31:0]	pio_fpga_status_external_connection_export;
+	output	[9:0]	pio_led_external_connection_export;
 	input		reset_reset_n;
 endmodule

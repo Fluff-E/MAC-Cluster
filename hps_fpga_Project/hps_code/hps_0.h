@@ -54,63 +54,39 @@
 #define ONCHIP_MEMORY2_0_MEMORY_INFO_MEM_INIT_FILENAME soc_system_onchip_memory2_0
 
 /*
- * Macros for device 'pio_fpga_inst', class 'altera_avalon_pio'
- * The macros are prefixed with 'PIO_FPGA_INST_'.
+ * Macros for device 'pio_led', class 'altera_avalon_pio'
+ * The macros are prefixed with 'PIO_LED_'.
  * The prefix is the slave descriptor.
  */
-#define PIO_FPGA_INST_COMPONENT_TYPE altera_avalon_pio
-#define PIO_FPGA_INST_COMPONENT_NAME pio_fpga_inst
-#define PIO_FPGA_INST_BASE 0x0
-#define PIO_FPGA_INST_SPAN 16
-#define PIO_FPGA_INST_END 0xf
-#define PIO_FPGA_INST_BIT_CLEARING_EDGE_REGISTER 0
-#define PIO_FPGA_INST_BIT_MODIFYING_OUTPUT_REGISTER 0
-#define PIO_FPGA_INST_CAPTURE 0
-#define PIO_FPGA_INST_DATA_WIDTH 32
-#define PIO_FPGA_INST_DO_TEST_BENCH_WIRING 0
-#define PIO_FPGA_INST_DRIVEN_SIM_VALUE 0
-#define PIO_FPGA_INST_EDGE_TYPE NONE
-#define PIO_FPGA_INST_FREQ 50000000
-#define PIO_FPGA_INST_HAS_IN 0
-#define PIO_FPGA_INST_HAS_OUT 1
-#define PIO_FPGA_INST_HAS_TRI 0
-#define PIO_FPGA_INST_IRQ_TYPE NONE
-#define PIO_FPGA_INST_RESET_VALUE 4294967295
+#define PIO_LED_COMPONENT_TYPE altera_avalon_pio
+#define PIO_LED_COMPONENT_NAME pio_led
+#define PIO_LED_BASE 0x0
+#define PIO_LED_SPAN 16
+#define PIO_LED_END 0xf
+#define PIO_LED_BIT_CLEARING_EDGE_REGISTER 0
+#define PIO_LED_BIT_MODIFYING_OUTPUT_REGISTER 0
+#define PIO_LED_CAPTURE 0
+#define PIO_LED_DATA_WIDTH 10
+#define PIO_LED_DO_TEST_BENCH_WIRING 0
+#define PIO_LED_DRIVEN_SIM_VALUE 0
+#define PIO_LED_EDGE_TYPE NONE
+#define PIO_LED_FREQ 50000000
+#define PIO_LED_HAS_IN 0
+#define PIO_LED_HAS_OUT 1
+#define PIO_LED_HAS_TRI 0
+#define PIO_LED_IRQ_TYPE NONE
+#define PIO_LED_RESET_VALUE 1023
 
 /*
- * Macros for device 'pio_fpga_status', class 'altera_avalon_pio'
- * The macros are prefixed with 'PIO_FPGA_STATUS_'.
+ * Macros for device 'eric_ip2_0', class 'eric_ip2'
+ * The macros are prefixed with 'ERIC_IP2_0_'.
  * The prefix is the slave descriptor.
  */
-#define PIO_FPGA_STATUS_COMPONENT_TYPE altera_avalon_pio
-#define PIO_FPGA_STATUS_COMPONENT_NAME pio_fpga_status
-#define PIO_FPGA_STATUS_BASE 0x10
-#define PIO_FPGA_STATUS_SPAN 16
-#define PIO_FPGA_STATUS_END 0x1f
-#define PIO_FPGA_STATUS_BIT_CLEARING_EDGE_REGISTER 0
-#define PIO_FPGA_STATUS_BIT_MODIFYING_OUTPUT_REGISTER 0
-#define PIO_FPGA_STATUS_CAPTURE 0
-#define PIO_FPGA_STATUS_DATA_WIDTH 32
-#define PIO_FPGA_STATUS_DO_TEST_BENCH_WIRING 0
-#define PIO_FPGA_STATUS_DRIVEN_SIM_VALUE 0
-#define PIO_FPGA_STATUS_EDGE_TYPE NONE
-#define PIO_FPGA_STATUS_FREQ 50000000
-#define PIO_FPGA_STATUS_HAS_IN 1
-#define PIO_FPGA_STATUS_HAS_OUT 0
-#define PIO_FPGA_STATUS_HAS_TRI 0
-#define PIO_FPGA_STATUS_IRQ_TYPE NONE
-#define PIO_FPGA_STATUS_RESET_VALUE 0
-
-/*
- * Macros for device 'my_aes_ip_0', class 'my_aes_ip'
- * The macros are prefixed with 'MY_AES_IP_0_'.
- * The prefix is the slave descriptor.
- */
-#define MY_AES_IP_0_COMPONENT_TYPE my_aes_ip
-#define MY_AES_IP_0_COMPONENT_NAME my_aes_ip_0
-#define MY_AES_IP_0_BASE 0x100
-#define MY_AES_IP_0_SPAN 16
-#define MY_AES_IP_0_END 0x10f
+#define ERIC_IP2_0_COMPONENT_TYPE eric_ip2
+#define ERIC_IP2_0_COMPONENT_NAME eric_ip2_0
+#define ERIC_IP2_0_BASE 0x100
+#define ERIC_IP2_0_SPAN 64
+#define ERIC_IP2_0_END 0x13f
 
 /*
  * Macros for device 'sysid_qsys', class 'altera_avalon_sysid_qsys'
@@ -123,7 +99,7 @@
 #define SYSID_QSYS_SPAN 8
 #define SYSID_QSYS_END 0x10007
 #define SYSID_QSYS_ID 2899645186
-#define SYSID_QSYS_TIMESTAMP 1772554556
+#define SYSID_QSYS_TIMESTAMP 1773018217
 
 /*
  * Macros for device 'jtag_uart', class 'altera_avalon_jtag_uart'

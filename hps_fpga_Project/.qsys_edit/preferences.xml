@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <preferences>
  <debug showDebugMenu="0" />
- <systemtable filter="Default">
+ <systemtable filter="All Interfaces">
   <columns>
    <connections preferredWidth="223" />
    <irq preferredWidth="63" />
@@ -15,8 +15,8 @@
    <frequency preferredWidth="287" />
   </columns>
  </clocktable>
- <window width="2023" height="1029" x="1300" y="113" />
- <library expandedCategories="Project,Library,Project/My Custom Functions" />
+ <window width="2576" height="1523" x="320" y="152" />
+ <library expandedCategories="Project/My Custom Functions,Library,Project" />
  <hdlexample language="VERILOG" />
  <generation block_symbol_file="0" />
 </preferences>

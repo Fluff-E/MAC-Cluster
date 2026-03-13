@@ -1,5 +1,5 @@
 #
-TARGET = custom_ip
+TARGET = aes_1
 CC = $(CROSS_COMPILE)gcc
 #
 ALT_DEVICE_FAMILY ?= soc_cv_av

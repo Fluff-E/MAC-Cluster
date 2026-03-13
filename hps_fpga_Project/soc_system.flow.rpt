@@ -1,5 +1,5 @@
 Flow report for soc_system
-Tue Mar  3 19:57:16 2026
+Thu Mar 12 17:01:05 2026
 Quartus Prime Version 25.1std.0 Build 1129 10/21/2025 SC Lite Edition
 
 
@@ -41,15 +41,15 @@ on the Quartus Prime software download page.
 +-----------------------------------------------------------------------------------+
 ; Flow Summary                                                                      ;
 +---------------------------------+-------------------------------------------------+
-; Flow Status                     ; Successful - Tue Mar  3 19:56:32 2026           ;
+; Flow Status                     ; Successful - Thu Mar 12 16:59:57 2026           ;
 ; Quartus Prime Version           ; 25.1std.0 Build 1129 10/21/2025 SC Lite Edition ;
 ; Revision Name                   ; soc_system                                      ;
 ; Top-level Entity Name           ; ghrd_top                                        ;
 ; Family                          ; Cyclone V                                       ;
 ; Device                          ; 5CSEMA5F31C6                                    ;
 ; Timing Models                   ; Final                                           ;
-; Logic utilization (in ALMs)     ; 2,548 / 32,070 ( 8 % )                          ;
-; Total registers                 ; 3900                                            ;
+; Logic utilization (in ALMs)     ; 14,156 / 32,070 ( 44 % )                        ;
+; Total registers                 ; 4218                                            ;
 ; Total pins                      ; 368 / 457 ( 81 % )                              ;
 ; Total virtual pins              ; 0                                               ;
 ; Total block memory bits         ; 526,336 / 4,065,280 ( 13 % )                    ;
@@ -68,7 +68,7 @@ on the Quartus Prime software download page.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 03/03/2026 19:48:01 ;
+; Start date & time ; 03/12/2026 16:32:57 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; soc_system          ;
 +-------------------+---------------------+
@@ -79,7 +79,7 @@ on the Quartus Prime software download page.
 +---------------------------------------+--------------------------------------------------------------------------+---------------+--------------------------------+------------+
 ; Assignment Name                       ; Value                                                                    ; Default Value ; Entity Name                    ; Section Id ;
 +---------------------------------------+--------------------------------------------------------------------------+---------------+--------------------------------+------------+
-; COMPILER_SIGNATURE_ID                 ; 1097462674873.177258528130844                                            ; --            ; --                             ; --         ;
+; COMPILER_SIGNATURE_ID                 ; 1097462674873.177334757724724                                            ; --            ; --                             ; --         ;
 ; ECO_REGENERATE_REPORT                 ; On                                                                       ; Off           ; --                             ; --         ;
 ; HPS_ISW_FILE                          ; soc_system/synthesis/submodules/sequencer/alt_types.pre.h                ; --            ; soc_system_hps_0_hps_io_border ; --         ;
 ; HPS_ISW_FILE                          ; soc_system/synthesis/submodules/sequencer/emif.pre.xml                   ; --            ; soc_system_hps_0_hps_io_border ; --         ;
@@ -122,7 +122,7 @@ on the Quartus Prime software download page.
 ; POWER_PRESET_COOLING_SOLUTION         ; 23 MM HEAT SINK WITH 200 LFPM AIRFLOW                                    ; --            ; --                             ; --         ;
 ; SLD_FILE                              ; soc_system/synthesis/soc_system.regmap                                   ; --            ; --                             ; --         ;
 ; SLD_FILE                              ; soc_system/synthesis/soc_system.debuginfo                                ; --            ; --                             ; --         ;
-; SLD_INFO                              ; QSYS_NAME soc_system HAS_SOPCINFO 1 GENERATION_ID 1772554556             ; --            ; --                             ; --         ;
+; SLD_INFO                              ; QSYS_NAME soc_system HAS_SOPCINFO 1 GENERATION_ID 1773100926             ; --            ; --                             ; --         ;
 ; SOPCINFO_FILE                         ; soc_system/synthesis/../../soc_system.sopcinfo                           ; --            ; --                             ; --         ;
 ; SYNTHESIS_ONLY_QIP                    ; On                                                                       ; --            ; --                             ; --         ;
 ; TOP_LEVEL_ENTITY                      ; ghrd_top                                                                 ; soc_system    ; --                             ; --         ;
@@ -135,11 +135,11 @@ on the Quartus Prime software download page.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:00:45     ; 1.0                     ; 5340 MB             ; 00:01:02                           ;
-; Fitter               ; 00:04:53     ; 1.1                     ; 7751 MB             ; 00:17:17                           ;
-; Assembler            ; 00:00:13     ; 1.0                     ; 5343 MB             ; 00:00:13                           ;
-; Timing Analyzer      ; 00:00:43     ; 1.5                     ; 5886 MB             ; 00:00:59                           ;
-; Total                ; 00:06:34     ; --                      ; --                  ; 00:19:31                           ;
+; Analysis & Synthesis ; 00:05:53     ; 1.7                     ; 5503 MB             ; 00:07:27                           ;
+; Fitter               ; 00:18:06     ; 1.1                     ; 8035 MB             ; 00:53:41                           ;
+; Assembler            ; 00:00:21     ; 1.0                     ; 5457 MB             ; 00:00:20                           ;
+; Timing Analyzer      ; 00:01:07     ; 2.6                     ; 6183 MB             ; 00:02:38                           ;
+; Total                ; 00:25:27     ; --                      ; --                  ; 01:04:06                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
