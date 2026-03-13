@@ -28,7 +28,8 @@
 // Definitions of apb offsets
 #define INSTRUCTION_BASE 0x00000000
 #define STATUS_BASE 0x00000004
-#define DATA_BASE 0x00000008 // 128 bit key, 4 32-bit words
+#define DATA_BASE 0x00000008 // 14 32-bit words
+#define DATA_END 0x0000003C
 
 // Benchmarking parameters
 #define BENCHMARK_ITERATIONS 1000
@@ -42,11 +43,8 @@ typedef struct {
     uint32_t entry[MATRIX_SIZE][MATRIX_SIZE];
 } square_matrix_t;
 
-square_matrix_t identity_matrix;
-
 void init_identity_matrix(square_matrix_t *matrix) {
     int row, col;
-
     for (row = 0; row < MATRIX_SIZE; row++) {
         for (col = 0; col < MATRIX_SIZE; col++) {
             matrix->entry[row][col] = 0;
@@ -57,13 +55,22 @@ void init_identity_matrix(square_matrix_t *matrix) {
     }
 }
 
+void init_ones_row_matrix(square_matrix_t *matrix) {
+   int row, col;
+   row = 0; // only first row is ones, rest are zeros
+   for (col = 0; col < MATRIX_SIZE; col++) {
+      matrix->entry[row][col] = 1;
+   }
+}
+
+
 /* function to generate sequential data for testing
    generates matrix of size MATRIX_SIZE x MATRIX_SIZE
    stored in a single 2D array where 2nd col is identity
 
    [0 0] [1 0] 
    [0 0] [0 1]
-   
+
    [1 1] [1 0]
    [1 1] [0 1]
 */
@@ -92,6 +99,68 @@ void generate_sequential_data_with_identity(
     }
 }
 
+void generate_sequential_data_with_ones_row(
+    square_matrix_t out[SEQ_VALUE_COUNT][2],
+    const square_matrix_t *ones_row)
+{
+    int value_idx, row, col;
+    uint32_t mask;
+
+    if (DATA_BYTES >= 4) {
+        mask = 0xFFFFFFFFu;
+    } else {
+         // 0x00001000 - 1 = 0x00000FFF for 3 bytes, 0x00000100 - 1 = 0x000000FF for 2 bytes, etc
+        mask = (1u << (DATA_BYTES * 8)) - 1u;
+    }
+
+    for (value_idx = 0; value_idx < SEQ_VALUE_COUNT; value_idx++) {
+        uint32_t v = ((uint32_t)value_idx) & mask;
+        for (row = 0; row < MATRIX_SIZE; row++) {
+            for (col = 0; col < MATRIX_SIZE; col++) {
+                out[value_idx][0].entry[row][col] = v;
+                out[value_idx][1].entry[row][col] = ones_row->entry[row][col];
+            }
+        }
+    }
+}
+
+/* Helper function to print a pair of matrices, for verification of generated data
+   [0 0] [1 0] 
+   [0 0] [0 1]
+
+   [1 1] [1 0]
+   [1 1] [0 1]
+*/
+void print_matrix_2d(const square_matrix_t pair[2]) {
+    int row, col;
+    for (row = 0; row < MATRIX_SIZE; row++) {
+        printf("[");
+        for (col = 0; col < MATRIX_SIZE; col++) {
+            printf("%u", pair[0].entry[row][col]);
+            if (col < MATRIX_SIZE - 1) {
+                printf(" ");
+            }
+        }
+        printf("] [");
+        for (col = 0; col < MATRIX_SIZE; col++) {
+            printf("%u", pair[1].entry[row][col]);
+            if (col < MATRIX_SIZE - 1) {
+                printf(" ");
+            }
+        }
+        printf("]\n");
+    }
+    printf("\n");
+}
+
+void print_all_matrix_pairs(const square_matrix_t pairs[SEQ_VALUE_COUNT][2]) {
+    int idx;
+    for (idx = 0; idx < SEQ_VALUE_COUNT; idx++) {
+        printf("Pair %d:\n", idx);
+        print_matrix_2d(pairs[idx]);
+    }
+}
+
 // Future helper function to map status and instruction to led
 // pio bits [3:0] are apb STATUS BASE bits [3:0]
 // pio bits [9:6] are apb INSTRUCTION BASE bits [3:0]
@@ -104,20 +173,18 @@ void *set_apb_pointer(void *virtual_base, unsigned long offset) {
 
 int main() { 
  
-    void *virtual_base; 
-    int fd; 
-    int loop_count; 
-    int led_direction; 
-    int led_mask;
+   void *virtual_base; 
+   int fd; 
+   int loop_count; 
+   int led_direction; 
+   int led_mask;
 	void *pio_led;
 	void *apb_32x16; // eric_ip2_0
      
-    int mem_data, mm_reg, j, ii; 
-    int most_sig_bit, least_sig_bit;
-    int aes_key[4];
-    int aes_data[4];
-
-    init_identity_matrix(&identity_matrix);
+   int mem_data, mm_reg, j, ii; 
+   int most_sig_bit, least_sig_bit;
+   int aes_key[4];
+   int aes_data[4];
 
     // map the address space for the LED registers into user space so we can interact with them. 
     // we'll map in the entire CSR span of the HPS since we want to access various registers within that span 
@@ -200,8 +267,15 @@ int main() {
         printf("Reading test data: %x from memory address = %p\n", mem_data, apb_32x16);
     }
 
-    // create matrix data and print to console for verification
-
+   // Initialize matrices for benchmarking data generation
+   square_matrix_t identity_matrix;
+   square_matrix_t ones_row_matrix;
+   init_identity_matrix(&identity_matrix);
+   init_ones_row_matrix(&ones_row_matrix);
+   generate_sequential_data_with_identity(identity_matrix_data, &identity_matrix);
+   generate_sequential_data_with_ones_row(ones_row_matrix_data, &ones_row_matrix);
+   print_all_matrix_pairs(identity_matrix_data);
+   print_all_matrix_pairs(ones_row_matrix_data);
 
     // State machine test for AES coprocessor
     // Main loop
@@ -211,7 +285,7 @@ int main() {
         *(uint32_t *)apb_32x16 = INST_RESET;
         apb_32x16 = set_apb_pointer(virtual_base, STATUS_BASE);
         while(*(uint32_t *)apb_32x16 != STATUS_RESET);
-        printf("Coprocessor is in reset state\n");
+        printf("Benchmark is in reset state\n");
 
         // set instruction to signal load aes key, wait acknowledge
         apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
