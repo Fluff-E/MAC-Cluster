@@ -1,0 +1,152 @@
+# Main-loop handshake specification
+# Purpose:
+#   1) Concisely document APB handshake behavior.
+#   2) Serve as an editable template for generating a new C main loop.
+
+meta:
+  name: aes_coprocessor_main_loop
+  version: 1
+  source_file: hps_fpga_Project/hps_code/main.c
+  description: >
+    HPS-driven APB handshake for AES coprocessor: reset, load key, load plaintext,
+    start encryption, wait done, read ciphertext.
+
+bus:
+  pointer_helper: set_apb_pointer
+  base_symbol: ERIC_IP2_0_BASE
+  addr_calc: ALT_LWFPGASLVS_OFST + ERIC_IP2_0_BASE + offset
+
+registers:
+  instruction:
+    offset: 0x00000000
+    width_bits: 32
+  status:
+    offset: 0x00000004
+    width_bits: 32
+  aes_key:
+    offset: 0x00000008
+    width_bits: 128
+    word_count: 4
+    word_stride_bytes: 4
+  aes_ptext:
+    offset: 0x00000018
+    width_bits: 128
+    word_count: 4
+    word_stride_bytes: 4
+  aes_ctext:
+    offset: 0x00000028
+    width_bits: 128
+    word_count: 4
+    word_stride_bytes: 4
+
+constants:
+  instruction_values:
+    INST_RESET: 0x00000000
+    INST_SIGNAL_LOAD_KEY: 0x00000001
+    INST_LOADING_KEY: 0x00000003
+    INST_LOADING_DATA: 0x00000005
+    INST_START_ENCRYPTION: 0x00000009
+  status_values:
+    STATUS_RESET: 0x00000000
+    STATUS_LOAD_KEY: 0x00000003
+    STATUS_LOAD_DATA: 0x00000005
+    STATUS_ENCRYPTING: 0x00000009
+    STATUS_DONE: 0x0000000F
+
+main_loop:
+  repeat: forever
+  steps:
+    - id: reset_coprocessor
+      action: write_instruction
+      instruction: INST_RESET
+      wait_for_status: STATUS_RESET
+      log: Coprocessor is in reset state
+
+    - id: request_key_phase
+      action: write_instruction
+      instruction: INST_SIGNAL_LOAD_KEY
+      wait_for_status: STATUS_LOAD_KEY
+      log: Coprocessor is ready to load key
+
+    - id: write_key_words
+      action: write_words
+      target_register: aes_key
+      source: user_input_hex
+      prompt_format: "Enter aes key[%d:%d] in hexadecimal, to write in location = %x"
+      bit_ranges_lsb_to_msb:
+        - [31, 0]
+        - [63, 32]
+        - [95, 64]
+        - [127, 96]
+
+    - id: request_data_phase
+      action: write_instruction
+      instruction: INST_LOADING_DATA
+      wait_for_status: STATUS_LOAD_DATA
+      log: Coprocessor is ready to load data
+
+    - id: write_plaintext_words
+      action: write_words
+      target_register: aes_ptext
+      source: user_input_hex
+      prompt_format: "Enter aes data[%d:%d] in hexadecimal, to write in location = %x"
+      bit_ranges_lsb_to_msb:
+        - [31, 0]
+        - [63, 32]
+        - [95, 64]
+        - [127, 96]
+
+    - id: start_encrypt
+      action: write_instruction
+      instruction: INST_START_ENCRYPTION
+      log: Coprocessor has started encryption
+      optional_wait_for_status: STATUS_ENCRYPTING
+
+    - id: wait_done
+      action: wait_for_status
+      status: STATUS_DONE
+      log: Coprocessor has completed encryption
+
+    - id: read_ciphertext
+      action: read_words
+      target_register: aes_ctext
+      destination: aes_data[0..3]
+      log_each_format: "Memory data read [%x]: %08x"
+      output_order:
+        print_words: [3, 2, 1, 0]
+        label: Encrypted data is
+
+generation_contract:
+  language: c
+  expected_artifacts:
+    - helper_functions
+    - main_loop_body
+    - constants_block
+  loop_safety:
+    timeout_policy: none_in_current_code
+    recommended_for_new_loops: add_status_timeout
+  required_primitives:
+    - write_reg(offset, value)
+    - read_reg(offset)
+    - wait_until_status(expected)
+    - write_block(base_offset, words[])
+    - read_block(base_offset, words[])
+  pseudocode: |
+    while (1) {
+      write INST_RESET; wait STATUS_RESET;
+      write INST_SIGNAL_LOAD_KEY; wait STATUS_LOAD_KEY;
+      write 4 key words to AES_KEY_BASE + i*4;
+      write INST_LOADING_DATA; wait STATUS_LOAD_DATA;
+      write 4 plaintext words to AES_PTEXT_BASE + i*4;
+      write INST_START_ENCRYPTION;
+      // optional: wait STATUS_ENCRYPTING;
+      wait STATUS_DONE;
+      read 4 ciphertext words from AES_CTEXT_BASE + i*4;
+      print ciphertext MSW-first;
+    }
+
+customization_notes:
+  - To retarget for a new accelerator, update registers and constants first.
+  - To change transaction width, update word_count and bit_ranges_lsb_to_msb.
+  - To remove interactive input, set source to fixed_vector or file_input.
+  - To support robust operation, add per-step timeout_ms and error handlers.

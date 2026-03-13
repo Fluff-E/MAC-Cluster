@@ -1,0 +1,42 @@
+Enter coprocessor memory data in hexadecimal, to write in location = 0
+01010101
+Writing coprocessor memory address = 0xb6056100
+Enter coprocessor memory data in hexadecimal, to write in location = 4
+abababab
+Writing coprocessor memory address = 0xb6056104
+Enter coprocessor memory data in hexadecimal, to write in location = 8
+9d9d9d9d
+Writing coprocessor memory address = 0xb6056108
+Enter coprocessor memory data in hexadecimal, to write in location = c
+e2e2e2e2
+Writing coprocessor memory address = 0xb605610c
+Reading memory locations
+Reading coprocessor memory address = 0xb6056100
+Memory data read: 1010101
+Reading coprocessor memory address = 0xb6056104
+Memory data read: abababab
+Reading coprocessor memory address = 0xb6056108
+Memory data read: 9d9d9d9d
+Reading coprocessor memory address = 0xb605610c
+Memory data read: e2e2e2e2
+
+ 
+    for (ii = 0; ii < 16; ii+=4){
+        printf("Enter coprocessor memory data in hexadecimal, to write in location = %x\n", ii);
+        mm_reg = ii;
+        scanf("%x", &mem_data);
+        h2p_lw_coproc_addr_memory = virtual_base + ((unsigned long)(ALT_LWFPGASLVS_OFST + ERIC_IP2_0_BASE + mm_reg) &
+            (unsigned long)(HW_REGS_MASK));
+        printf("Writing coprocessor memory address = %p\n", h2p_lw_coproc_addr_memory);
+        *(uint32_t *)h2p_lw_coproc_addr_memory = mem_data;
+    }
+
+    printf("Reading memory locations\n");
+    for (ii = 0; ii < 16; ii+=4){
+        mm_reg = ii;
+        h2p_lw_coproc_addr_memory = virtual_base + ((unsigned long)(ALT_LWFPGASLVS_OFST + ERIC_IP2_0_BASE + mm_reg) &
+            (unsigned long)(HW_REGS_MASK));
+        printf("Reading coprocessor memory address = %p\n", h2p_lw_coproc_addr_memory);
+        mem_data = *(uint32_t *)h2p_lw_coproc_addr_memory;
+        printf("Memory data read: %x\n", mem_data);
+    }
