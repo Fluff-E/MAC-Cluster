@@ -48,13 +48,13 @@ typedef struct {
     uint32_t entry[MATRIX_SIZE][MATRIX_SIZE];
 } square_matrix_t;
 
-// packet for sending to mac core
+// packet for sending to mac core does operation on matrix row and col
 typedef struct {
     uint32_t data[MATRIX_SIZE*2];
 } mac_pack_t;
 
 typedef struct {
-    mac_pack_t pack[MATRIX_SIZE*2]; // 2 packs for 2 rows of output matrix
+    mac_pack_t pack[MATRIX_SIZE*MATRIX_SIZE]; // one pack per output element
 } matrix_mult_pack_t;
 
 void init_identity_matrix(square_matrix_t *matrix) {
@@ -70,11 +70,18 @@ void init_identity_matrix(square_matrix_t *matrix) {
 }
 
 void init_ones_row_matrix(square_matrix_t *matrix) {
-   int row, col;
-   row = 0; // only first row is ones, rest are zeros
-   for (col = 0; col < MATRIX_SIZE; col++) {
-      matrix->entry[row][col] = 1;
-   }
+    int row, col;
+
+    for (row = 0; row < MATRIX_SIZE; row++) {
+        for (col = 0; col < MATRIX_SIZE; col++) {
+            matrix->entry[row][col] = 0;
+        }
+    }
+
+    row = 0; // only first row is ones, rest are zeros
+    for (col = 0; col < MATRIX_SIZE; col++) {
+        matrix->entry[row][col] = 1;
+    }
 }
 
 /* function to generate sequential data for testing
@@ -142,25 +149,40 @@ void generate_sequential_data_with_ones_row(
    [a0 a1] [b0 d0] 
    [c0 c1] [b1 d1]
 
-    Out:
-   [a0]
-   [a1]
-   [b0]
-   [b1]
-   [c0]
-   [c1]
-   [d0]
-   [d1]
+   matrix_out:
+   mac_pack 0:
+      [a0]
+      [a1]
+      [b0]
+      [b1]
+   mac_pack 1:
+      [a0]
+      [a1]
+      [d0]
+      [d1]
+   mac_pack 2:
+      [c0]
+      [c1]
+      [b0]
+      [b1]
+   mac_pack 3:
+      [c0]
+      [c1]
+      [d0]
+      [d1]
 */
 // output is array of mac packs
 void make_matrix_mult_pack( square_matrix_t matrix_in[SEQ_VALUE_COUNT][2],
                                 matrix_mult_pack_t matrix_out[SEQ_VALUE_COUNT]) {
-    int value_idx, row, col;
+    int value_idx, row, col, k;
     for (value_idx = 0; value_idx < SEQ_VALUE_COUNT; value_idx++) {
         for (row = 0; row < MATRIX_SIZE; row++) {
             for (col = 0; col < MATRIX_SIZE; col++) {
-                matrix_out[value_idx].pack[row*2 + col].data[0] = matrix_in[value_idx][0].entry[row][col];
-                matrix_out[value_idx].pack[row*2 + col].data[1] = matrix_in[value_idx][1].entry[row][col];
+                int pack_idx = row * MATRIX_SIZE + col;
+                for (k = 0; k < MATRIX_SIZE; k++) {
+                    matrix_out[value_idx].pack[pack_idx].data[k] = matrix_in[value_idx][0].entry[row][k];
+                    matrix_out[value_idx].pack[pack_idx].data[MATRIX_SIZE + k] = matrix_in[value_idx][1].entry[k][col];
+                }
             }
         }
     }
@@ -209,16 +231,12 @@ void print_matrix_mult_pack(const matrix_mult_pack_t pack) {
         for (col = 0; col < MATRIX_SIZE; col++) {
             printf("Pack for output matrix element [%d][%d]:\n", row, col);
             for (data_idx = 0; data_idx < MATRIX_SIZE*2; data_idx++) {
-                printf("%08x ", pack.pack[row*2 + col].data[data_idx]);
+                printf("%08x ", pack.pack[row*MATRIX_SIZE + col].data[data_idx]);
             }
             printf("\n");
         }
     }
 }
-
-// Future helper function to map status and instruction to led
-// pio bits [3:0] are apb STATUS BASE bits [3:0]
-// pio bits [9:6] are apb INSTRUCTION BASE bits [3:0]
 
 // helper function for setting apb pointer
 void *set_apb_pointer(void *virtual_base, unsigned long offset) {
@@ -230,18 +248,9 @@ int main() {
  
    void *virtual_base; 
    int fd; 
-   int loop_count; 
-   int led_direction; 
-   int led_mask;
 	void *pio_led;
 	void *apb_32x16; // eric_ip2_0
-     
-   int mem_data, mm_reg, j, ii; 
-   int most_sig_bit, least_sig_bit;
-   int aes_key[4];
-   int aes_data[4];
 
-    // map the address space for the LED registers into user space so we can interact with them. 
     // we'll map in the entire CSR span of the HPS since we want to access various registers within that span 
     printf("Calling fopen\n"); 
      
@@ -265,36 +274,7 @@ int main() {
 	
 	apb_32x16 = virtual_base + ((unsigned long)(ALT_LWFPGASLVS_OFST + ERIC_IP2_0_BASE) & 
          (unsigned long)(HW_REGS_MASK));
-    
-    // could use but hides the actual pointer math, which is helpful to see in this example
-    //apb_32x16 = set_apb_pointer(virtual_base, 0); 
          
-    loop_count = 0; 
-    led_mask = 0x01; 
-    led_direction = 0; // 0: left to right direction 
-    printf("Starting while loop, base address: %p, virtual_base = %p\n", pio_led, virtual_base); 
-    while(loop_count < 1) { 
-        printf("In Loop, loop_count:%d, led_mask:%d, led_direction:%d\n", loop_count, led_mask, led_direction); 
-        // control led 
-        *(uint32_t *)pio_led = ~led_mask;  
- 
-        // wait 100ms 
-        usleep(100*1000); 
-         
-        // update led mask 
-        if (led_direction == 0){ 
-            led_mask <<= 1; 
-            if (led_mask == (0x01 << (PIO_LED_DATA_WIDTH-1))) 
-                 led_direction = 1; 
-        }else{ 
-            led_mask >>= 1; 
-            if (led_mask == 0x01){  
-                led_direction = 0; 
-                loop_count++; 
-            } 
-        }    
-    } // while
-
     // Turn all LEDs off
     *(uint32_t *)pio_led = 0xFFF;
     usleep(100*5000); 
@@ -322,15 +302,44 @@ int main() {
         printf("Reading test data: %x from memory address = %p\n", mem_data, apb_32x16);
     }
 
-   // Initialize matrices for benchmarking data generation
+    // Initialize matrices for benchmarking data generation
    square_matrix_t identity_matrix;
    square_matrix_t ones_row_matrix;
+   square_matrix_t identity_matrix_data[SEQ_VALUE_COUNT][2];
+   square_matrix_t ones_row_matrix_data[SEQ_VALUE_COUNT][2];
+   matrix_mult_pack_t identity_matrix_mult_pack[SEQ_VALUE_COUNT];
+   matrix_mult_pack_t ones_row_matrix_mult_pack[SEQ_VALUE_COUNT];
+   int idx;
+   
    init_identity_matrix(&identity_matrix);
    init_ones_row_matrix(&ones_row_matrix);
+   
    generate_sequential_data_with_identity(identity_matrix_data, &identity_matrix);
    generate_sequential_data_with_ones_row(ones_row_matrix_data, &ones_row_matrix);
+  
+   printf("Identity Matrix Data:\n");
    print_all_matrix_pairs(identity_matrix_data);
+   printf("\n");
+   
+   printf("Ones Row Matrix Data:\n");
    print_all_matrix_pairs(ones_row_matrix_data);
+   printf("\n");
+
+   printf("Identity Matrix Mult Pack:\n");
+   make_matrix_mult_pack(identity_matrix_data, identity_matrix_mult_pack);
+    for (idx = 0; idx < SEQ_VALUE_COUNT; idx++) {
+        printf("Pair %d packed data:\n", idx);
+        print_matrix_mult_pack(identity_matrix_mult_pack[idx]);
+        printf("\n");
+    }
+   
+   printf("Ones Row Matrix Mult Pack:\n");
+   make_matrix_mult_pack(ones_row_matrix_data, ones_row_matrix_mult_pack);
+    for (idx = 0; idx < SEQ_VALUE_COUNT; idx++) {
+        printf("Pair %d packed data:\n", idx);
+        print_matrix_mult_pack(ones_row_matrix_mult_pack[idx]);
+        printf("\n");
+    }
 
     // State machine test for MAC cluster coprocessor
     // Main loop
@@ -372,27 +381,6 @@ int main() {
         }
         printf("\n\n");
     }
-
-    //====== MANUAL TEST ======================================================
-    // for (ii = 0; ii < 32; ii+=4){
-    //     printf("Enter coprocessor memory data in hexadecimal, to write in location = %x\n", ii);
-    //     mm_reg = ii;
-    //     scanf("%x", &mem_data);
-    //     apb_32x16 = virtual_base + ((unsigned long)(ALT_LWFPGASLVS_OFST + ERIC_IP2_0_BASE + mm_reg) &
-    //         (unsigned long)(HW_REGS_MASK));
-    //     printf("Writing coprocessor memory address = %p\n", apb_32x16);
-    //     *(uint32_t *)apb_32x16 = mem_data;
-    // }
-
-    // printf("Reading memory locations\n");
-    // for (ii = 0; ii < 32; ii+=4){
-    //     mm_reg = ii;
-    //     apb_32x16 = virtual_base + ((unsigned long)(ALT_LWFPGASLVS_OFST + ERIC_IP2_0_BASE + mm_reg) &
-    //         (unsigned long)(HW_REGS_MASK));
-    //     printf("Reading coprocessor memory address = %p\n", apb_32x16);
-    //     mem_data = *(uint32_t *)apb_32x16;
-    //     printf("Memory data read: %x\n", mem_data);
-    // }
 
     // clean up our memory mapping and exit 
         if( munmap(virtual_base, HW_REGS_SPAN) != 0) { 
