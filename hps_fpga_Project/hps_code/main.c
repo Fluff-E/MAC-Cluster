@@ -14,22 +14,27 @@
 
 // Defintions of instruction and status functions
 #define INST_RESET 0x00000000
-#define INST_SIGNAL_LOAD_KEY 0x00000001
-#define INST_LOADING_KEY 0x00000003
-#define INST_LOADING_DATA 0x00000005
-#define INST_START_ENCRYPTION 0x00000009
+#define INST_SIGNAL_TX 0x00000001
+#define INST_TX_COMPLETE 0x00000003
+#define INST_RX_COMPLETE 0x00000005
 
 #define STATUS_RESET 0X00000000
-#define STATUS_LOAD_KEY 0x00000003
-#define STATUS_LOAD_DATA 0x00000005
-#define STATUS_ENCRYPTING 0x00000009
-#define STATUS_DONE 0x0000000F
+#define STATUS_READY_RX 0x00000003
+#define STATUS_ACK_RX 0x00000005
+#define STATUS_PROCESSING 0x00000009
+#define STATUS_DONE_TX 0x0000000F
 
 // Definitions of apb offsets
 #define INSTRUCTION_BASE 0x00000000
 #define STATUS_BASE 0x00000004
 #define DATA_BASE 0x00000008 // 14 32-bit words
 #define DATA_END 0x0000003C
+#define DATA_RX_0_LO 0x00000008
+#define DATA_RX_0_HI 0x0000000C
+#define DATA_RX_1_LO 0x00000010
+#define DATA_RX_1_HI 0x00000014
+#define DATA_RX_2_LO 0x00000018
+#define DATA_RX_2_HI 0x0000001C
 
 // Benchmarking parameters
 #define BENCHMARK_ITERATIONS 1000
@@ -42,6 +47,15 @@
 typedef struct {
     uint32_t entry[MATRIX_SIZE][MATRIX_SIZE];
 } square_matrix_t;
+
+// packet for sending to mac core
+typedef struct {
+    uint32_t data[MATRIX_SIZE*2];
+} mac_pack_t;
+
+typedef struct {
+    mac_pack_t pack[MATRIX_SIZE*2]; // 2 packs for 2 rows of output matrix
+} matrix_mult_pack_t;
 
 void init_identity_matrix(square_matrix_t *matrix) {
     int row, col;
@@ -123,6 +137,35 @@ void generate_sequential_data_with_ones_row(
     }
 }
 
+// make matrix_mult_pack
+/* In:
+   [a0 a1] [b0 d0] 
+   [c0 c1] [b1 d1]
+
+    Out:
+   [a0]
+   [a1]
+   [b0]
+   [b1]
+   [c0]
+   [c1]
+   [d0]
+   [d1]
+*/
+// output is array of mac packs
+void make_matrix_mult_pack( square_matrix_t matrix_in[SEQ_VALUE_COUNT][2],
+                                matrix_mult_pack_t matrix_out[SEQ_VALUE_COUNT]) {
+    int value_idx, row, col;
+    for (value_idx = 0; value_idx < SEQ_VALUE_COUNT; value_idx++) {
+        for (row = 0; row < MATRIX_SIZE; row++) {
+            for (col = 0; col < MATRIX_SIZE; col++) {
+                matrix_out[value_idx].pack[row*2 + col].data[0] = matrix_in[value_idx][0].entry[row][col];
+                matrix_out[value_idx].pack[row*2 + col].data[1] = matrix_in[value_idx][1].entry[row][col];
+            }
+        }
+    }
+}
+
 /* Helper function to print a pair of matrices, for verification of generated data
    [0 0] [1 0] 
    [0 0] [0 1]
@@ -157,6 +200,19 @@ void print_all_matrix_pairs(const square_matrix_t pairs[SEQ_VALUE_COUNT][2]) {
     for (idx = 0; idx < SEQ_VALUE_COUNT; idx++) {
         printf("Pair %d:\n", idx);
         print_matrix_2d(pairs[idx]);
+    }
+}
+
+void print_matrix_mult_pack(const matrix_mult_pack_t pack) {
+    int row, col, data_idx;
+    for (row = 0; row < MATRIX_SIZE; row++) {
+        for (col = 0; col < MATRIX_SIZE; col++) {
+            printf("Pack for output matrix element [%d][%d]:\n", row, col);
+            for (data_idx = 0; data_idx < MATRIX_SIZE*2; data_idx++) {
+                printf("%08x ", pack.pack[row*2 + col].data[data_idx]);
+            }
+            printf("\n");
+        }
     }
 }
 
@@ -240,11 +296,11 @@ int main() {
     } // while
 
     // Turn all LEDs off
-    *(uint32_t *)pio_led = 0xFF;
+    *(uint32_t *)pio_led = 0xFFF;
     usleep(100*5000); 
-    *(uint32_t *)pio_led = 0x00; // Turn all LEDs on
+    *(uint32_t *)pio_led = 0x000; // Turn all LEDs on
     usleep(100*5000);  
-    *(uint32_t *)pio_led = 0xFF; // Turn all LEDs off
+    *(uint32_t *)pio_led = 0xFFF; // Turn all LEDs off
 
     // Test read and write to custom IP memory mapped registers
     int test_data= 0x10101010;
@@ -276,7 +332,7 @@ int main() {
    print_all_matrix_pairs(identity_matrix_data);
    print_all_matrix_pairs(ones_row_matrix_data);
 
-    // State machine test for AES coprocessor
+    // State machine test for MAC cluster coprocessor
     // Main loop
     while(1){
         // set instruction to reset, wait acknowledge
@@ -284,59 +340,35 @@ int main() {
         *(uint32_t *)apb_32x16 = INST_RESET;
         apb_32x16 = set_apb_pointer(virtual_base, STATUS_BASE);
         while(*(uint32_t *)apb_32x16 != STATUS_RESET);
-        printf("Benchmark is in reset state\n");
+        printf("Cluster is in reset state\n");
 
-        // set instruction to signal load aes key, wait acknowledge
+        // set instruction to signal to tx, wait acknowledge
         apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
-        *(uint32_t *)apb_32x16 = INST_SIGNAL_LOAD_KEY;
+        *(uint32_t *)apb_32x16 = INST_SIGNAL_TX;
         apb_32x16 = set_apb_pointer(virtual_base, STATUS_BASE);
-        while(*(uint32_t *)apb_32x16 != STATUS_LOAD_KEY);
-        printf("Coprocessor is ready to load key\n");
+        while(*(uint32_t *)apb_32x16 != STATUS_READY_RX);
+        printf("Cluster is ready to rx data\n");
+        
+        // LOAD matrix_mult_packs based on cores
 
-        for (ii = 0, most_sig_bit = 31, least_sig_bit = 0; ii < 16; ii += 4, most_sig_bit += 32, least_sig_bit += 32){
-            printf("Enter aes key[%d:%d] in hexadecimal, to write in location = %x\n", most_sig_bit, least_sig_bit, AES_KEY_BASE + ii);
-            scanf("%x", &mem_data);
-            apb_32x16 = set_apb_pointer(virtual_base, AES_KEY_BASE + ii);
-            *(uint32_t *)apb_32x16 = mem_data;
-        }
-
-        // set instruction to load data, wait acknowledge
+        // set instruction to tx complete, wait acknowledge
         apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
-        *(uint32_t *)apb_32x16 = INST_LOADING_DATA;
+        *(uint32_t *)apb_32x16 = INST_TX_COMPLETE;
         apb_32x16 = set_apb_pointer(virtual_base, STATUS_BASE);
-        while(*(uint32_t *)apb_32x16 != STATUS_LOAD_DATA);
-        printf("Coprocessor is ready to load data\n");
-
-        for (ii = 0, most_sig_bit = 31, least_sig_bit = 0; ii < 16; ii += 4, most_sig_bit += 32, least_sig_bit += 32){
-            printf("Enter aes data[%d:%d] in hexadecimal, to write in location = %x\n", most_sig_bit, least_sig_bit, AES_PTEXT_BASE + ii);
-            scanf("%x", &mem_data);
-            apb_32x16 = set_apb_pointer(virtual_base, AES_PTEXT_BASE + ii);
-            *(uint32_t *)apb_32x16 = mem_data;
-        }
-
-        // set instruction to start encryption, wait acknowledge
-		printf("Changing instruction to encrypt.");
-        apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
-        *(uint32_t *)apb_32x16 = INST_START_ENCRYPTION;
-        apb_32x16 = set_apb_pointer(virtual_base, STATUS_BASE);
+        while(*(uint32_t *)apb_32x16 != STATUS_ACK_RX);
+        printf("Cluster acknowledged tx complete\n");
 		
-        //while(*(uint32_t *)apb_32x16 != STATUS_ENCRYPTING);
-        printf("Coprocessor has started encryption\n");
-        while(*(uint32_t *)apb_32x16 != STATUS_DONE);
-        printf("Coprocessor has completed encryption\n");
+        //while(*(uint32_t *)apb_32x16 != STATUS_PROCESSING);
+        printf("Cluster has started processing\n");
+        while(*(uint32_t *)apb_32x16 != STATUS_DONE_TX);
+        printf("Cluster has completed processing and tx\n");
 
-        printf("Reading encrypted data locations\n");
-        for (j = 0, ii = 0; ii < 16; ii += 4, j++){
-            apb_32x16 = set_apb_pointer(virtual_base, AES_CTEXT_BASE + ii);
+        printf("Reading data locations\n");
+        for (j = 0, ii = 0; ii < 32; ii += 4, j++){
+            apb_32x16 = set_apb_pointer(virtual_base, DATA_BASE + ii);
             mem_data = *(uint32_t *)apb_32x16;
             aes_data[j] = mem_data;
-            printf("Memory data read [%x]: %08x\n", AES_CTEXT_BASE + ii, mem_data);
-        }
-
-        // Print 128-bit encrypted value MSW first
-        printf("Encrypted data is:\n");
-        for (j = 3; j >= 0; j--){
-            printf("%08x ", aes_data[j]);
+            printf("Memory data read [%x]: %08x\n", DATA_BASE + ii, mem_data);
         }
         printf("\n\n");
     }
