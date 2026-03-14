@@ -25,10 +25,11 @@ module eric_ip2 (
 	reg [31:0] data_temp;
 	wire [5:0] addr;
 	wire [31:0] instruction;
-	wire [31:0] aes_status;
-	wire [127:0] key;
-	wire [127:0] ptext;
-	wire [127:0] aes_ctext;
+	wire [31:0] cluster_status;
+	wire [63:0] data_tx_0;
+	wire [63:0] data_tx_1;
+	wire [63:0] data_tx_2;
+	wire cluster_tx_state;
 
 	assign addr = aps_s0_paddr;
 	assign aps_s0_pready = 1'b1; // slave always ready, no wait states
@@ -36,8 +37,6 @@ module eric_ip2 (
 
 	// Drive nets for aes_top module inputs and outputs.
 	assign instruction = data_out[0];
-	assign key = {data_out[5], data_out[4], data_out[3], data_out[2]};
-	assign ptext = {data_out[9], data_out[8], data_out[7], data_out[6]};
 
 	// APB Read logic: read from data_out registers on APB read.
 	always @ (posedge clock_clk)
@@ -88,20 +87,35 @@ module eric_ip2 (
 			data_out[14] <= 32'b00000000000000000000000000000000;
 			data_out[15] <= 32'b00000000000000000000000000000000;
 		end
-		else
+		// Cluster tx or write
+		else if (cluster_tx_state == 1)
 		begin
-			// Capture AES outputs into APB-visible status/ciphertext registers.
-			data_out[1]  <= aes_status;
-			data_out[10] <= aes_ctext[31:0];
-			data_out[11] <= aes_ctext[63:32];
-			data_out[12] <= aes_ctext[95:64];
-			data_out[13] <= aes_ctext[127:96];
-
+			data_out[1] <= cluster_status;
+			data_out[2] <= data_tx_0[31:0];
+			data_out[3] <= data_tx_0[63:32];
+			data_out[4] <= data_tx_1[31:0];
+			data_out[5] <= data_tx_1[63:32];
+			data_out[6] <= data_tx_2[31:0];
+			data_out[7] <= data_tx_2[63:32];
+			data_out[8] <= 32'b00000000000000000000000000000000;
+			data_out[9] <= 32'b00000000000000000000000000000000;
+			data_out[10] <= 32'b00000000000000000000000000000000;
+			data_out[11] <= 32'b00000000000000000000000000000000;
+			data_out[12] <= 32'b00000000000000000000000000000000;
+			data_out[13] <= 32'b00000000000000000000000000000000;
+			data_out[14] <= 32'b00000000000000000000000000000000;
+			data_out[15] <= 32'b00000000000000000000000000000000;
+		end
+		else
+		// Read or rx
+		begin
+			data_out[1]  <= cluster_status;
+			
 			if (aps_s0_psel && aps_s0_pwrite && aps_s0_pready)
 			begin
 			case(addr)
 			6'b000000 : data_out[0]  <= aps_s0_pwdata;
-			//6'b000100 : data_out[1]  <= aps_s0_pwdata;
+			//6'b000100 : data_out[1]  <= aps_s0_pwdata; // status register is read-only
 			6'b001000 : data_out[2]  <= aps_s0_pwdata;
 			6'b001100 : data_out[3]  <= aps_s0_pwdata;
 			6'b010000 : data_out[4]  <= aps_s0_pwdata;
@@ -110,10 +124,10 @@ module eric_ip2 (
 			6'b011100 : data_out[7]  <= aps_s0_pwdata;
 			6'b100000 : data_out[8]  <= aps_s0_pwdata;
 			6'b100100 : data_out[9]  <= aps_s0_pwdata;
-			//6'b101000 : data_out[10] <= aps_s0_pwdata;
-			//6'b101100 : data_out[11] <= aps_s0_pwdata;
-			//6'b110000 : data_out[12] <= aps_s0_pwdata;
-			//6'b110100 : data_out[13] <= aps_s0_pwdata;
+			6'b101000 : data_out[10] <= aps_s0_pwdata;
+			6'b101100 : data_out[11] <= aps_s0_pwdata;
+			6'b110000 : data_out[12] <= aps_s0_pwdata;
+			6'b110100 : data_out[13] <= aps_s0_pwdata;
 			6'b111000 : data_out[14] <= aps_s0_pwdata;
 			6'b111100 : data_out[15] <= aps_s0_pwdata;	
 			endcase
@@ -122,14 +136,30 @@ module eric_ip2 (
 	end
 
 	// APB register map follows hps_code/main.c offsets.
-	aes_top u_aes_top (
+	cluster_top u_cluster_top (
 		.clk         (clock_clk),
 		.reset       (reset_reset),
 		.instruction (instruction),
-		.status      (aes_status),
-		.key         (key),
-		.ptext       (ptext),
-		.ctext       (aes_ctext)
+		.status      (cluster_status),
+		.cluster_tx_state (cluster_tx_state),
+		.data_rx_0  (data_out[2]),
+		.data_rx_1  (data_out[3]),
+		.data_rx_2  (data_out[4]),
+		.data_rx_3  (data_out[5]),
+		.data_rx_4  (data_out[6]),
+		.data_rx_5  (data_out[7]),
+		.data_rx_6  (data_out[8]),
+		.data_rx_7  (data_out[9]),
+		.data_rx_8  (data_out[10]),
+		.data_rx_9  (data_out[11]),
+		.data_rx_10 (data_out[12]),
+		.data_rx_11 (data_out[13]),
+		.data_tx_0_lo (data_tx_0[31:0]),
+		.data_tx_0_hi (data_tx_0[63:32]),
+		.data_tx_1_lo (data_tx_1[31:0]),
+		.data_tx_1_hi (data_tx_1[63:32]),
+		.data_tx_2_lo (data_tx_2[31:0]),
+		.data_tx_2_hi (data_tx_2[63:32])
 	);
 
 endmodule

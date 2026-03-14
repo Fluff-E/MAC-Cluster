@@ -63,7 +63,6 @@ void init_ones_row_matrix(square_matrix_t *matrix) {
    }
 }
 
-
 /* function to generate sequential data for testing
    generates matrix of size MATRIX_SIZE x MATRIX_SIZE
    stored in a single 2D array where 2nd col is identity

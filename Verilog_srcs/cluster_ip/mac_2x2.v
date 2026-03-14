@@ -14,9 +14,15 @@ module mac_2x2 (
 	input  wire signed [31:0] b0,
 	input  wire signed [31:0] b1,
 
+	
 	// Output Matrix O entry oi
 	output reg signed [63:0] result
 );
+
+/*
+	[ a0 a1 ]   [ b0 ]   [ o0 ]
+	[       ] * [ b1 ] = [    ]
+*/
 
 	reg busy;
 
@@ -27,11 +33,11 @@ module mac_2x2 (
 			busy   <= 0;
 		end
 		else begin
+			done <= 0;
 
 			// Start computation
 			if (start && !busy) begin
 				busy <= 1;
-				done <= 0;
 			end
 
 			// One-cycle dot product
@@ -43,10 +49,6 @@ module mac_2x2 (
 				done <= 1;
 				busy <= 0;
 			end
-
-			// Clear done once start is lowered
-			if (!start)
-				done <= 0;
 		end
 	end
 
