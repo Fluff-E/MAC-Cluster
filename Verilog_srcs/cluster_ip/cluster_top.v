@@ -33,19 +33,8 @@ wire mac_done_1;
 wire mac_done_2;
 wire [2:0] mac_status;
 wire mac_start;
-reg instruction_rx_complete_d;
 
-localparam [31:0] INST_RX_COMPLETE = 32'h0000_0005;
-
-assign mac_start = (instruction == INST_RX_COMPLETE) && !instruction_rx_complete_d;
 assign mac_status = {mac_done_2, mac_done_1, mac_done_0};
-
-always @(posedge clk or posedge reset) begin
-    if (reset)
-        instruction_rx_complete_d <= 1'b0;
-    else
-        instruction_rx_complete_d <= (instruction == INST_RX_COMPLETE);
-end
 
 cluster_ctrl u_cluster_ctrl (
     .clk(clk),
@@ -53,6 +42,7 @@ cluster_ctrl u_cluster_ctrl (
     .instruction(instruction),
     .mac_status(mac_status),
     .status(status),
+    .mac_start(mac_start),
     .cluster_tx_state(cluster_tx_state)
 );
 

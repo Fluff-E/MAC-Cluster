@@ -35,7 +35,7 @@ module eric_ip2 (
 	assign aps_s0_pready = 1'b1; // slave always ready, no wait states
 	assign aps_s0_prdata = data_temp;
 
-	// Drive nets for aes_top module inputs and outputs.
+	// Drive nets for cluster_top module inputs and outputs.
 	assign instruction = data_out[0];
 
 	// APB Read logic: read from data_out registers on APB read.
@@ -90,6 +90,8 @@ module eric_ip2 (
 		// Cluster tx or write
 		else if (cluster_tx_state == 1)
 		begin
+			if (addr == 6'b000000)
+				data_out[0] <= instruction; // keep instruction register updated with last instruction for APB readback
 			data_out[1] <= cluster_status;
 			data_out[2] <= data_tx_0[31:0];
 			data_out[3] <= data_tx_0[63:32];
