@@ -213,8 +213,9 @@ int main() {
    square_matrix_t ones_row_matrix;
    square_matrix_t identity_matrix_data[SEQ_VALUE_COUNT][2];
    square_matrix_t ones_row_matrix_data[SEQ_VALUE_COUNT][2];
-    matrix_mult_pack_t identity_matrix_mult_pack[SEQ_VALUE_COUNT];
-    int idx;
+   matrix_mult_pack_t identity_matrix_mult_pack[SEQ_VALUE_COUNT];
+   matrix_mult_pack_t ones_row_matrix_mult_pack[SEQ_VALUE_COUNT];
+   int idx;
    
    init_identity_matrix(&identity_matrix);
    init_ones_row_matrix(&ones_row_matrix);
@@ -224,19 +225,25 @@ int main() {
   
    printf("Identity Matrix Data:\n");
    print_all_matrix_pairs(identity_matrix_data);
-   
-   printf("\n\n");
+   printf("\n");
    
    printf("Ones Row Matrix Data:\n");
    print_all_matrix_pairs(ones_row_matrix_data);
-
-   printf("\n\n");
+   printf("\n");
 
    printf("Identity Matrix Mult Pack:\n");
    make_matrix_mult_pack(identity_matrix_data, identity_matrix_mult_pack);
     for (idx = 0; idx < SEQ_VALUE_COUNT; idx++) {
         printf("Pair %d packed data:\n", idx);
         print_matrix_mult_pack(identity_matrix_mult_pack[idx]);
+        printf("\n");
+    }
+   
+   printf("Ones Row Matrix Mult Pack:\n");
+   make_matrix_mult_pack(ones_row_matrix_data, ones_row_matrix_mult_pack);
+    for (idx = 0; idx < SEQ_VALUE_COUNT; idx++) {
+        printf("Pair %d packed data:\n", idx);
+        print_matrix_mult_pack(ones_row_matrix_mult_pack[idx]);
         printf("\n");
     }
 

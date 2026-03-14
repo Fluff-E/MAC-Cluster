@@ -1,0 +1,62 @@
+PS C:\Users\keric\OneDrive\Documents\U of G\Winter 2026\Comp Arch 4540\Project\CODE\Project_Main\hps_fpga_Project\hps_code> .\main_local_test.exe
+Identity Matrix Data:
+Pair 0:
+[0 0] [1 0]
+[0 0] [0 1]
+
+Pair 1:
+[1 1] [1 0]
+[1 1] [0 1]
+
+
+Ones Row Matrix Data:
+Pair 0:
+[0 0] [1 1]
+[0 0] [0 0]
+
+Pair 1:
+[1 1] [1 1]
+[1 1] [0 0]
+
+
+Identity Matrix Mult Pack:
+Pair 0 packed data:
+Pack for output matrix element [0][0]:
+00000000 00000000 00000001 00000000
+Pack for output matrix element [0][1]:
+00000000 00000000 00000000 00000001
+Pack for output matrix element [1][0]:
+00000000 00000000 00000001 00000000 
+Pack for output matrix element [1][1]:
+00000000 00000000 00000000 00000001
+
+Pair 1 packed data:
+Pack for output matrix element [0][0]:
+00000001 00000001 00000001 00000000
+Pack for output matrix element [0][1]:
+00000001 00000001 00000000 00000001
+Pack for output matrix element [1][0]:
+00000001 00000001 00000001 00000000
+Pack for output matrix element [1][1]:
+00000001 00000001 00000000 00000001
+
+Ones Row Matrix Mult Pack:
+Pair 0 packed data:
+Pack for output matrix element [0][0]:
+00000000 00000000 00000001 00000000
+Pack for output matrix element [0][1]:
+00000000 00000000 00000001 00000000
+Pack for output matrix element [1][0]:
+00000000 00000000 00000001 00000000
+Pack for output matrix element [1][1]:
+00000000 00000000 00000001 00000000
+
+Pair 1 packed data:
+Pack for output matrix element [0][0]:
+00000001 00000001 00000001 00000000
+Pack for output matrix element [0][1]:
+00000001 00000001 00000001 00000000
+Pack for output matrix element [1][0]:
+00000001 00000001 00000001 00000000
+Pack for output matrix element [1][1]:
+00000001 00000001 00000001 00000000
