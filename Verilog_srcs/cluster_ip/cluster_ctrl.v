@@ -35,7 +35,6 @@ reg [2:0] next_state;
 always @(posedge clk or posedge reset) begin
 	if (reset) begin
 		state <= ST_RESET;
-		cluster_tx_state <= 1'b0; // de-assert tx state on reset
 	end
 
 	else
