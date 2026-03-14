@@ -342,46 +342,53 @@ int main() {
     }
 
     // State machine test for MAC cluster coprocessor
-    // Main loop
-    while(1){
-        // set instruction to reset, wait acknowledge
-        apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
-        *(uint32_t *)apb_32x16 = INST_RESET;
-        apb_32x16 = set_apb_pointer(virtual_base, STATUS_BASE);
-        while(*(uint32_t *)apb_32x16 != STATUS_RESET);
-        printf("Cluster is in reset state\n");
+    // Cluster packet feed and read loop
 
-        // set instruction to signal to tx, wait acknowledge
-        apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
-        *(uint32_t *)apb_32x16 = INST_SIGNAL_TX;
-        apb_32x16 = set_apb_pointer(virtual_base, STATUS_BASE);
-        while(*(uint32_t *)apb_32x16 != STATUS_READY_RX);
-        printf("Cluster is ready to rx data\n");
-        
-        // LOAD matrix_mult_packs based on cores
+    // parent function called full_cluster_transaction(num_cores, matrix_mult_pack_t pack_array[size]) which handles looping all cluster_transaction calls for benchmarking
 
-        // set instruction to tx complete, wait acknowledge
-        apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
-        *(uint32_t *)apb_32x16 = INST_TX_COMPLETE;
-        apb_32x16 = set_apb_pointer(virtual_base, STATUS_BASE);
-        while(*(uint32_t *)apb_32x16 != STATUS_ACK_RX);
-        printf("Cluster acknowledged tx complete\n");
-		
-        //while(*(uint32_t *)apb_32x16 != STATUS_PROCESSING);
-        printf("Cluster has started processing\n");
-        while(*(uint32_t *)apb_32x16 != STATUS_DONE_TX);
-        printf("Cluster has completed processing and tx\n");
 
-        printf("Reading data locations\n");
-        for (j = 0, ii = 0; ii < 32; ii += 4, j++){
-            apb_32x16 = set_apb_pointer(virtual_base, DATA_BASE + ii);
-            mem_data = *(uint32_t *)apb_32x16;
-            aes_data[j] = mem_data;
-            printf("Memory data read [%x]: %08x\n", DATA_BASE + ii, mem_data);
-        }
-        printf("\n\n");
+    // function called cluster_transaction(num_cores, DATA_BASE, matrix_mult_pack_t pack_array[size])
+    
+    // set instruction to reset, wait acknowledge
+    apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
+    *(uint32_t *)apb_32x16 = INST_RESET;
+    apb_32x16 = set_apb_pointer(virtual_base, STATUS_BASE);
+    while(*(uint32_t *)apb_32x16 != STATUS_RESET);
+    printf("Cluster is in reset state\n");
+    // set instruction to signal to tx, wait acknowledge
+    apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
+    *(uint32_t *)apb_32x16 = INST_SIGNAL_TX;
+    apb_32x16 = set_apb_pointer(virtual_base, STATUS_BASE);
+    while(*(uint32_t *)apb_32x16 != STATUS_READY_RX);
+    printf("Cluster is ready to rx data\n");
+    
+    // LOAD matrix_mult_packs based on cores 1 mac_pack per core
+    for (j = 0, ii = 0; ii < BUS_ADDRESSES*4; ii += 4, j++){
+        apb_32x16 = set_apb_pointer(virtual_base, DATA_BASE + ii);
+        *(uint32_t *)apb_32x16 = identity_matrix_mult_pack[0].pack[0].data[j]; // just sending first pack for testing
+        printf("Memory data written [%x]: %08x\n", DATA_BASE + ii, identity_matrix_mult_pack[0].pack[0].data[j]);
     }
-
+    // set instruction to tx complete, wait acknowledge
+    apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
+    *(uint32_t *)apb_32x16 = INST_TX_COMPLETE;
+    apb_32x16 = set_apb_pointer(virtual_base, STATUS_BASE);
+    while(*(uint32_t *)apb_32x16 != STATUS_ACK_RX);
+    printf("Cluster acknowledged tx complete\n");
+	
+    //while(*(uint32_t *)apb_32x16 != STATUS_PROCESSING);
+    printf("Cluster has started processing\n");
+    while(*(uint32_t *)apb_32x16 != STATUS_DONE_TX);
+    printf("Cluster has completed processing and tx\n");
+    
+    printf("Reading data locations\n");
+    for (j = 0, ii = 0; ii < 8; ii += 4, j++){
+        apb_32x16 = set_apb_pointer(virtual_base, DATA_BASE + ii);
+        mem_data = *(uint32_t *)apb_32x16;
+        aes_data[j] = mem_data;
+        printf("Memory data read [%x]: %08x\n", DATA_BASE + ii, mem_data);
+    }
+    printf("\n\n");
+    
     // clean up our memory mapping and exit 
         if( munmap(virtual_base, HW_REGS_SPAN) != 0) { 
         printf("ERROR: munmap() failed...\n"); 
