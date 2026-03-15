@@ -45,6 +45,7 @@ end
 always @(*) begin
 	next_state = state;
 	mac_start = 1'b0;
+	cluster_tx_state = 1'b0;// default
 	case (state)
 		ST_RESET: begin
 			cluster_tx_state = 1'b0; // ensure tx state is de-asserted in reset
@@ -55,7 +56,7 @@ always @(*) begin
 		ST_READY_RX: begin
 			if (instruction == INST_RESET)
 				next_state = ST_RESET;
-			else if (instruction == INST_RX_COMPLETE)
+			else if (instruction == INST_TX_COMPLETE)
 				next_state = ST_ACK_RX;
 		end
 

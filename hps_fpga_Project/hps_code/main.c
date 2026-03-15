@@ -360,6 +360,7 @@ int main() {
     apb_32x16 = set_apb_pointer(virtual_base, STATUS_BASE);
     while(*(uint32_t *)apb_32x16 != STATUS_RESET);
     printf("Cluster is in reset state\n");
+    
     // set instruction to signal to tx, wait acknowledge
     apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
     *(uint32_t *)apb_32x16 = INST_SIGNAL_TX;
@@ -373,14 +374,15 @@ int main() {
         *(uint32_t *)apb_32x16 = identity_matrix_mult_pack[0].pack[0].data[j]; // just sending first pack for testing
         printf("Memory data written [%x]: %08x\n", DATA_BASE + ii, identity_matrix_mult_pack[0].pack[0].data[j]);
     }
+    
     // set instruction to tx complete, wait acknowledge
     apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
     *(uint32_t *)apb_32x16 = INST_TX_COMPLETE;
     apb_32x16 = set_apb_pointer(virtual_base, STATUS_BASE);
-    //while(*(uint32_t *)apb_32x16 != STATUS_ACK_RX);
+    //while(*(uint32_t *)apb_32x16 != STATUS_ACK_RX); // DON'T NEED
     printf("Cluster acknowledged tx complete\n");
 	
-    //while(*(uint32_t *)apb_32x16 != STATUS_PROCESSING);
+    //while(*(uint32_t *)apb_32x16 != STATUS_PROCESSING); // DON'T NEED
     printf("Cluster has started processing\n");
     while(*(uint32_t *)apb_32x16 != STATUS_DONE_TX);
     printf("Cluster has completed processing and tx\n");
