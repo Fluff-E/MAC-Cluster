@@ -1,0 +1,100 @@
+root@de1soclinux:~/eric/mar14# ./cluster_seq_2
+Calling fopen
+Creating mmap
+Writing test data: 10101010 to memory address = 0xb600a100
+Writing test data: 20202020 to memory address = 0xb600a104
+Writing test data: 30303030 to memory address = 0xb600a108
+Writing test data: 40404040 to memory address = 0xb600a10c
+Writing test data: 50505050 to memory address = 0xb600a110
+Writing test data: 60606060 to memory address = 0xb600a114
+Writing test data: 70707070 to memory address = 0xb600a118
+Writing test data: 80808080 to memory address = 0xb600a11c
+Writing test data: 90909090 to memory address = 0xb600a120
+Writing test data: a0a0a0a0 to memory address = 0xb600a124
+Writing test data: b0b0b0b0 to memory address = 0xb600a128
+Writing test data: c0c0c0c0 to memory address = 0xb600a12c
+Writing test data: d0d0d0d0 to memory address = 0xb600a130
+Writing test data: e0e0e0e0 to memory address = 0xb600a134
+Writing test data: f0f0f0f0 to memory address = 0xb600a138
+Writing test data: 1010100 to memory address = 0xb600a13c
+Reading memory locations
+Reading test data: 10101010 from memory address = 0xb600a100
+Reading test data: 0 from memory address = 0xb600a104
+Reading test data: 30303030 from memory address = 0xb600a108
+Reading test data: 40404040 from memory address = 0xb600a10c
+Reading test data: 50505050 from memory address = 0xb600a110
+Reading test data: 60606060 from memory address = 0xb600a114
+Reading test data: 70707070 from memory address = 0xb600a118
+Reading test data: 80808080 from memory address = 0xb600a11c
+Reading test data: 90909090 from memory address = 0xb600a120
+Reading test data: a0a0a0a0 from memory address = 0xb600a124
+Reading test data: b0b0b0b0 from memory address = 0xb600a128
+Reading test data: c0c0c0c0 from memory address = 0xb600a12c
+Reading test data: d0d0d0d0 from memory address = 0xb600a130
+Reading test data: e0e0e0e0 from memory address = 0xb600a134
+Reading test data: f0f0f0f0 from memory address = 0xb600a138
+Reading test data: 1010100 from memory address = 0xb600a13c
+
+Identity Matrix Data:
+Pair 0:
+[0 0] [1 0]
+[0 0] [0 1]
+
+Pair 1:
+[1 1] [1 0]
+[1 1] [0 1]
+
+
+Ones Row Matrix Data:
+Pair 0:
+[0 0] [1 1]
+[0 0] [0 0]
+
+Pair 1:
+[1 1] [1 1]
+[1 1] [0 0]
+
+
+Identity Matrix Mult Packs:
+Matrix Multiplication 0 packed data:
+MAC_Pack for output matrix element [0][0]:
+00000000 00000000 00000001 00000000
+MAC_Pack for output matrix element [0][1]:
+00000000 00000000 00000000 00000001
+MAC_Pack for output matrix element [1][0]:
+00000000 00000000 00000001 00000000
+MAC_Pack for output matrix element [1][1]:
+00000000 00000000 00000000 00000001
+
+Matrix Multiplication 1 packed data:
+MAC_Pack for output matrix element [0][0]:
+00000001 00000001 00000001 00000000
+MAC_Pack for output matrix element [0][1]:
+00000001 00000001 00000000 00000001
+MAC_Pack for output matrix element [1][0]:
+00000001 00000001 00000001 00000000
+MAC_Pack for output matrix element [1][1]:
+00000001 00000001 00000000 00000001
+
+Ones Row Matrix Mult Packs:
+Pair 0 packed data:
+MAC_Pack for output matrix element [0][0]:
+00000000 00000000 00000001 00000000
+MAC_Pack for output matrix element [0][1]:
+00000000 00000000 00000001 00000000
+MAC_Pack for output matrix element [1][0]:
+00000000 00000000 00000001 00000000
+MAC_Pack for output matrix element [1][1]:
+00000000 00000000 00000001 00000000
+
+Pair 1 packed data:
+MAC_Pack for output matrix element [0][0]:
+00000001 00000001 00000001 00000000
+MAC_Pack for output matrix element [0][1]:
+00000001 00000001 00000001 00000000
+MAC_Pack for output matrix element [1][0]:
+00000001 00000001 00000001 00000000
+MAC_Pack for output matrix element [1][1]:
+00000001 00000001 00000001 00000000
+
+Cluster is in reset state

@@ -40,7 +40,7 @@
 #define BENCHMARK_ITERATIONS 1000
 #define DATA_BYTES 4 // limit on int size for generation
 #define MATRIX_SIZE 2
-#define SEQ_VALUE_COUNT 16
+#define SEQ_VALUE_COUNT 2
 #define BUS_ADDRESSES 14
 
 // Benchmarking data structure definitions
@@ -229,7 +229,7 @@ void print_matrix_mult_pack(const matrix_mult_pack_t pack) {
     int row, col, data_idx;
     for (row = 0; row < MATRIX_SIZE; row++) {
         for (col = 0; col < MATRIX_SIZE; col++) {
-            printf("Pack for output matrix element [%d][%d]:\n", row, col);
+            printf("MAC_Pack for output matrix element [%d][%d]:\n", row, col);
             for (data_idx = 0; data_idx < MATRIX_SIZE*2; data_idx++) {
                 printf("%08x ", pack.pack[row*MATRIX_SIZE + col].data[data_idx]);
             }
@@ -248,6 +248,9 @@ int main() {
  
    void *virtual_base; 
    int fd; 
+   int ii,j;
+   int mm_reg;
+   int mem_data;
 	void *pio_led;
 	void *apb_32x16; // eric_ip2_0
 
@@ -301,6 +304,8 @@ int main() {
         mem_data = *(uint32_t *)apb_32x16;
         printf("Reading test data: %x from memory address = %p\n", mem_data, apb_32x16);
     }
+	
+	printf("\n");
 
     // Initialize matrices for benchmarking data generation
    square_matrix_t identity_matrix;
@@ -325,15 +330,15 @@ int main() {
    print_all_matrix_pairs(ones_row_matrix_data);
    printf("\n");
 
-   printf("Identity Matrix Mult Pack:\n");
+   printf("Identity Matrix Mult Packs:\n");
    make_matrix_mult_pack(identity_matrix_data, identity_matrix_mult_pack);
     for (idx = 0; idx < SEQ_VALUE_COUNT; idx++) {
-        printf("Pair %d packed data:\n", idx);
+        printf("Matrix Multiplication %d packed data:\n", idx);
         print_matrix_mult_pack(identity_matrix_mult_pack[idx]);
         printf("\n");
     }
    
-   printf("Ones Row Matrix Mult Pack:\n");
+   printf("Ones Row Matrix Mult Packs:\n");
    make_matrix_mult_pack(ones_row_matrix_data, ones_row_matrix_mult_pack);
     for (idx = 0; idx < SEQ_VALUE_COUNT; idx++) {
         printf("Pair %d packed data:\n", idx);
@@ -372,7 +377,7 @@ int main() {
     apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
     *(uint32_t *)apb_32x16 = INST_TX_COMPLETE;
     apb_32x16 = set_apb_pointer(virtual_base, STATUS_BASE);
-    while(*(uint32_t *)apb_32x16 != STATUS_ACK_RX);
+    //while(*(uint32_t *)apb_32x16 != STATUS_ACK_RX);
     printf("Cluster acknowledged tx complete\n");
 	
     //while(*(uint32_t *)apb_32x16 != STATUS_PROCESSING);
@@ -384,7 +389,6 @@ int main() {
     for (j = 0, ii = 0; ii < 8; ii += 4, j++){
         apb_32x16 = set_apb_pointer(virtual_base, DATA_BASE + ii);
         mem_data = *(uint32_t *)apb_32x16;
-        aes_data[j] = mem_data;
         printf("Memory data read [%x]: %08x\n", DATA_BASE + ii, mem_data);
     }
     printf("\n\n");

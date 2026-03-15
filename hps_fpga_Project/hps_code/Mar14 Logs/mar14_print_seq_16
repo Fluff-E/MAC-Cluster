@@ -1,0 +1,507 @@
+root@de1soclinux:~/eric/mar14# ./cluster_1
+Calling fopen
+Creating mmap
+Writing test data: 10101010 to memory address = 0xb6064100
+Writing test data: 20202020 to memory address = 0xb6064104
+Writing test data: 30303030 to memory address = 0xb6064108
+Writing test data: 40404040 to memory address = 0xb606410c
+Writing test data: 50505050 to memory address = 0xb6064110
+Writing test data: 60606060 to memory address = 0xb6064114
+Writing test data: 70707070 to memory address = 0xb6064118
+Writing test data: 80808080 to memory address = 0xb606411c
+Writing test data: 90909090 to memory address = 0xb6064120
+Writing test data: a0a0a0a0 to memory address = 0xb6064124
+Writing test data: b0b0b0b0 to memory address = 0xb6064128
+Writing test data: c0c0c0c0 to memory address = 0xb606412c
+Writing test data: d0d0d0d0 to memory address = 0xb6064130
+Writing test data: e0e0e0e0 to memory address = 0xb6064134
+Writing test data: f0f0f0f0 to memory address = 0xb6064138
+Writing test data: 1010100 to memory address = 0xb606413c
+Reading memory locations
+Reading test data: 10101010 from memory address = 0xb6064100
+Reading test data: 0 from memory address = 0xb6064104
+Reading test data: 30303030 from memory address = 0xb6064108
+Reading test data: 40404040 from memory address = 0xb606410c
+Reading test data: 50505050 from memory address = 0xb6064110
+Reading test data: 60606060 from memory address = 0xb6064114
+Reading test data: 70707070 from memory address = 0xb6064118
+Reading test data: 80808080 from memory address = 0xb606411c
+Reading test data: 90909090 from memory address = 0xb6064120
+Reading test data: a0a0a0a0 from memory address = 0xb6064124
+Reading test data: b0b0b0b0 from memory address = 0xb6064128
+Reading test data: c0c0c0c0 from memory address = 0xb606412c
+Reading test data: d0d0d0d0 from memory address = 0xb6064130
+Reading test data: e0e0e0e0 from memory address = 0xb6064134
+Reading test data: f0f0f0f0 from memory address = 0xb6064138
+Reading test data: 1010100 from memory address = 0xb606413c
+Identity Matrix Data:
+Pair 0:
+[0 0] [1 0]
+[0 0] [0 1]
+
+Pair 1:
+[1 1] [1 0]
+[1 1] [0 1]
+
+Pair 2:
+[2 2] [1 0]
+[2 2] [0 1]
+
+Pair 3:
+[3 3] [1 0]
+[3 3] [0 1]
+
+Pair 4:
+[4 4] [1 0]
+[4 4] [0 1]
+
+Pair 5:
+[5 5] [1 0]
+[5 5] [0 1]
+
+Pair 6:
+[6 6] [1 0]
+[6 6] [0 1]
+
+Pair 7:
+[7 7] [1 0]
+[7 7] [0 1]
+
+Pair 8:
+[8 8] [1 0]
+[8 8] [0 1]
+
+Pair 9:
+[9 9] [1 0]
+[9 9] [0 1]
+
+Pair 10:
+[10 10] [1 0]
+[10 10] [0 1]
+
+Pair 11:
+[11 11] [1 0]
+[11 11] [0 1]
+
+Pair 12:
+[12 12] [1 0]
+[12 12] [0 1]
+
+Pair 13:
+[13 13] [1 0]
+[13 13] [0 1]
+
+Pair 14:
+[14 14] [1 0]
+[14 14] [0 1]
+
+Pair 15:
+[15 15] [1 0]
+[15 15] [0 1]
+
+
+Ones Row Matrix Data:
+Pair 0:
+[0 0] [1 1]
+[0 0] [0 0]
+
+Pair 1:
+[1 1] [1 1]
+[1 1] [0 0]
+
+Pair 2:
+[2 2] [1 1]
+[2 2] [0 0]
+
+Pair 3:
+[3 3] [1 1]
+[3 3] [0 0]
+
+Pair 4:
+[4 4] [1 1]
+[4 4] [0 0]
+
+Pair 5:
+[5 5] [1 1]
+[5 5] [0 0]
+
+Pair 6:
+[6 6] [1 1]
+[6 6] [0 0]
+
+Pair 7:
+[7 7] [1 1]
+[7 7] [0 0]
+
+Pair 8:
+[8 8] [1 1]
+[8 8] [0 0]
+
+Pair 9:
+[9 9] [1 1]
+[9 9] [0 0]
+
+Pair 10:
+[10 10] [1 1]
+[10 10] [0 0]
+
+Pair 11:
+[11 11] [1 1]
+[11 11] [0 0]
+
+Pair 12:
+[12 12] [1 1]
+[12 12] [0 0]
+
+Pair 13:
+[13 13] [1 1]
+[13 13] [0 0]
+
+Pair 14:
+[14 14] [1 1]
+[14 14] [0 0]
+
+Pair 15:
+[15 15] [1 1]
+[15 15] [0 0]
+
+
+Identity Matrix Mult Pack:
+Pair 0 packed data:
+Pack for output matrix element [0][0]:
+00000000 00000000 00000001 00000000
+Pack for output matrix element [0][1]:
+00000000 00000000 00000000 00000001
+Pack for output matrix element [1][0]:
+00000000 00000000 00000001 00000000
+Pack for output matrix element [1][1]:
+00000000 00000000 00000000 00000001
+
+Pair 1 packed data:
+Pack for output matrix element [0][0]:
+00000001 00000001 00000001 00000000
+Pack for output matrix element [0][1]:
+00000001 00000001 00000000 00000001
+Pack for output matrix element [1][0]:
+00000001 00000001 00000001 00000000
+Pack for output matrix element [1][1]:
+00000001 00000001 00000000 00000001
+
+Pair 2 packed data:
+Pack for output matrix element [0][0]:
+00000002 00000002 00000001 00000000
+Pack for output matrix element [0][1]:
+00000002 00000002 00000000 00000001
+Pack for output matrix element [1][0]:
+00000002 00000002 00000001 00000000
+Pack for output matrix element [1][1]:
+00000002 00000002 00000000 00000001
+
+Pair 3 packed data:
+Pack for output matrix element [0][0]:
+00000003 00000003 00000001 00000000
+Pack for output matrix element [0][1]:
+00000003 00000003 00000000 00000001
+Pack for output matrix element [1][0]:
+00000003 00000003 00000001 00000000
+Pack for output matrix element [1][1]:
+00000003 00000003 00000000 00000001
+
+Pair 4 packed data:
+Pack for output matrix element [0][0]:
+00000004 00000004 00000001 00000000
+Pack for output matrix element [0][1]:
+00000004 00000004 00000000 00000001
+Pack for output matrix element [1][0]:
+00000004 00000004 00000001 00000000
+Pack for output matrix element [1][1]:
+00000004 00000004 00000000 00000001
+
+Pair 5 packed data:
+Pack for output matrix element [0][0]:
+00000005 00000005 00000001 00000000
+Pack for output matrix element [0][1]:
+00000005 00000005 00000000 00000001
+Pack for output matrix element [1][0]:
+00000005 00000005 00000001 00000000
+Pack for output matrix element [1][1]:
+00000005 00000005 00000000 00000001
+
+Pair 6 packed data:
+Pack for output matrix element [0][0]:
+00000006 00000006 00000001 00000000
+Pack for output matrix element [0][1]:
+00000006 00000006 00000000 00000001
+Pack for output matrix element [1][0]:
+00000006 00000006 00000001 00000000
+Pack for output matrix element [1][1]:
+00000006 00000006 00000000 00000001
+
+Pair 7 packed data:
+Pack for output matrix element [0][0]:
+00000007 00000007 00000001 00000000
+Pack for output matrix element [0][1]:
+00000007 00000007 00000000 00000001
+Pack for output matrix element [1][0]:
+00000007 00000007 00000001 00000000
+Pack for output matrix element [1][1]:
+00000007 00000007 00000000 00000001
+
+Pair 8 packed data:
+Pack for output matrix element [0][0]:
+00000008 00000008 00000001 00000000
+Pack for output matrix element [0][1]:
+00000008 00000008 00000000 00000001
+Pack for output matrix element [1][0]:
+00000008 00000008 00000001 00000000
+Pack for output matrix element [1][1]:
+00000008 00000008 00000000 00000001
+
+Pair 9 packed data:
+Pack for output matrix element [0][0]:
+00000009 00000009 00000001 00000000
+Pack for output matrix element [0][1]:
+00000009 00000009 00000000 00000001
+Pack for output matrix element [1][0]:
+00000009 00000009 00000001 00000000
+Pack for output matrix element [1][1]:
+00000009 00000009 00000000 00000001
+
+Pair 10 packed data:
+Pack for output matrix element [0][0]:
+0000000a 0000000a 00000001 00000000
+Pack for output matrix element [0][1]:
+0000000a 0000000a 00000000 00000001
+Pack for output matrix element [1][0]:
+0000000a 0000000a 00000001 00000000
+Pack for output matrix element [1][1]:
+0000000a 0000000a 00000000 00000001
+
+Pair 11 packed data:
+Pack for output matrix element [0][0]:
+0000000b 0000000b 00000001 00000000
+Pack for output matrix element [0][1]:
+0000000b 0000000b 00000000 00000001
+Pack for output matrix element [1][0]:
+0000000b 0000000b 00000001 00000000
+Pack for output matrix element [1][1]:
+0000000b 0000000b 00000000 00000001
+
+Pair 12 packed data:
+Pack for output matrix element [0][0]:
+0000000c 0000000c 00000001 00000000
+Pack for output matrix element [0][1]:
+0000000c 0000000c 00000000 00000001
+Pack for output matrix element [1][0]:
+0000000c 0000000c 00000001 00000000
+Pack for output matrix element [1][1]:
+0000000c 0000000c 00000000 00000001
+
+Pair 13 packed data:
+Pack for output matrix element [0][0]:
+0000000d 0000000d 00000001 00000000
+Pack for output matrix element [0][1]:
+0000000d 0000000d 00000000 00000001
+Pack for output matrix element [1][0]:
+0000000d 0000000d 00000001 00000000
+Pack for output matrix element [1][1]:
+0000000d 0000000d 00000000 00000001
+
+Pair 14 packed data:
+Pack for output matrix element [0][0]:
+0000000e 0000000e 00000001 00000000
+Pack for output matrix element [0][1]:
+0000000e 0000000e 00000000 00000001
+Pack for output matrix element [1][0]:
+0000000e 0000000e 00000001 00000000
+Pack for output matrix element [1][1]:
+0000000e 0000000e 00000000 00000001
+
+Pair 15 packed data:
+Pack for output matrix element [0][0]:
+0000000f 0000000f 00000001 00000000
+Pack for output matrix element [0][1]:
+0000000f 0000000f 00000000 00000001
+Pack for output matrix element [1][0]:
+0000000f 0000000f 00000001 00000000
+Pack for output matrix element [1][1]:
+0000000f 0000000f 00000000 00000001
+
+Ones Row Matrix Mult Pack:
+Pair 0 packed data:
+Pack for output matrix element [0][0]:
+00000000 00000000 00000001 00000000
+Pack for output matrix element [0][1]:
+00000000 00000000 00000001 00000000
+Pack for output matrix element [1][0]:
+00000000 00000000 00000001 00000000
+Pack for output matrix element [1][1]:
+00000000 00000000 00000001 00000000
+
+Pair 1 packed data:
+Pack for output matrix element [0][0]:
+00000001 00000001 00000001 00000000
+Pack for output matrix element [0][1]:
+00000001 00000001 00000001 00000000
+Pack for output matrix element [1][0]:
+00000001 00000001 00000001 00000000
+Pack for output matrix element [1][1]:
+00000001 00000001 00000001 00000000
+
+Pair 2 packed data:
+Pack for output matrix element [0][0]:
+00000002 00000002 00000001 00000000
+Pack for output matrix element [0][1]:
+00000002 00000002 00000001 00000000
+Pack for output matrix element [1][0]:
+00000002 00000002 00000001 00000000
+Pack for output matrix element [1][1]:
+00000002 00000002 00000001 00000000
+
+Pair 3 packed data:
+Pack for output matrix element [0][0]:
+00000003 00000003 00000001 00000000
+Pack for output matrix element [0][1]:
+00000003 00000003 00000001 00000000
+Pack for output matrix element [1][0]:
+00000003 00000003 00000001 00000000
+Pack for output matrix element [1][1]:
+00000003 00000003 00000001 00000000
+
+Pair 4 packed data:
+Pack for output matrix element [0][0]:
+00000004 00000004 00000001 00000000
+Pack for output matrix element [0][1]:
+00000004 00000004 00000001 00000000
+Pack for output matrix element [1][0]:
+00000004 00000004 00000001 00000000
+Pack for output matrix element [1][1]:
+00000004 00000004 00000001 00000000
+
+Pair 5 packed data:
+Pack for output matrix element [0][0]:
+00000005 00000005 00000001 00000000
+Pack for output matrix element [0][1]:
+00000005 00000005 00000001 00000000
+Pack for output matrix element [1][0]:
+00000005 00000005 00000001 00000000
+Pack for output matrix element [1][1]:
+00000005 00000005 00000001 00000000
+
+Pair 6 packed data:
+Pack for output matrix element [0][0]:
+00000006 00000006 00000001 00000000
+Pack for output matrix element [0][1]:
+00000006 00000006 00000001 00000000
+Pack for output matrix element [1][0]:
+00000006 00000006 00000001 00000000
+Pack for output matrix element [1][1]:
+00000006 00000006 00000001 00000000
+
+Pair 7 packed data:
+Pack for output matrix element [0][0]:
+00000007 00000007 00000001 00000000
+Pack for output matrix element [0][1]:
+00000007 00000007 00000001 00000000
+Pack for output matrix element [1][0]:
+00000007 00000007 00000001 00000000
+Pack for output matrix element [1][1]:
+00000007 00000007 00000001 00000000
+
+Pair 8 packed data:
+Pack for output matrix element [0][0]:
+00000008 00000008 00000001 00000000
+Pack for output matrix element [0][1]:
+00000008 00000008 00000001 00000000
+Pack for output matrix element [1][0]:
+00000008 00000008 00000001 00000000
+Pack for output matrix element [1][1]:
+00000008 00000008 00000001 00000000
+
+Pair 9 packed data:
+Pack for output matrix element [0][0]:
+00000009 00000009 00000001 00000000
+Pack for output matrix element [0][1]:
+00000009 00000009 00000001 00000000
+Pack for output matrix element [1][0]:
+00000009 00000009 00000001 00000000
+Pack for output matrix element [1][1]:
+00000009 00000009 00000001 00000000
+
+Pair 10 packed data:
+Pack for output matrix element [0][0]:
+0000000a 0000000a 00000001 00000000
+Pack for output matrix element [0][1]:
+0000000a 0000000a 00000001 00000000
+Pack for output matrix element [1][0]:
+0000000a 0000000a 00000001 00000000
+Pack for output matrix element [1][1]:
+0000000a 0000000a 00000001 00000000
+
+Pair 11 packed data:
+Pack for output matrix element [0][0]:
+0000000b 0000000b 00000001 00000000
+Pack for output matrix element [0][1]:
+0000000b 0000000b 00000001 00000000
+Pack for output matrix element [1][0]:
+0000000b 0000000b 00000001 00000000
+Pack for output matrix element [1][1]:
+0000000b 0000000b 00000001 00000000
+
+Pair 12 packed data:
+Pack for output matrix element [0][0]:
+0000000c 0000000c 00000001 00000000
+Pack for output matrix element [0][1]:
+0000000c 0000000c 00000001 00000000
+Pack for output matrix element [1][0]:
+0000000c 0000000c 00000001 00000000
+Pack for output matrix element [1][1]:
+0000000c 0000000c 00000001 00000000
+
+Pair 13 packed data:
+Pack for output matrix element [0][0]:
+0000000d 0000000d 00000001 00000000
+Pack for output matrix element [0][1]:
+0000000d 0000000d 00000001 00000000
+Pack for output matrix element [1][0]:
+0000000d 0000000d 00000001 00000000
+Pack for output matrix element [1][1]:
+0000000d 0000000d 00000001 00000000
+
+Pair 14 packed data:
+Pack for output matrix element [0][0]:
+0000000e 0000000e 00000001 00000000
+Pack for output matrix element [0][1]:
+0000000e 0000000e 00000001 00000000
+Pack for output matrix element [1][0]:
+0000000e 0000000e 00000001 00000000
+Pack for output matrix element [1][1]:
+0000000e 0000000e 00000001 00000000
+
+Pair 15 packed data:
+Pack for output matrix element [0][0]:
+0000000f 0000000f 00000001 00000000
+Pack for output matrix element [0][1]:
+0000000f 0000000f 00000001 00000000
+Pack for output matrix element [1][0]:
+0000000f 0000000f 00000001 00000000
+Pack for output matrix element [1][1]:
+0000000f 0000000f 00000001 00000000
+
+Cluster is in reset state
+Cluster is ready to rx data
+Memory data written [8]: 00000000
+Memory data written [c]: 00000000
+Memory data written [10]: 00000001
+Memory data written [14]: 00000000
+Memory data written [18]: 00000000
+Memory data written [1c]: 00000000
+Memory data written [20]: 00000000
+Memory data written [24]: 00000001
+Memory data written [28]: 00000000
+Memory data written [2c]: 00000000
+Memory data written [30]: 00000001
+Memory data written [34]: 00000000
+Memory data written [38]: 00000000
+Memory data written [3c]: 00000000
+
