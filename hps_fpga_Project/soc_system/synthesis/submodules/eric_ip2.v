@@ -109,7 +109,7 @@ module eric_ip2 (
 			data_out[15] <= 32'b00000000000000000000000000000000;
 		end
 		else
-		// Read or rx
+		// hps write or tx
 		begin
 			data_out[1]  <= cluster_status;
 			

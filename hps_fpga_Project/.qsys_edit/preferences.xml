@@ -16,7 +16,7 @@
   </columns>
  </clocktable>
  <window width="2576" height="1523" x="320" y="152" />
- <library expandedCategories="Project/My Custom Functions,Library,Project" />
+ <library expandedCategories="Library,Project,Project/My Custom Functions" />
  <hdlexample language="VERILOG" />
  <generation block_symbol_file="0" />
 </preferences>

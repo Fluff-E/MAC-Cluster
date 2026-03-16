@@ -57,6 +57,10 @@ typedef struct {
     mac_pack_t pack[MATRIX_SIZE*MATRIX_SIZE]; // one pack per output element
 } matrix_mult_pack_t;
 
+typedef struct{
+    uint32_t out_entry[1]; // contains RX_#_LO and RX_#_HI for one output element, used for reading back results from cluster
+} cluster_out_entry_t;
+
 void init_identity_matrix(square_matrix_t *matrix) {
     int row, col;
     for (row = 0; row < MATRIX_SIZE; row++) {
@@ -244,6 +248,52 @@ void *set_apb_pointer(void *virtual_base, unsigned long offset) {
         (unsigned long)(HW_REGS_MASK));
 }
 
+int cluster_transaction(
+    void *virtual_base,
+    unsigned long data_base,
+    int num_cores,
+    const matrix_mult_pack_t *pack_data,
+    cluster_out_entry_t *output_array)
+{
+    int core_idx;
+    int word_idx;
+    void *apb_32x16;
+
+    if (virtual_base == NULL || pack_data == NULL || output_array == NULL) {
+        return -1;
+    }
+
+    if (num_cores <= 0 || num_cores > (MATRIX_SIZE * MATRIX_SIZE)) {
+        return -1;
+    }
+
+    // Write one mac_pack payload per core into consecutive APB words.
+    for (core_idx = 0; core_idx < num_cores; core_idx++) {
+        for (word_idx = 0; word_idx < (MATRIX_SIZE * 2); word_idx++) {
+            unsigned long word_offset = data_base +
+                (unsigned long)((core_idx * (MATRIX_SIZE * 2) + word_idx) * 4);
+            apb_32x16 = set_apb_pointer(virtual_base, word_offset);
+            *(uint32_t *)apb_32x16 = pack_data->pack[core_idx].data[word_idx];
+        }
+    }
+
+    apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
+    *(uint32_t *)apb_32x16 = INST_TX_COMPLETE;
+
+    apb_32x16 = set_apb_pointer(virtual_base, STATUS_BASE);
+    //while (*(uint32_t *)apb_32x16 != STATUS_PROCESSING); // could hang, hps too slow
+    while (*(uint32_t *)apb_32x16 != STATUS_DONE_TX);
+
+    // Read one result word per core from consecutive APB words.
+    for (core_idx = 0; core_idx < num_cores; core_idx++) {
+        unsigned long word_offset = data_base + (unsigned long)(core_idx * 4);
+        apb_32x16 = set_apb_pointer(virtual_base, word_offset);
+        output_array[core_idx].out_entry[0] = *(uint32_t *)apb_32x16;
+    }
+
+    return 0;
+}
+
 int main() { 
  
    void *virtual_base; 
@@ -314,6 +364,7 @@ int main() {
    square_matrix_t ones_row_matrix_data[SEQ_VALUE_COUNT][2];
    matrix_mult_pack_t identity_matrix_mult_pack[SEQ_VALUE_COUNT];
    matrix_mult_pack_t ones_row_matrix_mult_pack[SEQ_VALUE_COUNT];
+   cluster_out_entry_t output_array[MATRIX_SIZE*MATRIX_SIZE]; // one output entry per core
    int idx;
    
    init_identity_matrix(&identity_matrix);
@@ -346,14 +397,9 @@ int main() {
         printf("\n");
     }
 
-    // State machine test for MAC cluster coprocessor
-    // Cluster packet feed and read loop
+    //=============================================================== 
+    //State machine one transaction test for MAC cluster coprocessor
 
-    // parent function called full_cluster_transaction(num_cores, matrix_mult_pack_t pack_array[size]) which handles looping all cluster_transaction calls for benchmarking
-
-
-    // function called cluster_transaction(num_cores, DATA_BASE, matrix_mult_pack_t pack_array[size])
-    
     // set instruction to reset, wait acknowledge
     apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
     *(uint32_t *)apb_32x16 = INST_RESET;
@@ -368,7 +414,7 @@ int main() {
     while(*(uint32_t *)apb_32x16 != STATUS_READY_RX);
     printf("Cluster is ready to rx data\n");
     
-    // LOAD matrix_mult_packs based on cores 1 mac_pack per core
+    // LOAD matrix_mult_packs based on cores: 1 mac_pack per core
     for (j = 0, ii = 0; ii < BUS_ADDRESSES*4; ii += 4, j++){
         apb_32x16 = set_apb_pointer(virtual_base, DATA_BASE + ii);
         *(uint32_t *)apb_32x16 = identity_matrix_mult_pack[0].pack[0].data[j]; // just sending first pack for testing
@@ -393,7 +439,42 @@ int main() {
         mem_data = *(uint32_t *)apb_32x16;
         printf("Memory data read [%x]: %08x\n", DATA_BASE + ii, mem_data);
     }
-    printf("\n\n");
+    printf("\n\n MADE IT THROUGH STATE MACHINE TEST!!! \n\n");
+
+
+    //=============================================================== 
+
+    /* Descriptions of how to package above transaction state sequences into functions for benchmarking.
+
+    full_cluster_transaction(DATA_BASE, num_cores, matrix_mult_pack_t pack_array[size]) 
+        which handles looping all cluster_transaction calls for benchmarking
+        calls cluster_transaction in a loop for benchmarking iterations and handles timing
+        and logging of results
+
+    cluster_transaction(DATA_BASE, num_cores, matrix_mult_pack_t pack_array[size], cluster_out_entry_t output_array[size])
+        which handles one full transaction sequence of:
+            - writing pack data to apb
+            - signaling tx complete
+            - waiting for processing and tx complete
+            - reading back results from apb into output array
+
+    */
+
+    // test cluster_transaction function with one transaction on 1 core, using first mac_pack of identity matrix data, 
+    // and reading back results into cluster_out_entry_t output_array
+    
+    // ENSURE RESET before TEST
+    apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
+    *(uint32_t *)apb_32x16 = INST_RESET;
+    apb_32x16 = set_apb_pointer(virtual_base, STATUS_BASE);
+    while(*(uint32_t *)apb_32x16 != STATUS_RESET);
+
+    if (cluster_transaction(virtual_base, DATA_BASE, 1, &identity_matrix_mult_pack[0], output_array) != 0) {
+        printf("cluster_transaction minimum test failed\n");
+    }
+    
+    // print restults from cluster_transaction test
+    printf("cluster_transaction output[0] = %08x\n", output_array[0].out_entry[0]);
     
     // clean up our memory mapping and exit 
         if( munmap(virtual_base, HW_REGS_SPAN) != 0) { 

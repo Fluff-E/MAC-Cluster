@@ -30,24 +30,11 @@ module mac_2x2 (
 		if (reset) begin
 			result <= 0;
 			done   <= 0;
-			busy   <= 0;
 		end
 		else begin
-			done <= 0;
-
-			// Start computation
-			if (start && !busy) begin
-				busy <= 1;
-			end
-
-			// One-cycle dot product
-			else if (busy) begin
-				result <=
-					(a0 * b0) +
-					(a1 * b1);
-
+			if (start) begin		
+				result <= (a0 * b0) + (a1 * b1);
 				done <= 1;
-				busy <= 0;
 			end
 		end
 	end

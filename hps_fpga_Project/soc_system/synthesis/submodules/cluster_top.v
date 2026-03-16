@@ -33,6 +33,7 @@ wire mac_done_1;
 wire mac_done_2;
 wire [2:0] mac_status;
 wire mac_start;
+wire mac_reset;
 
 assign mac_status = {mac_done_2, mac_done_1, mac_done_0};
 
@@ -43,12 +44,13 @@ cluster_ctrl u_cluster_ctrl (
     .mac_status(mac_status),
     .status(status),
     .mac_start(mac_start),
+    .mac_reset(mac_reset),
     .cluster_tx_state(cluster_tx_state)
 );
 
 mac_2x2 u_mac_0 (
     .clk(clk),
-    .reset(reset),
+    .reset(mac_reset),
     .start(mac_start),
     .done(mac_done_0),
     .a0(data_rx_0),
@@ -60,7 +62,7 @@ mac_2x2 u_mac_0 (
 
 mac_2x2 u_mac_1 (
     .clk(clk),
-    .reset(reset),
+    .reset(mac_reset),
     .start(mac_start),
     .done(mac_done_1),
     .a0(data_rx_4),
@@ -72,7 +74,7 @@ mac_2x2 u_mac_1 (
 
 mac_2x2 u_mac_2 (
     .clk(clk),
-    .reset(reset),
+    .reset(mac_reset),
     .start(mac_start),
     .done(mac_done_2),
     .a0(data_rx_8),

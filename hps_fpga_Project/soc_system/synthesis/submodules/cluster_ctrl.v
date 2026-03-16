@@ -6,6 +6,7 @@ module cluster_ctrl(
    input wire [2:0] mac_status, // one bit per tracked mac: 0 ready, 1 done
 	output reg [31:0] status,
 	output reg        mac_start,
+	output reg			mac_reset,
 	output reg        cluster_tx_state
 );
 
@@ -45,9 +46,12 @@ end
 always @(*) begin
 	next_state = state;
 	mac_start = 1'b0;
+	mac_reset = 1'b1;
+	cluster_tx_state = 1'b0;// default
 	case (state)
 		ST_RESET: begin
 			cluster_tx_state = 1'b0; // ensure tx state is de-asserted in reset
+			mac_reset = 1'b1; // hold mac in reset
          if (instruction == INST_SIGNAL_TX)
 				next_state = ST_READY_RX;
 		end
@@ -55,8 +59,10 @@ always @(*) begin
 		ST_READY_RX: begin
 			if (instruction == INST_RESET)
 				next_state = ST_RESET;
-			else if (instruction == INST_RX_COMPLETE)
+			else if (instruction == INST_TX_COMPLETE) begin
+				mac_reset = 1'b1; // hold mac in reset until new data is ready
 				next_state = ST_ACK_RX;
+			end
 		end
 
 		ST_ACK_RX: begin
