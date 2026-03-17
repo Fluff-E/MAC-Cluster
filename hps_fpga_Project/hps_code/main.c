@@ -271,6 +271,18 @@ void *set_apb_pointer(void *virtual_base, unsigned long offset) {
         (unsigned long)(HW_REGS_MASK));
 }
 
+static inline void write_apb_word(void *virtual_base, unsigned long offset, uint32_t value) {
+    *(volatile uint32_t *)set_apb_pointer(virtual_base, offset) = value;
+}
+
+static inline uint32_t read_apb_word(void *virtual_base, unsigned long offset) {
+    return *(volatile uint32_t *)set_apb_pointer(virtual_base, offset);
+}
+
+static inline uint32_t read_cluster_status(void *virtual_base) {
+    return read_apb_word(virtual_base, STATUS_BASE);
+}
+
 int cluster_transaction(
     void *virtual_base,
     unsigned long data_base,
@@ -280,7 +292,6 @@ int cluster_transaction(
 {
     int core_idx;
     int word_idx;
-    void *apb_32x16;
 
     if (virtual_base == NULL || pack_data == NULL || output_array == NULL) {
         return -1;
@@ -295,23 +306,19 @@ int cluster_transaction(
         for (word_idx = 0; word_idx < (MATRIX_SIZE * 2); word_idx++) {
             unsigned long word_offset = data_base +
                 (unsigned long)((core_idx * (MATRIX_SIZE * 2) + word_idx) * 4);
-            apb_32x16 = set_apb_pointer(virtual_base, word_offset);
-            *(uint32_t *)apb_32x16 = pack_data->pack[core_idx].data[word_idx];
+            write_apb_word(virtual_base, word_offset, pack_data->pack[core_idx].data[word_idx]);
         }
     }
 
-    apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
-    *(uint32_t *)apb_32x16 = INST_TX_COMPLETE;
+    write_apb_word(virtual_base, INSTRUCTION_BASE, INST_TX_COMPLETE);
 
-    apb_32x16 = set_apb_pointer(virtual_base, STATUS_BASE);
-    //while (*(uint32_t *)apb_32x16 != STATUS_PROCESSING); // could hang, hps too slow
-    while (*(uint32_t *)apb_32x16 != STATUS_DONE_TX);
+    //while (read_cluster_status(virtual_base) != STATUS_PROCESSING); // could hang, hps too slow
+    while (read_cluster_status(virtual_base) != STATUS_DONE_TX);
 
     // Read one result word per core from consecutive APB words.
     for (core_idx = 0; core_idx < num_cores; core_idx++) {
         unsigned long word_offset = data_base + (unsigned long)(core_idx * 4);
-        apb_32x16 = set_apb_pointer(virtual_base, word_offset);
-        output_array[core_idx].out_entry[0] = *(uint32_t *)apb_32x16;
+        output_array[core_idx].out_entry[0] = read_apb_word(virtual_base, word_offset);
     }
 
     return 0;
@@ -324,7 +331,7 @@ int main() {
    int ii,j;
    int mm_reg;
    int mem_data;
-	void *pio_led;
+    volatile uint32_t *pio_led;
 	void *apb_32x16; // eric_ip2_0
 
     // we'll map in the entire CSR span of the HPS since we want to access various registers within that span 
@@ -345,18 +352,18 @@ int main() {
         return(1); 
     } 
 
-	pio_led = virtual_base + ((unsigned long)(ALT_LWFPGASLVS_OFST + PIO_LED_BASE) & 
-        (unsigned long)(HW_REGS_MASK)); 
+	pio_led = (volatile uint32_t *)(virtual_base + ((unsigned long)(ALT_LWFPGASLVS_OFST + PIO_LED_BASE) & 
+	    (unsigned long)(HW_REGS_MASK)));
 	
 	apb_32x16 = virtual_base + ((unsigned long)(ALT_LWFPGASLVS_OFST + ERIC_IP2_0_BASE) & 
          (unsigned long)(HW_REGS_MASK));
          
     // Turn all LEDs off
-    *(uint32_t *)pio_led = 0xFFF;
+    *pio_led = 0xFFF;
     usleep(100*5000); 
-    *(uint32_t *)pio_led = 0x000; // Turn all LEDs on
+    *pio_led = 0x000; // Turn all LEDs on
     usleep(100*5000);  
-    *(uint32_t *)pio_led = 0xFFF; // Turn all LEDs off
+    *pio_led = 0xFFF; // Turn all LEDs off
 
     // Test read and write to custom IP memory mapped registers
     int test_data= 0x10101010;
@@ -425,19 +432,17 @@ int main() {
 
     // set instruction to reset, wait acknowledge
     apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
-    *(uint32_t *)apb_32x16 = INST_RESET;
-    apb_32x16 = set_apb_pointer(virtual_base, STATUS_BASE);
-    while(*(uint32_t *)apb_32x16 != STATUS_RESET);
+    write_apb_word(virtual_base, INSTRUCTION_BASE, INST_RESET);
+    while(read_cluster_status(virtual_base) != STATUS_RESET);
     printf("Cluster is in reset state\n");
-	print_cluster_status(*(uint32_t *)apb_32x16);
+	print_cluster_status(read_cluster_status(virtual_base));
     
     // set instruction to signal to tx, wait acknowledge
     apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
-    *(uint32_t *)apb_32x16 = INST_SIGNAL_TX;
-    apb_32x16 = set_apb_pointer(virtual_base, STATUS_BASE);
-    while(*(uint32_t *)apb_32x16 != STATUS_READY_RX);
+    write_apb_word(virtual_base, INSTRUCTION_BASE, INST_SIGNAL_TX);
+    while(read_cluster_status(virtual_base) != STATUS_READY_RX);
     printf("Cluster is ready to rx data\n");
-	print_cluster_status(*(uint32_t *)apb_32x16);
+	print_cluster_status(read_cluster_status(virtual_base));
     
     // LOAD matrix_mult_packs based on cores: 1 mac_pack per core
     for (j = 0, ii = 0; ii < BUS_ADDRESSES*4; ii += 4, j++){
@@ -446,22 +451,21 @@ int main() {
         printf("Memory data written [%x]: %08x\n", DATA_BASE + ii, identity_matrix_mult_pack[0].pack[0].data[j]);
     }
     printf("Finished load loop\n");
-	print_cluster_status(*(uint32_t *)apb_32x16);
+	print_cluster_status(read_cluster_status(virtual_base));
 	
     // set instruction to tx complete, wait acknowledge
-    apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
-    *(uint32_t *)apb_32x16 = INST_TX_COMPLETE;
+	write_apb_word(virtual_base, INSTRUCTION_BASE, INST_TX_COMPLETE);
 	printf("Instruction set to INST_TX_COMPLETE\n");
-	// should I wait?
+	
     apb_32x16 = set_apb_pointer(virtual_base, STATUS_BASE);
 	printf("Pointer set to STATUS_BASE\n");
-	print_cluster_status(*(uint32_t *)apb_32x16);
+	print_cluster_status(read_cluster_status(virtual_base));
     //while(*(uint32_t *)apb_32x16 != STATUS_ACK_RX); // DON'T NEED
     printf("Cluster acknowledged tx complete\n");
 	
     //while(*(uint32_t *)apb_32x16 != STATUS_PROCESSING); // DON'T NEED
     printf("Cluster has started processing\n");
-    while(*(uint32_t *)apb_32x16 != STATUS_DONE_TX);
+    while(read_cluster_status(virtual_base) != STATUS_DONE_TX);
     printf("Cluster has completed processing and tx\n");
     
     printf("Reading data locations\n");
@@ -496,9 +500,8 @@ int main() {
     
     // ENSURE RESET before TEST
     apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
-    *(uint32_t *)apb_32x16 = INST_RESET;
-    apb_32x16 = set_apb_pointer(virtual_base, STATUS_BASE);
-    while(*(uint32_t *)apb_32x16 != STATUS_RESET);
+    write_apb_word(virtual_base, INSTRUCTION_BASE, INST_RESET);
+    while(read_cluster_status(virtual_base) != STATUS_RESET);
 
     if (cluster_transaction(virtual_base, DATA_BASE, 1, &identity_matrix_mult_pack[0], output_array) != 0) {
         printf("cluster_transaction minimum test failed\n");
