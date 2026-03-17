@@ -1,0 +1,119 @@
+
+root@de1soclinux:~/eric/mar17# ./cluster_1
+Calling fopen
+Creating mmap
+Writing test data: 10101010 to memory address = 0xb6085100
+Writing test data: 20202020 to memory address = 0xb6085104
+Writing test data: 30303030 to memory address = 0xb6085108
+Writing test data: 40404040 to memory address = 0xb608510c
+Writing test data: 50505050 to memory address = 0xb6085110
+Writing test data: 60606060 to memory address = 0xb6085114
+Writing test data: 70707070 to memory address = 0xb6085118
+Writing test data: 80808080 to memory address = 0xb608511c
+Writing test data: 90909090 to memory address = 0xb6085120
+Writing test data: a0a0a0a0 to memory address = 0xb6085124
+Writing test data: b0b0b0b0 to memory address = 0xb6085128
+Writing test data: c0c0c0c0 to memory address = 0xb608512c
+Writing test data: d0d0d0d0 to memory address = 0xb6085130
+Writing test data: e0e0e0e0 to memory address = 0xb6085134
+Writing test data: f0f0f0f0 to memory address = 0xb6085138
+Writing test data: 1010100 to memory address = 0xb608513c
+Reading memory locations
+Reading test data: 10101010 from memory address = 0xb6085100
+Reading test data: 0 from memory address = 0xb6085104
+Reading test data: 30303030 from memory address = 0xb6085108
+Reading test data: 40404040 from memory address = 0xb608510c
+Reading test data: 50505050 from memory address = 0xb6085110
+Reading test data: 60606060 from memory address = 0xb6085114
+Reading test data: 70707070 from memory address = 0xb6085118
+Reading test data: 80808080 from memory address = 0xb608511c
+Reading test data: 90909090 from memory address = 0xb6085120
+Reading test data: a0a0a0a0 from memory address = 0xb6085124
+Reading test data: b0b0b0b0 from memory address = 0xb6085128
+Reading test data: c0c0c0c0 from memory address = 0xb608512c
+Reading test data: d0d0d0d0 from memory address = 0xb6085130
+Reading test data: e0e0e0e0 from memory address = 0xb6085134
+Reading test data: f0f0f0f0 from memory address = 0xb6085138
+Reading test data: 1010100 from memory address = 0xb608513c
+
+Identity Matrix Data:
+Pair 0:
+[0 0] [1 0]
+[0 0] [0 1]
+
+Pair 1:
+[1 1] [1 0]
+[1 1] [0 1]
+
+
+Ones Row Matrix Data:
+Pair 0:
+[0 0] [1 1]
+[0 0] [0 0]
+
+Pair 1:
+[1 1] [1 1]
+[1 1] [0 0]
+
+
+Identity Matrix Mult Packs:
+Matrix Multiplication 0 packed data:
+MAC_Pack for output matrix element [0][0]:
+00000000 00000000 00000001 00000000
+MAC_Pack for output matrix element [0][1]:
+00000000 00000000 00000000 00000001
+MAC_Pack for output matrix element [1][0]:
+00000000 00000000 00000001 00000000
+MAC_Pack for output matrix element [1][1]:
+00000000 00000000 00000000 00000001
+
+Matrix Multiplication 1 packed data:
+MAC_Pack for output matrix element [0][0]:
+00000001 00000001 00000001 00000000
+MAC_Pack for output matrix element [0][1]:
+00000001 00000001 00000000 00000001
+MAC_Pack for output matrix element [1][0]:
+00000001 00000001 00000001 00000000
+MAC_Pack for output matrix element [1][1]:
+00000001 00000001 00000000 00000001
+
+Ones Row Matrix Mult Packs:
+Pair 0 packed data:
+MAC_Pack for output matrix element [0][0]:
+00000000 00000000 00000001 00000000
+MAC_Pack for output matrix element [0][1]:
+00000000 00000000 00000001 00000000
+MAC_Pack for output matrix element [1][0]:
+00000000 00000000 00000001 00000000
+MAC_Pack for output matrix element [1][1]:
+00000000 00000000 00000001 00000000
+
+Pair 1 packed data:
+MAC_Pack for output matrix element [0][0]:
+00000001 00000001 00000001 00000000
+MAC_Pack for output matrix element [0][1]:
+00000001 00000001 00000001 00000000
+MAC_Pack for output matrix element [1][0]:
+00000001 00000001 00000001 00000000
+MAC_Pack for output matrix element [1][1]:
+00000001 00000001 00000001 00000000
+
+Status: STATUS_RESET (0x00000000)
+Status: STATUS_READY_RX (0x00000003)
+Memory data written [8]: 00000000
+Memory data written [c]: 00000000
+Memory data written [10]: 00000001
+Memory data written [14]: 00000000
+Finished load loop
+Status: STATUS_READY_RX (0x00000003)
+Instruction set to INST_TX_COMPLETE
+Status: STATUS_DONE_TX (0x0000000f)
+Cluster has completed processing and tx
+Reading data locations
+Memory data read [8]: 00000000
+Memory data read [c]: 00000000
+
+
+ MADE IT THROUGH STATE MACHINE TEST!!!
+
+^C
