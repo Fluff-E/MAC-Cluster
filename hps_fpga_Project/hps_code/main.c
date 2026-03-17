@@ -41,7 +41,7 @@
 #define DATA_BYTES 4 // limit on int size for generation
 #define MATRIX_SIZE 2
 #define SEQ_VALUE_COUNT 2
-#define BUS_ADDRESSES 14
+#define BUS_ADDRESSES 4
 
 // Benchmarking data structure definitions
 typedef struct {
@@ -60,6 +60,29 @@ typedef struct {
 typedef struct{
     uint32_t out_entry[1]; // contains RX_#_LO and RX_#_HI for one output element, used for reading back results from cluster
 } cluster_out_entry_t;
+
+void print_cluster_status(uint32_t status_value) {
+    switch (status_value) {
+        case STATUS_RESET:
+            printf("Status: STATUS_RESET (0x%08x)\n", status_value);
+            break;
+        case STATUS_READY_RX:
+            printf("Status: STATUS_READY_RX (0x%08x)\n", status_value);
+            break;
+        case STATUS_ACK_RX:
+            printf("Status: STATUS_ACK_RX (0x%08x)\n", status_value);
+            break;
+        case STATUS_PROCESSING:
+            printf("Status: STATUS_PROCESSING (0x%08x)\n", status_value);
+            break;
+        case STATUS_DONE_TX:
+            printf("Status: STATUS_DONE_TX (0x%08x)\n", status_value);
+            break;
+        default:
+            printf("Status: UNKNOWN (0x%08x)\n", status_value);
+            break;
+    }
+}
 
 void init_identity_matrix(square_matrix_t *matrix) {
     int row, col;
@@ -406,6 +429,7 @@ int main() {
     apb_32x16 = set_apb_pointer(virtual_base, STATUS_BASE);
     while(*(uint32_t *)apb_32x16 != STATUS_RESET);
     printf("Cluster is in reset state\n");
+	print_cluster_status(*(uint32_t *)apb_32x16);
     
     // set instruction to signal to tx, wait acknowledge
     apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
@@ -413,6 +437,7 @@ int main() {
     apb_32x16 = set_apb_pointer(virtual_base, STATUS_BASE);
     while(*(uint32_t *)apb_32x16 != STATUS_READY_RX);
     printf("Cluster is ready to rx data\n");
+	print_cluster_status(*(uint32_t *)apb_32x16);
     
     // LOAD matrix_mult_packs based on cores: 1 mac_pack per core
     for (j = 0, ii = 0; ii < BUS_ADDRESSES*4; ii += 4, j++){
@@ -420,11 +445,17 @@ int main() {
         *(uint32_t *)apb_32x16 = identity_matrix_mult_pack[0].pack[0].data[j]; // just sending first pack for testing
         printf("Memory data written [%x]: %08x\n", DATA_BASE + ii, identity_matrix_mult_pack[0].pack[0].data[j]);
     }
-    
+    printf("Finished load loop\n");
+	print_cluster_status(*(uint32_t *)apb_32x16);
+	
     // set instruction to tx complete, wait acknowledge
     apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
     *(uint32_t *)apb_32x16 = INST_TX_COMPLETE;
+	printf("Instruction set to INST_TX_COMPLETE\n");
+	// should I wait?
     apb_32x16 = set_apb_pointer(virtual_base, STATUS_BASE);
+	printf("Pointer set to STATUS_BASE\n");
+	print_cluster_status(*(uint32_t *)apb_32x16);
     //while(*(uint32_t *)apb_32x16 != STATUS_ACK_RX); // DON'T NEED
     printf("Cluster acknowledged tx complete\n");
 	
