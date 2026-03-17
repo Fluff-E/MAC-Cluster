@@ -69,6 +69,7 @@ always @(*) begin
 			if (instruction == INST_RESET)
 				next_state = ST_RESET;
 			else begin
+				mac_reset = 1'b0;
 				mac_start = 1'b1;				
 				next_state = ST_PROCESSING;
 			end
@@ -77,9 +78,12 @@ always @(*) begin
 		ST_PROCESSING: begin
 			if (instruction == INST_RESET)
             next_state = ST_RESET;
-			else if (&mac_status) begin // AND all mac status bits to check if all are done
+			else begin
+				mac_reset = 1'b0;
+				if (&mac_status) begin // AND all mac status bits to check if all are done
 				cluster_tx_state = 1'b1;
 				next_state = ST_DONE;
+				end
          end
 		end
 
