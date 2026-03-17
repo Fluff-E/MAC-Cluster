@@ -332,7 +332,7 @@ int main() {
    int mm_reg;
    int mem_data;
     volatile uint32_t *pio_led;
-	void *apb_32x16; // eric_ip2_0
+	volatile uint32_t *apb_32x16; // eric_ip2_0
 
     // we'll map in the entire CSR span of the HPS since we want to access various registers within that span 
     printf("Calling fopen\n"); 
@@ -355,8 +355,8 @@ int main() {
 	pio_led = (volatile uint32_t *)(virtual_base + ((unsigned long)(ALT_LWFPGASLVS_OFST + PIO_LED_BASE) & 
 	    (unsigned long)(HW_REGS_MASK)));
 	
-	apb_32x16 = virtual_base + ((unsigned long)(ALT_LWFPGASLVS_OFST + ERIC_IP2_0_BASE) & 
-         (unsigned long)(HW_REGS_MASK));
+	apb_32x16 = (volatile uint32_t *)(virtual_base + ((unsigned long)(ALT_LWFPGASLVS_OFST + ERIC_IP2_0_BASE) & 
+         (unsigned long)(HW_REGS_MASK)));
          
     // Turn all LEDs off
     *pio_led = 0xFFF;
@@ -369,19 +369,19 @@ int main() {
     int test_data= 0x10101010;
     for (ii = 0; ii < 64; ii+=4){
         mm_reg = ii;
-        apb_32x16 = virtual_base + ((unsigned long)(ALT_LWFPGASLVS_OFST + ERIC_IP2_0_BASE + mm_reg) &
-            (unsigned long)(HW_REGS_MASK));
+		apb_32x16 = (volatile uint32_t *)(virtual_base + ((unsigned long)(ALT_LWFPGASLVS_OFST + ERIC_IP2_0_BASE + mm_reg) &
+            (unsigned long)(HW_REGS_MASK)));
 		printf("Writing test data: %x to memory address = %p\n", test_data, apb_32x16);
-        *(uint32_t *)apb_32x16 = test_data;
+        *apb_32x16 = test_data;
         test_data += 0x10101010;
     }
 
     printf("Reading memory locations\n");
     for (ii = 0; ii < 64; ii+=4){
         mm_reg = ii;
-        apb_32x16 = virtual_base + ((unsigned long)(ALT_LWFPGASLVS_OFST + ERIC_IP2_0_BASE + mm_reg) &
-            (unsigned long)(HW_REGS_MASK));
-        mem_data = *(uint32_t *)apb_32x16;
+		apb_32x16 = (volatile uint32_t *)(virtual_base + ((unsigned long)(ALT_LWFPGASLVS_OFST + ERIC_IP2_0_BASE + mm_reg) &
+            (unsigned long)(HW_REGS_MASK)));
+        mem_data = *apb_32x16;
         printf("Reading test data: %x from memory address = %p\n", mem_data, apb_32x16);
     }
 	
@@ -442,8 +442,8 @@ int main() {
     
     // LOAD matrix_mult_packs based on cores: 1 mac_pack per core
     for (j = 0, ii = 0; ii < BUS_ADDRESSES*4; ii += 4, j++){
-        apb_32x16 = set_apb_pointer(virtual_base, DATA_BASE + ii);
-        *(uint32_t *)apb_32x16 = identity_matrix_mult_pack[0].pack[0].data[j]; // just sending first pack for testing
+		apb_32x16 = (volatile uint32_t *)set_apb_pointer(virtual_base, DATA_BASE + ii);
+        *apb_32x16 = identity_matrix_mult_pack[0].pack[0].data[j]; // just sending first pack for testing
         printf("Memory data written [%x]: %08x\n", DATA_BASE + ii, identity_matrix_mult_pack[0].pack[0].data[j]);
     }
     printf("Finished load loop\n");
@@ -459,8 +459,8 @@ int main() {
     
     printf("Reading data locations\n");
     for (j = 0, ii = 0; ii < 8; ii += 4, j++){
-        apb_32x16 = set_apb_pointer(virtual_base, DATA_BASE + ii);
-        mem_data = *(uint32_t *)apb_32x16;
+		apb_32x16 = (volatile uint32_t *)set_apb_pointer(virtual_base, DATA_BASE + ii);
+        mem_data = *apb_32x16;
         printf("Memory data read [%x]: %08x\n", DATA_BASE + ii, mem_data);
     }
     printf("\n\n MADE IT THROUGH STATE MACHINE TEST!!! \n\n");
