@@ -431,17 +431,13 @@ int main() {
     //State machine one transaction test for MAC cluster coprocessor
 
     // set instruction to reset, wait acknowledge
-    apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
     write_apb_word(virtual_base, INSTRUCTION_BASE, INST_RESET);
     while(read_cluster_status(virtual_base) != STATUS_RESET);
-    printf("Cluster is in reset state\n");
 	print_cluster_status(read_cluster_status(virtual_base));
     
     // set instruction to signal to tx, wait acknowledge
-    apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
     write_apb_word(virtual_base, INSTRUCTION_BASE, INST_SIGNAL_TX);
     while(read_cluster_status(virtual_base) != STATUS_READY_RX);
-    printf("Cluster is ready to rx data\n");
 	print_cluster_status(read_cluster_status(virtual_base));
     
     // LOAD matrix_mult_packs based on cores: 1 mac_pack per core
@@ -456,15 +452,8 @@ int main() {
     // set instruction to tx complete, wait acknowledge
 	write_apb_word(virtual_base, INSTRUCTION_BASE, INST_TX_COMPLETE);
 	printf("Instruction set to INST_TX_COMPLETE\n");
-	
-    apb_32x16 = set_apb_pointer(virtual_base, STATUS_BASE);
-	printf("Pointer set to STATUS_BASE\n");
 	print_cluster_status(read_cluster_status(virtual_base));
-    //while(*(uint32_t *)apb_32x16 != STATUS_ACK_RX); // DON'T NEED
-    printf("Cluster acknowledged tx complete\n");
-	
-    //while(*(uint32_t *)apb_32x16 != STATUS_PROCESSING); // DON'T NEED
-    printf("Cluster has started processing\n");
+   
     while(read_cluster_status(virtual_base) != STATUS_DONE_TX);
     printf("Cluster has completed processing and tx\n");
     
@@ -499,7 +488,6 @@ int main() {
     // and reading back results into cluster_out_entry_t output_array
     
     // ENSURE RESET before TEST
-    apb_32x16 = set_apb_pointer(virtual_base, INSTRUCTION_BASE);
     write_apb_word(virtual_base, INSTRUCTION_BASE, INST_RESET);
     while(read_cluster_status(virtual_base) != STATUS_RESET);
 
