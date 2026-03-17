@@ -1,0 +1,124 @@
+root@de1soclinux:~/eric/mar16# ./cluster_1
+Calling fopen
+Creating mmap
+Writing test data: 10101010 to memory address = 0xb60c7100
+Writing test data: 20202020 to memory address = 0xb60c7104
+Writing test data: 30303030 to memory address = 0xb60c7108
+Writing test data: 40404040 to memory address = 0xb60c710c
+Writing test data: 50505050 to memory address = 0xb60c7110
+Writing test data: 60606060 to memory address = 0xb60c7114
+Writing test data: 70707070 to memory address = 0xb60c7118
+Writing test data: 80808080 to memory address = 0xb60c711c
+Writing test data: 90909090 to memory address = 0xb60c7120
+Writing test data: a0a0a0a0 to memory address = 0xb60c7124
+Writing test data: b0b0b0b0 to memory address = 0xb60c7128
+Writing test data: c0c0c0c0 to memory address = 0xb60c712c
+Writing test data: d0d0d0d0 to memory address = 0xb60c7130
+Writing test data: e0e0e0e0 to memory address = 0xb60c7134
+Writing test data: f0f0f0f0 to memory address = 0xb60c7138
+Writing test data: 1010100 to memory address = 0xb60c713c
+Reading memory locations
+Reading test data: 10101010 from memory address = 0xb60c7100
+Reading test data: f from memory address = 0xb60c7104
+Reading test data: 30303030 from memory address = 0xb60c7108
+Reading test data: 40404040 from memory address = 0xb60c710c
+Reading test data: 50505050 from memory address = 0xb60c7110
+Reading test data: 60606060 from memory address = 0xb60c7114
+Reading test data: 70707070 from memory address = 0xb60c7118
+Reading test data: 80808080 from memory address = 0xb60c711c
+Reading test data: 90909090 from memory address = 0xb60c7120
+Reading test data: a0a0a0a0 from memory address = 0xb60c7124
+Reading test data: b0b0b0b0 from memory address = 0xb60c7128
+Reading test data: c0c0c0c0 from memory address = 0xb60c712c
+Reading test data: d0d0d0d0 from memory address = 0xb60c7130
+Reading test data: e0e0e0e0 from memory address = 0xb60c7134
+Reading test data: f0f0f0f0 from memory address = 0xb60c7138
+Reading test data: 1010100 from memory address = 0xb60c713c
+
+Identity Matrix Data:
+Pair 0:
+[0 0] [1 0]
+[0 0] [0 1]
+
+Pair 1:
+[1 1] [1 0]
+[1 1] [0 1]
+
+
+Ones Row Matrix Data:
+Pair 0:
+[0 0] [1 1]
+[0 0] [0 0]
+
+Pair 1:
+[1 1] [1 1]
+[1 1] [0 0]
+
+
+Identity Matrix Mult Packs:
+Matrix Multiplication 0 packed data:
+MAC_Pack for output matrix element [0][0]:
+00000000 00000000 00000001 00000000
+MAC_Pack for output matrix element [0][1]:
+00000000 00000000 00000000 00000001
+MAC_Pack for output matrix element [1][0]:
+00000000 00000000 00000001 00000000
+MAC_Pack for output matrix element [1][1]:
+00000000 00000000 00000000 00000001
+
+Matrix Multiplication 1 packed data:
+MAC_Pack for output matrix element [0][0]:
+00000001 00000001 00000001 00000000
+MAC_Pack for output matrix element [0][1]:
+00000001 00000001 00000000 00000001
+MAC_Pack for output matrix element [1][0]:
+00000001 00000001 00000001 00000000
+MAC_Pack for output matrix element [1][1]:
+00000001 00000001 00000000 00000001
+
+Ones Row Matrix Mult Packs:
+Pair 0 packed data:
+MAC_Pack for output matrix element [0][0]:
+00000000 00000000 00000001 00000000
+MAC_Pack for output matrix element [0][1]:
+00000000 00000000 00000001 00000000
+MAC_Pack for output matrix element [1][0]:
+00000000 00000000 00000001 00000000
+MAC_Pack for output matrix element [1][1]:
+00000000 00000000 00000001 00000000
+
+Pair 1 packed data:
+MAC_Pack for output matrix element [0][0]:
+00000001 00000001 00000001 00000000
+MAC_Pack for output matrix element [0][1]:
+00000001 00000001 00000001 00000000
+MAC_Pack for output matrix element [1][0]:
+00000001 00000001 00000001 00000000
+MAC_Pack for output matrix element [1][1]:
+00000001 00000001 00000001 00000000
+
+Cluster is in reset state
+Status: STATUS_RESET (0x00000000)
+Cluster is ready to rx data
+Status: STATUS_READY_RX (0x00000003)
+Memory data written [8]: 00000000
+Memory data written [c]: 00000000
+Memory data written [10]: 00000001
+Memory data written [14]: 00000000
+Finished load loop
+Status: STATUS_RESET (0x00000000)
+Instruction set to INST_TX_COMPLETE
+Pointer set to STATUS_BASE
+Status: STATUS_DONE_TX (0x0000000f)
+Cluster acknowledged tx complete
+Cluster has started processing
+Cluster has completed processing and tx
+Reading data locations
+Memory data read [8]: 00000000
+Memory data read [c]: 00000000
+
+
+ MADE IT THROUGH STATE MACHINE TEST!!!
+
+^C
+root@de1soclinux:~/eric/mar16#
