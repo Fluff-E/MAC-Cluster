@@ -40,7 +40,7 @@
 #define BENCHMARK_ITERATIONS 1000
 #define DATA_BYTES 4 // limit on int size for generation
 #define MATRIX_SIZE 2
-#define SEQ_VALUE_COUNT 2
+#define SEQ_VALUE_COUNT 4
 #define BUS_ADDRESSES 4
 
 // Benchmarking data structure definitions
@@ -265,6 +265,73 @@ void print_matrix_mult_pack(const matrix_mult_pack_t pack) {
     }
 }
 
+void clear_matrix(square_matrix_t *matrix) {
+    int row;
+    int col;
+
+    for (row = 0; row < MATRIX_SIZE; row++) {
+        for (col = 0; col < MATRIX_SIZE; col++) {
+            matrix->entry[row][col] = 0;
+        }
+    }
+}
+
+void package_cluster_outputs_into_matrix(
+    const cluster_out_entry_t *output_array,
+    int output_count,
+    int start_output_idx,
+    square_matrix_t *matrix_out)
+{
+    int output_idx;
+
+    if (output_array == NULL || matrix_out == NULL) {
+        return;
+    }
+
+    for (output_idx = 0; output_idx < output_count; output_idx++) {
+        int linear_idx = start_output_idx + output_idx;
+        int row = linear_idx / MATRIX_SIZE;
+        int col = linear_idx % MATRIX_SIZE;
+
+        if (linear_idx >= (MATRIX_SIZE * MATRIX_SIZE)) {
+            break;
+        }
+
+        matrix_out->entry[row][col] = output_array[output_idx].out_entry[0];
+    }
+}
+
+void print_single_matrix(const square_matrix_t *matrix) {
+    int row;
+    int col;
+
+    if (matrix == NULL) {
+        return;
+    }
+
+    for (row = 0; row < MATRIX_SIZE; row++) {
+        printf("[");
+        for (col = 0; col < MATRIX_SIZE; col++) {
+            printf("%u", matrix->entry[row][col]);
+            if (col < MATRIX_SIZE - 1) {
+                printf(" ");
+            }
+        }
+        printf("]\n");
+    }
+}
+
+void print_result_matrix_set(const char *label, const square_matrix_t matrices[SEQ_VALUE_COUNT]) {
+    int idx;
+
+    printf("\n%s\n", label);
+    for (idx = 0; idx < SEQ_VALUE_COUNT; idx++) {
+        printf("Pair %d:\n", idx);
+        print_single_matrix(&matrices[idx]);
+        printf("\n");
+    }
+}
+
 // helper function for setting apb pointer
 void *set_apb_pointer(void *virtual_base, unsigned long offset) {
     return virtual_base + ((unsigned long)(ALT_LWFPGASLVS_OFST + ERIC_IP2_0_BASE + offset) &
@@ -287,13 +354,17 @@ int cluster_transaction(
     void *virtual_base,
     unsigned long data_base,
     int num_cores,
-    const matrix_mult_pack_t *pack_data,
+    const matrix_mult_pack_t *pack_array,
+    int pack_count,
+    int pack_index,
+    int start_core_idx,
     cluster_out_entry_t *output_array)
 {
     int core_idx;
     int word_idx;
+    const matrix_mult_pack_t *selected_pack;
 
-    if (virtual_base == NULL || pack_data == NULL || output_array == NULL) {
+    if (virtual_base == NULL || pack_array == NULL || output_array == NULL) {
         return -1;
     }
 
@@ -301,24 +372,103 @@ int cluster_transaction(
         return -1;
     }
 
+    if (pack_count <= 0 || pack_index < 0 || pack_index >= pack_count) {
+        return -1;
+    }
+
+    if (start_core_idx < 0 || start_core_idx >= (MATRIX_SIZE * MATRIX_SIZE)) {
+        return -1;
+    }
+
+    if ((start_core_idx + num_cores) > (MATRIX_SIZE * MATRIX_SIZE)) {
+        return -1;
+    }
+
+    selected_pack = &pack_array[pack_index];
+    
+    write_apb_word(virtual_base, INSTRUCTION_BASE, INST_RESET);
+    print_cluster_status(read_cluster_status(virtual_base));
+    while (read_cluster_status(virtual_base) != STATUS_RESET);
+    print_cluster_status(read_cluster_status(virtual_base));
+
+    write_apb_word(virtual_base, INSTRUCTION_BASE, INST_SIGNAL_TX);
+    while (read_cluster_status(virtual_base) != STATUS_READY_RX);
+    print_cluster_status(read_cluster_status(virtual_base));
+
     // Write one mac_pack payload per core into consecutive APB words.
     for (core_idx = 0; core_idx < num_cores; core_idx++) {
         for (word_idx = 0; word_idx < (MATRIX_SIZE * 2); word_idx++) {
             unsigned long word_offset = data_base +
                 (unsigned long)((core_idx * (MATRIX_SIZE * 2) + word_idx) * 4);
-            write_apb_word(virtual_base, word_offset, pack_data->pack[core_idx].data[word_idx]);
+            write_apb_word(
+                virtual_base,
+                word_offset,
+                selected_pack->pack[start_core_idx + core_idx].data[word_idx]);
         }
     }
 
     write_apb_word(virtual_base, INSTRUCTION_BASE, INST_TX_COMPLETE);
 
-    //while (read_cluster_status(virtual_base) != STATUS_PROCESSING); // could hang, hps too slow
     while (read_cluster_status(virtual_base) != STATUS_DONE_TX);
+    print_cluster_status(read_cluster_status(virtual_base));
 
     // Read one result word per core from consecutive APB words.
     for (core_idx = 0; core_idx < num_cores; core_idx++) {
         unsigned long word_offset = data_base + (unsigned long)(core_idx * 4);
         output_array[core_idx].out_entry[0] = read_apb_word(virtual_base, word_offset);
+    }
+
+    return 0;
+}
+
+int full_cluster_transaction(
+    void *virtual_base,
+    unsigned long data_base,
+    int num_cores,
+    const matrix_mult_pack_t *pack_array,
+    int pack_count,
+    cluster_out_entry_t output_array[][MATRIX_SIZE * MATRIX_SIZE],
+    square_matrix_t matrix_output_array[])
+{
+    int pack_idx;
+    int start_core_idx;
+    int chunk_core_count;
+
+    if (virtual_base == NULL || pack_array == NULL || output_array == NULL || matrix_output_array == NULL) {
+        return -1;
+    }
+
+    if (pack_count <= 0) {
+        return -1;
+    }
+
+    for (pack_idx = 0; pack_idx < pack_count; pack_idx++) {
+        clear_matrix(&matrix_output_array[pack_idx]);
+
+        for (start_core_idx = 0; start_core_idx < (MATRIX_SIZE * MATRIX_SIZE); start_core_idx += num_cores) {
+            chunk_core_count = num_cores;
+            if ((start_core_idx + chunk_core_count) > (MATRIX_SIZE * MATRIX_SIZE)) {
+                chunk_core_count = (MATRIX_SIZE * MATRIX_SIZE) - start_core_idx;
+            }
+
+            if (cluster_transaction(
+                    virtual_base,
+                    data_base,
+                    chunk_core_count,
+                    pack_array,
+                    pack_count,
+                    pack_idx,
+                    start_core_idx,
+                    output_array[pack_idx]) != 0) {
+                return -1;
+            }
+
+            package_cluster_outputs_into_matrix(
+                output_array[pack_idx],
+                chunk_core_count,
+                start_core_idx,
+                &matrix_output_array[pack_idx]);
+        }
     }
 
     return 0;
@@ -366,26 +516,26 @@ int main() {
     *pio_led = 0xFFF; // Turn all LEDs off
 
     // Test read and write to custom IP memory mapped registers
-    int test_data= 0x10101010;
-    for (ii = 0; ii < 64; ii+=4){
-        mm_reg = ii;
-		apb_32x16 = (volatile uint32_t *)(virtual_base + ((unsigned long)(ALT_LWFPGASLVS_OFST + ERIC_IP2_0_BASE + mm_reg) &
-            (unsigned long)(HW_REGS_MASK)));
-		printf("Writing test data: %x to memory address = %p\n", test_data, apb_32x16);
-        *apb_32x16 = test_data;
-        test_data += 0x10101010;
-    }
+    // int test_data= 0x10101010;
+    // for (ii = 0; ii < 64; ii+=4){
+    //     mm_reg = ii;
+	// 	apb_32x16 = (volatile uint32_t *)(virtual_base + ((unsigned long)(ALT_LWFPGASLVS_OFST + ERIC_IP2_0_BASE + mm_reg) &
+    //         (unsigned long)(HW_REGS_MASK)));
+	// 	printf("Writing test data: %x to memory address = %p\n", test_data, apb_32x16);
+    //     *apb_32x16 = test_data;
+    //     test_data += 0x10101010;
+    // }
 
-    printf("Reading memory locations\n");
-    for (ii = 0; ii < 64; ii+=4){
-        mm_reg = ii;
-		apb_32x16 = (volatile uint32_t *)(virtual_base + ((unsigned long)(ALT_LWFPGASLVS_OFST + ERIC_IP2_0_BASE + mm_reg) &
-            (unsigned long)(HW_REGS_MASK)));
-        mem_data = *apb_32x16;
-        printf("Reading test data: %x from memory address = %p\n", mem_data, apb_32x16);
-    }
+    // printf("Reading memory locations\n");
+    // for (ii = 0; ii < 64; ii+=4){
+    //     mm_reg = ii;
+	// 	apb_32x16 = (volatile uint32_t *)(virtual_base + ((unsigned long)(ALT_LWFPGASLVS_OFST + ERIC_IP2_0_BASE + mm_reg) &
+    //         (unsigned long)(HW_REGS_MASK)));
+    //     mem_data = *apb_32x16;
+    //     printf("Reading test data: %x from memory address = %p\n", mem_data, apb_32x16);
+    // }
 	
-	printf("\n");
+	// printf("\n");
 
     // Initialize matrices for benchmarking data generation
    square_matrix_t identity_matrix;
@@ -395,6 +545,8 @@ int main() {
    matrix_mult_pack_t identity_matrix_mult_pack[SEQ_VALUE_COUNT];
    matrix_mult_pack_t ones_row_matrix_mult_pack[SEQ_VALUE_COUNT];
    cluster_out_entry_t output_array[MATRIX_SIZE*MATRIX_SIZE]; // one output entry per core
+    cluster_out_entry_t full_output_array[SEQ_VALUE_COUNT][MATRIX_SIZE*MATRIX_SIZE];
+    square_matrix_t full_result_matrices[SEQ_VALUE_COUNT];
    int idx;
    
    init_identity_matrix(&identity_matrix);
@@ -465,19 +617,23 @@ int main() {
     }
     printf("\n\n MADE IT THROUGH STATE MACHINE TEST!!! \n\n");
 
-
     //=============================================================== 
 
     /* Descriptions of how to package above transaction state sequences into functions for benchmarking.
 
-    full_cluster_transaction(DATA_BASE, num_cores, matrix_mult_pack_t pack_array[size]) 
+    full_cluster_transaction(DATA_BASE, num_cores, matrix_mult_pack_t pack_array[size], size, cluster_out_entry_t output_array[size][MATRIX_SIZE*MATRIX_SIZE], square_matrix_t matrix_output_array[size]) 
         which handles looping all cluster_transaction calls for benchmarking
         calls cluster_transaction in a loop for benchmarking iterations and handles timing
         and logging of results
+        - goal is to show that more cores is faster
+        - create timing log files for each core count with timestamps and output results for analysis
+        - packages raw core outputs back into full result matrices for readable verification
 
-    cluster_transaction(DATA_BASE, num_cores, matrix_mult_pack_t pack_array[size], cluster_out_entry_t output_array[size])
+    cluster_transaction(DATA_BASE, num_cores, matrix_mult_pack_t pack_array[size], size, pack_index, start_core_idx, cluster_out_entry_t output_array[MATRIX_SIZE*MATRIX_SIZE])
         which handles one full transaction sequence of:
-            - writing pack data to apb
+            - resetting the cluster and waiting for STATUS_RESET
+            - signaling tx and waiting for STATUS_READY_RX
+            - writing pack data to apb starting at start_core_idx
             - signaling tx complete
             - waiting for processing and tx complete
             - reading back results from apb into output array
@@ -487,16 +643,55 @@ int main() {
     // test cluster_transaction function with one transaction on 1 core, using first mac_pack of identity matrix data, 
     // and reading back results into cluster_out_entry_t output_array
     
-    // ENSURE RESET before TEST
-    write_apb_word(virtual_base, INSTRUCTION_BASE, INST_RESET);
-    while(read_cluster_status(virtual_base) != STATUS_RESET);
-
-    if (cluster_transaction(virtual_base, DATA_BASE, 1, &identity_matrix_mult_pack[0], output_array) != 0) {
+    if (cluster_transaction(virtual_base, DATA_BASE, 1, identity_matrix_mult_pack, SEQ_VALUE_COUNT, 0, 0, output_array) != 0) {
         printf("cluster_transaction minimum test failed\n");
     }
-    
-    // print restults from cluster_transaction test
-    printf("cluster_transaction output[0] = %08x\n", output_array[0].out_entry[0]);
+    printf("cluster_transaction 1 core output[0] = %08x\n", output_array[0].out_entry[0]);
+
+    if (cluster_transaction(virtual_base, DATA_BASE, 2, identity_matrix_mult_pack, SEQ_VALUE_COUNT, 0, 0, output_array) != 0) {
+        printf("cluster_transaction minimum test failed\n");
+    }
+    printf("cluster_transaction 2 core output[0] = %08x\n", output_array[0].out_entry[0]);
+
+    printf("\nTesting full_cluster_transaction with sequential identity packs on 1 core:\n");
+    if (full_cluster_transaction(
+            virtual_base,
+            DATA_BASE,
+            1,
+            identity_matrix_mult_pack,
+            SEQ_VALUE_COUNT,
+            full_output_array,
+            full_result_matrices) != 0) {
+        printf("full_cluster_transaction failed\n");
+    }
+
+    print_result_matrix_set("Identity full_cluster_transaction result matrices on 1 core:", full_result_matrices);
+
+    //===============================================================
+
+      printf("\n\nTesting full_cluster_transaction with sequential identity packs on 2 core:\n");
+    if (full_cluster_transaction(
+            virtual_base,
+            DATA_BASE,
+            2,
+            identity_matrix_mult_pack,
+            SEQ_VALUE_COUNT,
+            full_output_array,
+            full_result_matrices) != 0) {
+        printf("full_cluster_transaction failed\n");
+    }
+
+    print_result_matrix_set("Identity full_cluster_transaction result matrices on 2 core:", full_result_matrices);
+
+    /* need a function to package the output of cluster transactions into matrices for printing and verification of results, to show that the cluster is correctly performing matrix multiplication
+    Pair 0:
+    [0 0]
+    [0 0]
+
+    Pair 1:
+    [1 1]
+    [1 1]
+    */
     
     // clean up our memory mapping and exit 
         if( munmap(virtual_base, HW_REGS_SPAN) != 0) { 
