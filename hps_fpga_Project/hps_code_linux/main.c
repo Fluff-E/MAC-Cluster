@@ -2,7 +2,7 @@
 #include <unistd.h> 
 #include <fcntl.h> 
 #include <sys/mman.h> 
-// #include <time.h>
+#include <time.h>
 #include "hwlib.h" 
 #include "socal/socal.h" 
 #include "socal/hps.h" 
@@ -436,9 +436,9 @@ int full_cluster_transaction(
     int start_core_idx;
     int chunk_core_count;
     int completed_transactions;
-    // struct timespec start_time;
-    // struct timespec end_time;
-    // double elapsed_seconds;
+    struct timespec start_time;
+    struct timespec end_time;
+    double elapsed_seconds;
 
     if (virtual_base == NULL || pack_array == NULL || output_array == NULL || matrix_output_array == NULL) {
         return -1;
@@ -450,9 +450,9 @@ int full_cluster_transaction(
 
     completed_transactions = 0;
 
-    // if (clock_gettime(CLOCK_MONOTONIC, &start_time) != 0) {
-    //     return -1;
-    // }
+    if (clock_gettime(CLOCK_MONOTONIC, &start_time) != 0) {
+        return -1;
+    }
 
     for (pack_idx = 0; pack_idx < pack_count; pack_idx++) {
         clear_matrix(&matrix_output_array[pack_idx]);
@@ -485,14 +485,14 @@ int full_cluster_transaction(
         }
     }
 
-    // if (clock_gettime(CLOCK_MONOTONIC, &end_time) != 0) {
-    //     return -1;
-    // }
+    if (clock_gettime(CLOCK_MONOTONIC, &end_time) != 0) {
+        return -1;
+    }
 
-    // elapsed_seconds = (double)(end_time.tv_sec - start_time.tv_sec) +
-    //     ((double)(end_time.tv_nsec - start_time.tv_nsec) / 1000000000.0);
+    elapsed_seconds = (double)(end_time.tv_sec - start_time.tv_sec) +
+        ((double)(end_time.tv_nsec - start_time.tv_nsec) / 1000000000.0);
     printf("\n\tcompleted transactions: %d\n", completed_transactions);
-    // printf("\n\tcompute time: %.6f seconds\n", elapsed_seconds);
+    printf("\n\tcompute time: %.6f seconds\n", elapsed_seconds);
 
     return 0;
 }

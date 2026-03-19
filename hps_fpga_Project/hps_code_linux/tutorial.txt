@@ -1,0 +1,79 @@
+Native Linux SoC Build Tutorial (No Quartus Cross-Compile)
+
+Goal
+- Build and run this app directly on the Linux SoC target to avoid cross-toolchain and glibc mismatch issues.
+
+Prerequisites
+- Your board is running Linux and reachable over SSH.
+- You can log in to the board (example user: root).
+- `gcc` and `make` are installed on the board.
+- The SoC `hwlib` headers are available (commonly in `/usr/include` with `socal/` subfolder).
+
+1) Copy source directory to the board
+
+From your host machine terminal (PowerShell, Git Bash, or Linux shell):
+
+scp -r hps_code_linux root@<BOARD_IP>:/root/
+
+Example:
+
+scp -r hps_code_linux root@192.168.1.50:/root/
+
+Notes:
+- `-r` is required for directories.
+- If SSH uses a custom port, add `-P <PORT>` (uppercase P).
+
+2) SSH into the board
+
+ssh root@<BOARD_IP>
+
+3) Install build tools on the board
+
+Debian/Ubuntu:
+
+apt update
+apt install -y build-essential make
+
+Yocto/BusyBox-based systems may already have tools; if not, install your distro's equivalent packages.
+
+4) Build natively on the board
+
+cd /root/hps_code_linux
+make clean
+make
+
+This builds `linux_cluster` using native `gcc`.
+
+5) If headers are not in /usr/include, override include paths
+
+If you see errors such as `hwlib.h: No such file or directory` or missing `socal/*.h`:
+
+make clean
+make HWLIBS_INCLUDE_DIR=<path_to_hwlib_include> ALT_FAMILY_INCLUDE_DIR=<path_to_family_headers>
+
+Example with SoC EDS-like layout:
+
+make HWLIBS_INCLUDE_DIR=/opt/intelFPGA/embedded/ip/altera/hps/altera_hps/hwlib/include ALT_FAMILY_INCLUDE_DIR=/opt/intelFPGA/embedded/ip/altera/hps/altera_hps/hwlib/include/soc_cv_av
+
+6) Run
+
+./linux_cluster
+
+If `/dev/mem` access is restricted, run as root:
+
+sudo ./linux_cluster
+
+7) Optional: check current Makefile variables
+
+make print-vars
+
+Troubleshooting
+- `gcc: command not found`:
+	Install compiler packages on the board.
+- `hwlib.h` or `socal/...` not found:
+	Locate headers and rebuild with `HWLIBS_INCLUDE_DIR` and `ALT_FAMILY_INCLUDE_DIR` overrides.
+- Permission errors opening `/dev/mem`:
+	Run as root or adjust board policy.
+- Binary runs but hardware access fails:
+	Verify FPGA image is loaded and HPS-FPGA bridges are enabled in your boot flow.
+
