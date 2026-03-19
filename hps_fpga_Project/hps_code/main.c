@@ -435,6 +435,7 @@ int full_cluster_transaction(
     int pack_idx;
     int start_core_idx;
     int chunk_core_count;
+    int completed_transactions;
     struct timespec start_time;
     struct timespec end_time;
     double elapsed_seconds;
@@ -446,6 +447,8 @@ int full_cluster_transaction(
     if (pack_count <= 0) {
         return -1;
     }
+
+    completed_transactions = 0;
 
     if (clock_gettime(CLOCK_MONOTONIC, &start_time) != 0) {
         return -1;
@@ -472,6 +475,8 @@ int full_cluster_transaction(
                 return -1;
             }
 
+            completed_transactions++;
+
             package_cluster_outputs_into_matrix(
                 output_array[pack_idx],
                 chunk_core_count,
@@ -486,6 +491,7 @@ int full_cluster_transaction(
 
     elapsed_seconds = (double)(end_time.tv_sec - start_time.tv_sec) +
         ((double)(end_time.tv_nsec - start_time.tv_nsec) / 1000000000.0);
+    printf("\n\tcompleted transactions: %d\n", completed_transactions);
     printf("\n\tcompute time: %.6f seconds\n", elapsed_seconds);
 
     return 0;
