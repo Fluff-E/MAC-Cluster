@@ -41,7 +41,7 @@
 #define BENCHMARK_ITERATIONS 1000
 #define DATA_BYTES 4 // limit on int size for generation
 #define MATRIX_SIZE 2
-#define SEQ_VALUE_COUNT 4
+#define SEQ_VALUE_COUNT 16
 #define BUS_ADDRESSES 4
 
 // Benchmarking data structure definitions
@@ -650,7 +650,7 @@ int main() {
 
     //===============================================================
 
-      printf("\n\nTesting full_cluster_transaction with sequential identity packs on 2 core:\n");
+    printf("\n\nTesting full_cluster_transaction with sequential identity packs on 2 core:\n");
     if (full_cluster_transaction(
             virtual_base,
             DATA_BASE,
@@ -664,6 +664,20 @@ int main() {
 
     print_result_matrix_set("Identity full_cluster_transaction result matrices on 2 core:", full_result_matrices);
     
+     printf("\n\nTesting full_cluster_transaction with sequential identity packs on 3 core:\n");
+    if (full_cluster_transaction(
+            virtual_base,
+            DATA_BASE,
+            3,
+            identity_matrix_mult_pack,
+            SEQ_VALUE_COUNT,
+            full_output_array,
+            full_result_matrices) != 0) {
+        printf("full_cluster_transaction failed\n");
+    }
+
+    print_result_matrix_set("Identity full_cluster_transaction result matrices on 3 core:", full_result_matrices);
+
     // clean up our memory mapping and exit 
         if( munmap(virtual_base, HW_REGS_SPAN) != 0) { 
         printf("ERROR: munmap() failed...\n"); 
