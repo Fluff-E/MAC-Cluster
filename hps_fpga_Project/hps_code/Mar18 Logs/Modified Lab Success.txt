@@ -1,0 +1,260 @@
+root@de1soclinux:~/eric/mar18# ./cluster_1
+Calling fopen
+Creating mmap
+Identity Matrix Data:
+   Pair 0:
+   [0 0] [1 0]
+   [0 0] [0 1]
+
+   Pair 1:
+   [1 1] [1 0]
+   [1 1] [0 1]
+
+   Pair 2:
+   [2 2] [1 0]
+   [2 2] [0 1]
+
+   Pair 3:
+   [3 3] [1 0]
+   [3 3] [0 1]
+
+
+Ones Row Matrix Data:
+   Pair 0:
+   [0 0] [1 1]
+   [0 0] [0 0]
+
+   Pair 1:
+   [1 1] [1 1]
+   [1 1] [0 0]
+
+   Pair 2:
+   [2 2] [1 1]
+   [2 2] [0 0]
+
+   Pair 3:
+   [3 3] [1 1]
+   [3 3] [0 0]
+
+
+Identity Matrix Mult Packs:
+Matrix Multiplication 0 packed data:
+   MAC_Pack for output matrix element [0][0]:
+   00000000 00000000 00000001 00000000
+   MAC_Pack for output matrix element [0][1]:
+   00000000 00000000 00000000 00000001
+   MAC_Pack for output matrix element [1][0]:
+   00000000 00000000 00000001 00000000
+   MAC_Pack for output matrix element [1][1]:
+   00000000 00000000 00000000 00000001
+
+Matrix Multiplication 1 packed data:
+   MAC_Pack for output matrix element [0][0]:
+   00000001 00000001 00000001 00000000
+   MAC_Pack for output matrix element [0][1]:
+   00000001 00000001 00000000 00000001
+   MAC_Pack for output matrix element [1][0]:
+   00000001 00000001 00000001 00000000
+   MAC_Pack for output matrix element [1][1]:
+   00000001 00000001 00000000 00000001
+
+Matrix Multiplication 2 packed data:
+   MAC_Pack for output matrix element [0][0]:
+   00000002 00000002 00000001 00000000
+   MAC_Pack for output matrix element [0][1]:
+   00000002 00000002 00000000 00000001
+   MAC_Pack for output matrix element [1][0]:
+   00000002 00000002 00000001 00000000
+   MAC_Pack for output matrix element [1][1]:
+   00000002 00000002 00000000 00000001
+
+Matrix Multiplication 3 packed data:
+   MAC_Pack for output matrix element [0][0]:
+   00000003 00000003 00000001 00000000
+   MAC_Pack for output matrix element [0][1]:
+   00000003 00000003 00000000 00000001
+   MAC_Pack for output matrix element [1][0]:
+   00000003 00000003 00000001 00000000
+   MAC_Pack for output matrix element [1][1]:
+   00000003 00000003 00000000 00000001
+
+Ones Row Matrix Mult Packs:
+Pair 0 packed data:
+   MAC_Pack for output matrix element [0][0]:
+   00000000 00000000 00000001 00000000
+   MAC_Pack for output matrix element [0][1]:
+   00000000 00000000 00000001 00000000
+   MAC_Pack for output matrix element [1][0]:
+   00000000 00000000 00000001 00000000
+   MAC_Pack for output matrix element [1][1]:
+   00000000 00000000 00000001 00000000
+
+Pair 1 packed data:
+   MAC_Pack for output matrix element [0][0]:
+   00000001 00000001 00000001 00000000
+   MAC_Pack for output matrix element [0][1]:
+   00000001 00000001 00000001 00000000
+   MAC_Pack for output matrix element [1][0]:
+   00000001 00000001 00000001 00000000
+   MAC_Pack for output matrix element [1][1]:
+   00000001 00000001 00000001 00000000
+
+Pair 2 packed data:
+   MAC_Pack for output matrix element [0][0]:
+   00000002 00000002 00000001 00000000
+   MAC_Pack for output matrix element [0][1]:
+   00000002 00000002 00000001 00000000
+   MAC_Pack for output matrix element [1][0]:
+   00000002 00000002 00000001 00000000
+   MAC_Pack for output matrix element [1][1]:
+   00000002 00000002 00000001 00000000
+
+Pair 3 packed data:
+   MAC_Pack for output matrix element [0][0]:
+   00000003 00000003 00000001 00000000
+   MAC_Pack for output matrix element [0][1]:
+   00000003 00000003 00000001 00000000
+   MAC_Pack for output matrix element [1][0]:
+   00000003 00000003 00000001 00000000
+   MAC_Pack for output matrix element [1][1]:
+   00000003 00000003 00000001 00000000
+
+Testing full_cluster_transaction with sequential identity packs on 1 core:
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_READY_RX (0x00000003)
+   Status: STATUS_DONE_TX (0x0000000f)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_READY_RX (0x00000003)
+   Status: STATUS_DONE_TX (0x0000000f)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_READY_RX (0x00000003)
+   Status: STATUS_DONE_TX (0x0000000f)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_READY_RX (0x00000003)
+   Status: STATUS_DONE_TX (0x0000000f)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_READY_RX (0x00000003)
+   Status: STATUS_DONE_TX (0x0000000f)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_READY_RX (0x00000003)
+   Status: STATUS_DONE_TX (0x0000000f)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_READY_RX (0x00000003)
+   Status: STATUS_DONE_TX (0x0000000f)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_READY_RX (0x00000003)
+   Status: STATUS_DONE_TX (0x0000000f)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_READY_RX (0x00000003)
+   Status: STATUS_DONE_TX (0x0000000f)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_READY_RX (0x00000003)
+   Status: STATUS_DONE_TX (0x0000000f)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_READY_RX (0x00000003)
+   Status: STATUS_DONE_TX (0x0000000f)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_READY_RX (0x00000003)
+   Status: STATUS_DONE_TX (0x0000000f)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_READY_RX (0x00000003)
+   Status: STATUS_DONE_TX (0x0000000f)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_READY_RX (0x00000003)
+   Status: STATUS_DONE_TX (0x0000000f)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_READY_RX (0x00000003)
+   Status: STATUS_DONE_TX (0x0000000f)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_READY_RX (0x00000003)
+   Status: STATUS_DONE_TX (0x0000000f)
+
+Identity full_cluster_transaction result matrices on 1 core:
+   Pair 0:
+   [0 0]
+   [0 0]
+
+   Pair 1:
+   [1 1]
+   [1 1]
+
+   Pair 2:
+   [2 2]
+   [2 2]
+
+   Pair 3:
+   [3 3]
+   [3 3]
+
+
+
+Testing full_cluster_transaction with sequential identity packs on 2 core:
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_READY_RX (0x00000003)
+   Status: STATUS_DONE_TX (0x0000000f)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_READY_RX (0x00000003)
+   Status: STATUS_DONE_TX (0x0000000f)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_READY_RX (0x00000003)
+   Status: STATUS_DONE_TX (0x0000000f)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_READY_RX (0x00000003)
+   Status: STATUS_DONE_TX (0x0000000f)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_READY_RX (0x00000003)
+   Status: STATUS_DONE_TX (0x0000000f)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_READY_RX (0x00000003)
+   Status: STATUS_DONE_TX (0x0000000f)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_READY_RX (0x00000003)
+   Status: STATUS_DONE_TX (0x0000000f)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_RESET (0x00000000)
+   Status: STATUS_READY_RX (0x00000003)
+   Status: STATUS_DONE_TX (0x0000000f)
+
+   compute time: seconds
+
+Identity full_cluster_transaction result matrices on 2 core:
+   Pair 0:
+   [0 0]
+   [0 0]
+
+   Pair 1:
+   [1 0]
+   [1 0]
+
+   Pair 2:
+   [2 0]
+   [2 0]
+
+   Pair 3:
+   [3 0]
+   [3 0]
+
+root@de1soclinux:~/eric/mar18# ^C
