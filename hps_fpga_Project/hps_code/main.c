@@ -64,22 +64,22 @@ typedef struct{
 void print_cluster_status(uint32_t status_value) {
     switch (status_value) {
         case STATUS_RESET:
-            printf("Status: STATUS_RESET (0x%08x)\n", status_value);
+            printf("\tStatus: STATUS_RESET (0x%08x)\n", status_value);
             break;
         case STATUS_READY_RX:
-            printf("Status: STATUS_READY_RX (0x%08x)\n", status_value);
+            printf("\tStatus: STATUS_READY_RX (0x%08x)\n", status_value);
             break;
         case STATUS_ACK_RX:
-            printf("Status: STATUS_ACK_RX (0x%08x)\n", status_value);
+            printf("\tStatus: STATUS_ACK_RX (0x%08x)\n", status_value);
             break;
         case STATUS_PROCESSING:
-            printf("Status: STATUS_PROCESSING (0x%08x)\n", status_value);
+            printf("\tStatus: STATUS_PROCESSING (0x%08x)\n", status_value);
             break;
         case STATUS_DONE_TX:
-            printf("Status: STATUS_DONE_TX (0x%08x)\n", status_value);
+            printf("\tStatus: STATUS_DONE_TX (0x%08x)\n", status_value);
             break;
         default:
-            printf("Status: UNKNOWN (0x%08x)\n", status_value);
+            printf("\tStatus: UNKNOWN (0x%08x)\n", status_value);
             break;
     }
 }
@@ -225,7 +225,7 @@ void make_matrix_mult_pack( square_matrix_t matrix_in[SEQ_VALUE_COUNT][2],
 void print_matrix_2d(const square_matrix_t pair[2]) {
     int row, col;
     for (row = 0; row < MATRIX_SIZE; row++) {
-        printf("[");
+        printf("\t[");
         for (col = 0; col < MATRIX_SIZE; col++) {
             printf("%u", pair[0].entry[row][col]);
             if (col < MATRIX_SIZE - 1) {
@@ -247,7 +247,7 @@ void print_matrix_2d(const square_matrix_t pair[2]) {
 void print_all_matrix_pairs(const square_matrix_t pairs[SEQ_VALUE_COUNT][2]) {
     int idx;
     for (idx = 0; idx < SEQ_VALUE_COUNT; idx++) {
-        printf("Pair %d:\n", idx);
+        printf("\tPair %d:\n", idx);
         print_matrix_2d(pairs[idx]);
     }
 }
@@ -256,7 +256,8 @@ void print_matrix_mult_pack(const matrix_mult_pack_t pack) {
     int row, col, data_idx;
     for (row = 0; row < MATRIX_SIZE; row++) {
         for (col = 0; col < MATRIX_SIZE; col++) {
-            printf("MAC_Pack for output matrix element [%d][%d]:\n", row, col);
+            printf("\tMAC_Pack for output matrix element [%d][%d]:\n", row, col);
+            printf("\t");
             for (data_idx = 0; data_idx < MATRIX_SIZE*2; data_idx++) {
                 printf("%08x ", pack.pack[row*MATRIX_SIZE + col].data[data_idx]);
             }
@@ -310,7 +311,7 @@ void print_single_matrix(const square_matrix_t *matrix) {
     }
 
     for (row = 0; row < MATRIX_SIZE; row++) {
-        printf("[");
+        printf("\t[");
         for (col = 0; col < MATRIX_SIZE; col++) {
             printf("%u", matrix->entry[row][col]);
             if (col < MATRIX_SIZE - 1) {
@@ -326,7 +327,7 @@ void print_result_matrix_set(const char *label, const square_matrix_t matrices[S
 
     printf("\n%s\n", label);
     for (idx = 0; idx < SEQ_VALUE_COUNT; idx++) {
-        printf("Pair %d:\n", idx);
+        printf("\tPair %d:\n", idx);
         print_single_matrix(&matrices[idx]);
         printf("\n");
     }
@@ -574,48 +575,10 @@ int main() {
    printf("Ones Row Matrix Mult Packs:\n");
    make_matrix_mult_pack(ones_row_matrix_data, ones_row_matrix_mult_pack);
     for (idx = 0; idx < SEQ_VALUE_COUNT; idx++) {
-        printf("Pair %d packed data:\n", idx);
+        printf("\tPair %d packed data:\n", idx);
         print_matrix_mult_pack(ones_row_matrix_mult_pack[idx]);
         printf("\n");
     }
-
-    //=============================================================== 
-    //State machine one transaction test for MAC cluster coprocessor
-
-    // set instruction to reset, wait acknowledge
-    write_apb_word(virtual_base, INSTRUCTION_BASE, INST_RESET);
-    while(read_cluster_status(virtual_base) != STATUS_RESET);
-	print_cluster_status(read_cluster_status(virtual_base));
-    
-    // set instruction to signal to tx, wait acknowledge
-    write_apb_word(virtual_base, INSTRUCTION_BASE, INST_SIGNAL_TX);
-    while(read_cluster_status(virtual_base) != STATUS_READY_RX);
-	print_cluster_status(read_cluster_status(virtual_base));
-    
-    // LOAD matrix_mult_packs based on cores: 1 mac_pack per core
-    for (j = 0, ii = 0; ii < BUS_ADDRESSES*4; ii += 4, j++){
-		apb_32x16 = (volatile uint32_t *)set_apb_pointer(virtual_base, DATA_BASE + ii);
-        *apb_32x16 = identity_matrix_mult_pack[0].pack[0].data[j]; // just sending first pack for testing
-        printf("Memory data written [%x]: %08x\n", DATA_BASE + ii, identity_matrix_mult_pack[0].pack[0].data[j]);
-    }
-    printf("Finished load loop\n");
-	print_cluster_status(read_cluster_status(virtual_base));
-	
-    // set instruction to tx complete, wait acknowledge
-	write_apb_word(virtual_base, INSTRUCTION_BASE, INST_TX_COMPLETE);
-	printf("Instruction set to INST_TX_COMPLETE\n");
-	print_cluster_status(read_cluster_status(virtual_base));
-   
-    while(read_cluster_status(virtual_base) != STATUS_DONE_TX);
-    printf("Cluster has completed processing and tx\n");
-    
-    printf("Reading data locations\n");
-    for (j = 0, ii = 0; ii < 8; ii += 4, j++){
-		apb_32x16 = (volatile uint32_t *)set_apb_pointer(virtual_base, DATA_BASE + ii);
-        mem_data = *apb_32x16;
-        printf("Memory data read [%x]: %08x\n", DATA_BASE + ii, mem_data);
-    }
-    printf("\n\n MADE IT THROUGH STATE MACHINE TEST!!! \n\n");
 
     //=============================================================== 
 
@@ -638,20 +601,18 @@ int main() {
             - waiting for processing and tx complete
             - reading back results from apb into output array
 
+    need a function to package the output of cluster transactions into matrices for printing and verification of results, 
+    to show that the cluster is correctly performing matrix multiplication
+    Pair 0:
+    [0 0]
+    [0 0]
+
+    Pair 1:
+    [1 1]
+    [1 1]
     */
 
-    // test cluster_transaction function with one transaction on 1 core, using first mac_pack of identity matrix data, 
-    // and reading back results into cluster_out_entry_t output_array
-    
-    if (cluster_transaction(virtual_base, DATA_BASE, 1, identity_matrix_mult_pack, SEQ_VALUE_COUNT, 0, 0, output_array) != 0) {
-        printf("cluster_transaction minimum test failed\n");
-    }
-    printf("cluster_transaction 1 core output[0] = %08x\n", output_array[0].out_entry[0]);
-
-    if (cluster_transaction(virtual_base, DATA_BASE, 2, identity_matrix_mult_pack, SEQ_VALUE_COUNT, 0, 0, output_array) != 0) {
-        printf("cluster_transaction minimum test failed\n");
-    }
-    printf("cluster_transaction 2 core output[0] = %08x\n", output_array[0].out_entry[0]);
+    */
 
     printf("\nTesting full_cluster_transaction with sequential identity packs on 1 core:\n");
     if (full_cluster_transaction(
@@ -682,16 +643,6 @@ int main() {
     }
 
     print_result_matrix_set("Identity full_cluster_transaction result matrices on 2 core:", full_result_matrices);
-
-    /* need a function to package the output of cluster transactions into matrices for printing and verification of results, to show that the cluster is correctly performing matrix multiplication
-    Pair 0:
-    [0 0]
-    [0 0]
-
-    Pair 1:
-    [1 1]
-    [1 1]
-    */
     
     // clean up our memory mapping and exit 
         if( munmap(virtual_base, HW_REGS_SPAN) != 0) { 
