@@ -185,6 +185,8 @@ Testing full_cluster_transaction with sequential identity packs on 1 core:
    Status: STATUS_READY_RX (0x00000003)
    Status: STATUS_DONE_TX (0x0000000f)
 
+   compute time: 123.456789 seconds
+
 Identity full_cluster_transaction result matrices on 1 core:
    Pair 0:
    [0 0]
@@ -238,7 +240,7 @@ Testing full_cluster_transaction with sequential identity packs on 2 core:
    Status: STATUS_READY_RX (0x00000003)
    Status: STATUS_DONE_TX (0x0000000f)
 
-   compute time: seconds
+   compute time: 123.456789 seconds
 
 Identity full_cluster_transaction result matrices on 2 core:
    Pair 0:
