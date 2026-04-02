@@ -50,7 +50,7 @@ always @(*) begin
 	cluster_tx_state = 1'b0;// default
 	case (state)
 		ST_RESET: begin
-			cluster_tx_state = 1'b0; // ensure tx state is de-asserted in reset
+			cluster_tx_state = 1'b0; // ensure tx state is reset
 			mac_reset = 1'b1; // hold mac in reset
          if (instruction == INST_SIGNAL_TX)
 				next_state = ST_READY_RX;
@@ -60,7 +60,7 @@ always @(*) begin
 			if (instruction == INST_RESET)
 				next_state = ST_RESET;
 			else if (instruction == INST_TX_COMPLETE) begin
-				mac_reset = 1'b1; // hold mac in reset until new data is ready
+				mac_reset = 1'b1; 
 				next_state = ST_ACK_RX;
 			end
 		end
@@ -80,8 +80,8 @@ always @(*) begin
             next_state = ST_RESET;
 			else begin
 				mac_reset = 1'b0;
-				if (&mac_status) begin // AND all mac status bits to check if all are done
-				cluster_tx_state = 1'b1;
+				if (&mac_status) begin // AND all mac status bits 
+				cluster_tx_state = 1'b1;// to check if all are done
 				next_state = ST_DONE;
 				end
          end

@@ -59,8 +59,8 @@ typedef struct {
 } matrix_mult_pack_t;
 
 typedef struct{
-    uint32_t out_entry[1]; // contains RX_#_LO and RX_#_HI for one output element, used for reading back results from cluster
-} cluster_out_entry_t;
+    uint32_t out_entry[1]; // contains RX_#_LO and RX_#_HI for one output element, 
+} cluster_out_entry_t;     // used for reading back results from cluster
 
 void print_cluster_status(uint32_t status_value) {
     switch (status_value) {
